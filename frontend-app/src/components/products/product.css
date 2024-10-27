@@ -1,0 +1,53 @@
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    padding: 16px;
+}
+
+.selected-product {
+    display: flex;
+    align-items: center;
+    border: 1px solid black;
+    padding: 8px;
+    margin: 8px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.product-image {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    margin-right: 16px;
+}
+
+.product-details {
+    flex-grow: 1;
+    font-weight: bold;
+}
+
+.amount-input {
+    width: 40px;
+    text-align: center;
+    margin: 0 8px;
+}
+
+.increment-button, .decrement-button, .cancel-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.cancel-button {
+    color: red;
+}

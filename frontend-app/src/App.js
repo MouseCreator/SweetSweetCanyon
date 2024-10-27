@@ -5,6 +5,7 @@ import CashierProfileSettings from './pages/casheir/CashierProfileSettings';
 import CashierProfileSettingsEdit from './pages/casheir/CashierProfileSettingsEdit';
 import CashierProfileSettingsCreate from './pages/casheir/CashierProfileSettingsCreate';
 import './App.css';
+import SalePage from "./pages/sale/SalePage";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/cashiers/:id" element={<CashierProfileSettings />} />
           <Route path="/cashiers/:id/edit" element={<CashierProfileSettingsEdit />} />
           <Route path="/cashiers/:id/create" element={<CashierProfileSettingsCreate />} />
+          <Route path="/sale" element={<SalePage />} />
         </Routes>
       </Router>
   );
