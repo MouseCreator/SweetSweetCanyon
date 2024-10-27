@@ -56,11 +56,11 @@ function SelectedProduct({ product, initAmount, onAmountChange, onCancel }) {
 
     return (
         <div className="selected-product">
-            <img src={product.image} alt={product.name} className="product-image" />
+            <img src={product.pictureUrl} alt={product.name} className="product-image" />
             <div className="product-details">
                 <h3>{product.name}</h3>
             </div>
-            <button className="increment-button" onClick={handleIncrement}>⬆️</button>
+            <button className="decrement-button" onClick={handleDecrement}>⬇️</button>
             <input
                 type="number"
                 value={amount}
@@ -68,7 +68,7 @@ function SelectedProduct({ product, initAmount, onAmountChange, onCancel }) {
                 min="1"
                 className="amount-input"
             />
-            <button className="decrement-button" onClick={handleDecrement}>⬇️</button>
+            <button className="increment-button" onClick={handleIncrement}>⬆️</button>
             <button className="cancel-button" onClick={handleCancel}>❌</button>
         </div>
     );

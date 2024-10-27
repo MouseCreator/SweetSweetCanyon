@@ -2,8 +2,7 @@ import {useState} from "react";
 import './product.css'
 
 function ProductComponent({ product, is_added, onAdd, onCancel }) {
-
-    const [selected, setSelected] = useState( is_added);
+    const [selected, setSelected] = useState(is_added);
     const name = product.name
     const pictureUrl = product.picture
     const handleCheckboxChange = () => {
@@ -26,7 +25,7 @@ function ProductComponent({ product, is_added, onAdd, onCancel }) {
             <p>{name}</p>
             <input
                 type="checkbox"
-                checked={selected}
+                checked={is_added}
                 onChange={handleCheckboxChange}
             />
         </div>
