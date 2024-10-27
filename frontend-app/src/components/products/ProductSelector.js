@@ -2,8 +2,8 @@ import {useState} from "react";
 import ProductComponent from "./ProductComponent";
 import SelectedProduct from "./SelectedProduct";
 import './product.css'
-
-const MOCK_PRODUCTS = [ // get products from server
+import './../../index.css'
+const MOCK_PRODUCTS = [
     {
         id: 1,
         name: 'cookie',
@@ -32,12 +32,12 @@ const MOCK_PRODUCTS = [ // get products from server
     }
 ]
 
-function ProductSelector() {
+function ProductSelector({confirmAction}) {
     const [selectedProducts, setSelectedProducts] = useState([])
     const [searchPrompt, setSearchPrompt] = useState('')
 
     const [products, setProducts] = useState(MOCK_PRODUCTS.map(
-        (p)=>({product: p, checked: false})));
+        (p)=>({ product: p, checked: false})));
     const onAddProduct = (product) => {
         if (!product) {
             return
@@ -74,6 +74,12 @@ function ProductSelector() {
         console.log(newProducts)
         setProducts(newProducts);
     }
+
+    const cancelAll = () => {
+        setProducts(MOCK_PRODUCTS.map(
+            (p)=>({product: p, checked: false})))
+        setSelectedProducts([])
+    }
     const onChangeAmount = (id, amount) => {
         const product = selectedProducts.find((s) => s.id === id);
         if (product) {
@@ -87,11 +93,16 @@ function ProductSelector() {
                 (p)=>(
                     {
                         product: p,
-                        checked: selectedProducts.find((p2)=>(p2.product.id===p.id)) !== null
+                        checked: selectedProducts.filter((p2)=>(p2.product.id===p.id)).length > 0
                     }
                     )
             )
         )
+    }
+    const onConfirm = () => {
+        if (confirmAction) {
+            confirmAction(selectedProducts)
+        }
     }
     const onTextChange = (e) => {
         const val = e.target.value
@@ -126,6 +137,13 @@ function ProductSelector() {
                         )
                     }
                 </div>
+            </div>
+
+            <div>
+                <button
+                    style={ { color: selectedProducts.length > 0 ? 'green' : 'gray' }}
+                    onClick={onConfirm}>Confirm</button>
+                <button onClick={cancelAll}>Cancel</button>
             </div>
         </div>
     );

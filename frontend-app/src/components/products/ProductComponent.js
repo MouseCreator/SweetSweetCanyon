@@ -1,10 +1,11 @@
 import {useState} from "react";
 import './product.css'
+import './../../index.css'
 
 function ProductComponent({ product, is_added, onAdd, onCancel }) {
     const [selected, setSelected] = useState(is_added);
     const name = product.name
-    const pictureUrl = product.picture
+    const pictureUrl = product.pictureUrl
     const handleCheckboxChange = () => {
         const newValue = !selected;
         setSelected(newValue);
@@ -16,18 +17,20 @@ function ProductComponent({ product, is_added, onAdd, onCancel }) {
         }
     };
     return (
-        <div style={{border: 2, borderColor: selected ? 'green' : 'gray'}}>
-            {
-                pictureUrl == null ?
-                (<div></div>) :
-                (<img src={ pictureUrl } alt={name} />)
-            }
-            <p>{name}</p>
-            <input
-                type="checkbox"
-                checked={is_added}
-                onChange={handleCheckboxChange}
-            />
+        <div>
+            <div className={"flex justify-center items-center"} style={{border: 2, borderColor: selected ? 'green' : 'gray'}}>
+                {
+                    pictureUrl == null ?
+                    (<div></div>) :
+                    (<img className={"product-image"} src={ pictureUrl } alt={name} />)
+                }
+                <p>{name}</p>
+                <input
+                    type="checkbox"
+                    checked={is_added}
+                    onChange={handleCheckboxChange}
+                />
+            </div>
         </div>
     )
 }
