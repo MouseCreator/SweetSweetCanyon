@@ -60,6 +60,9 @@ function SelectedProduct({ product, initAmount, onAmountChange, onCancel }) {
             <div className="product-details">
                 <h3>{product.name}</h3>
             </div>
+            <div className="product-details">
+                <h2>{product.price} $</h2>
+            </div>
             <button className="decrement-button" onClick={handleDecrement}>⬇️</button>
             <input
                 type="number"

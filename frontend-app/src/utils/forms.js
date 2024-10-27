@@ -13,7 +13,7 @@ export const isValidPhone = (phone) => {
     return digitCount >= 2;
 }
 export const mapPhone = (phone) => {
-    if (!isValidEmail(phone)) {
+    if (!isValidPhone(phone)) {
         return null; // Return null if the phone number is invalid
     }
     return phone.replace(/[^\d]/g, '');

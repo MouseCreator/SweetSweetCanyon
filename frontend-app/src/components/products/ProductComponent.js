@@ -6,6 +6,7 @@ function ProductComponent({ product, is_added, onAdd, onCancel }) {
     const [selected, setSelected] = useState(is_added);
     const name = product.name
     const pictureUrl = product.pictureUrl
+    const price = product.price
     const handleCheckboxChange = () => {
         const newValue = !selected;
         setSelected(newValue);
@@ -24,7 +25,10 @@ function ProductComponent({ product, is_added, onAdd, onCancel }) {
                     (<div></div>) :
                     (<img className={"product-image"} src={ pictureUrl } alt={name} />)
                 }
+                <div>
                 <p>{name}</p>
+                <p>{price} $</p>
+                </div>
                 <input
                     type="checkbox"
                     checked={is_added}

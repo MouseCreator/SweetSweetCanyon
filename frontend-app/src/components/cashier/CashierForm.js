@@ -1,11 +1,11 @@
 
 import React, { useState } from 'react';
 import {isValidEmail, isValidPhone, mapEmail, mapPhone, trimStringInput} from "../../utils/forms";
-const CashierForm = ({ mode, cashierId, onSubmit, onCancel }) => {
-    const [name, setName] = useState( '');
-    const [shopId, setShopId] = useState( '');
-    const [email, setEmail] = useState( '');
-    const [phone, setPhone] = useState( '');
+const CashierForm = ({ mode, initial, onSubmit, onCancel }) => {
+    const [name, setName] = useState( initial.name);
+    const [shopId, setShopId] = useState( initial.shop === -1 ? "" : initial.shop );
+    const [email, setEmail] = useState( initial.email);
+    const [phone, setPhone] = useState( initial.phone);
     const [userMessage, setUserMessage] = useState( 'Provide your data, please');
     const [formStateFlag, setFormStateFlag] = useState( 'initial');
 
@@ -21,7 +21,7 @@ const CashierForm = ({ mode, cashierId, onSubmit, onCancel }) => {
             message = 'Fill the name input, please'
             success = false;
         }
-        if (shopId === null || shopId === '') {
+        if (shopId === null || shopId === "") {
             message = message === '' ? 'Choose the shop you work in, please' : message
             success = false;
         }
@@ -99,13 +99,14 @@ const CashierForm = ({ mode, cashierId, onSubmit, onCancel }) => {
                 value={shopId}
                 onChange={(e) => setShopId(e.target.value)}
             >
-                <option value="" disabled>Select Shop</option>
+                <option value={""} disabled>Select Shop</option>
                 {
                     shopDataArray.map((shop) => (
                         <option key={shop.id} value={shop.id}>
                             {shop.name}
                         </option>
-                    ))}
+                    ))
+                }
             </select>
         </div>
         <div className="input-group">
