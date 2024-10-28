@@ -1,27 +1,27 @@
 
 import { useNavigate, useParams } from 'react-router-dom';
-import CashierForm from "../../components/cashier/CashierForm";
+import ProductForm from "../../components/products/ProductForm";
+
 const CashierProfileSettingsEdit = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const handleSave = (form_output) => {
         // Logic for saving data
-        alert(`Saved! 
-         Name: ${form_output.name}, 
-         Shop: ${form_output.shop}, 
-         Phone: ${form_output.phone},
-         Email: ${form_output.email}`);
-        navigate('/cashiers/' + id)
     };
 
     const handleCancel = () => {
-        navigate('/cashiers/' + id)
     };
-
+    const initialProduct = {
+        id: 1,
+        name: 'muffin',
+        description: 'Delicious muffin',
+        price: 20,
+        pictureUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-HVuracEvP5iGSPPnsF69NRv32glS3eYWbQ&s'
+    }
     return (
         <div className="cashier-page">
-            <h1>Create New Cashier</h1>
-            <CashierForm cashierId={id} mode={'create'} onSubmit={handleSave} onCancel={handleCancel}/>
+            <h1>Create New Product</h1>
+            <ProductForm mode={'create'} initialProduct={initialProduct} onSubmit={handleSave} onCancel={handleCancel}/>
         </div>
     );
 };

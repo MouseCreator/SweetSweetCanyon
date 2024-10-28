@@ -6,6 +6,7 @@ import CashierProfileSettingsCreate from './pages/casheir/CashierProfileSettings
 import './App.css';
 import SalePage from "./pages/sale/SalePage";
 import OrderSuccessfulPage from "./pages/orders/OrderSuccessPage";
+import ProductsCreate from "./pages/products/ProductsCreate";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/cashiers/:id/edit" element={<CashierProfileSettingsEdit />} />
           <Route path="/cashiers/create" element={<CashierProfileSettingsCreate />} />
           <Route path="/sale" element={<SalePage />} />
+          <Route path="/products/create" element={<ProductsCreate />} />
         </Routes>
       </Router>
   );
