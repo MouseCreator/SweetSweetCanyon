@@ -2,12 +2,17 @@ import React from 'react';
 import {Link, useParams} from 'react-router-dom';
 import OrderSuccess from "../../components/orders/OrderSuccess";
 
-function OrderSuccessfulPage() {
+function OrderPage() {
     const { id } = useParams();
     //MOCK: from server by id
     const myOrder = {
         id: 1234,
         total_price: 35,
+        cashier: {
+            id: 1,
+            name: 'John'
+        },
+        date: new Date(),
         items: [
             {
                 sold_product: {
@@ -36,4 +41,4 @@ function OrderSuccessfulPage() {
     );
 }
 
-export default OrderSuccessfulPage;
+export default OrderPage;

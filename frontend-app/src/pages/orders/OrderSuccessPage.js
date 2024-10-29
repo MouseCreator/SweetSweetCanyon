@@ -8,6 +8,10 @@ function OrderSuccessfulPage() {
     const myOrder = {
         id: 1234,
         total_price: 35,
+        cashier: {
+            id: 1,
+            name: 'John'
+        },
         items: [
             {
                 sold_product: {

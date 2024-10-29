@@ -1,3 +1,4 @@
+import {formatDate} from "../../utils/date";
 
 
 function OrderSuccess({order}) {
@@ -28,6 +29,9 @@ function OrderSuccess({order}) {
             }
             <p></p>
             <p>Total: {order.total_price}</p>
+            <p></p>
+            <p>Cashier: {order.cashier.name}</p>
+            <p>Date: {formatDate(order.date)}</p>
         </div>
     )
 }

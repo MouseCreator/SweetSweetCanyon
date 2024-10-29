@@ -7,13 +7,18 @@ import './App.css';
 import SalePage from "./pages/sale/SalePage";
 import OrderSuccessfulPage from "./pages/orders/OrderSuccessPage";
 import ProductsCreate from "./pages/products/ProductsCreate";
+import OrderPage from "./pages/orders/OrderPage";
+import RemainingPage from "./pages/shop/RemainingPage";
 
 function App() {
   return (
       <Router>
         <Routes>
             { /* orders */}
-          <Route path="/orders/status/:id" element={<OrderSuccessfulPage />} />
+          <Route path="/orders/:id" element={<OrderPage />} />
+          <Route path="/orders/:id/status" element={<OrderSuccessfulPage />} />
+          <Route path="/shops/:id/remaining/" element={<RemainingPage />} />
+
             { /* cashiers */}
           <Route path="/cashiers/:id" element={<CashierProfileSettings />} />
           <Route path="/cashiers/:id/edit" element={<CashierProfileSettingsEdit />} />
