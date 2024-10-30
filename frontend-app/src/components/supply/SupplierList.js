@@ -8,6 +8,10 @@ function SupplierList({onSelectSupplier, onTypeName}) {
             id: 1,
             title: 'Factory 1'
         },
+        {
+            id: 2,
+            title: 'Factory 2'
+        }
     ]
     const m_onSupplierChange = (sup) => {
         onSelectSupplier(sup);
