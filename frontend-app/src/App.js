@@ -9,6 +9,7 @@ import OrderSuccessfulPage from "./pages/orders/OrderSuccessPage";
 import ProductsCreate from "./pages/products/ProductsCreate";
 import OrderPage from "./pages/orders/OrderPage";
 import RemainingPage from "./pages/shop/RemainingPage";
+import SupplyPage from "./pages/supply/SupplyPage";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/cashiers/:id/edit" element={<CashierProfileSettingsEdit />} />
           <Route path="/cashiers/create" element={<CashierProfileSettingsCreate />} />
           <Route path="/sale" element={<SalePage />} />
+          <Route path="/supply" element={<SupplyPage />} />
           <Route path="/products/create" element={<ProductsCreate />} />
         </Routes>
       </Router>
