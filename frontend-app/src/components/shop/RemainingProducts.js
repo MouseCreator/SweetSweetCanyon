@@ -1,7 +1,8 @@
 import Remain from "./Remain";
+import {useState} from "react";
 
 function RemainingProducts({shopId}) {
-
+    const [selectedOption, setSelectedOption] = useState('All');
     const remaining = [
         {
             product:  {
@@ -24,9 +25,43 @@ function RemainingProducts({shopId}) {
             remain: 0,
         },
     ] // MOCK: get remaining products by shop
-
+    const onRadioChange = (event) => {
+        setSelectedOption(event.target.value);
+        console.log("Selected option:", event.target.value); // LOAD NEW DATA FROM SERVER
+    };
     return (
         <div>
+            <div>
+                <label>
+                    <input
+                        type="radio"
+                        value="All"
+                        checked={selectedOption === 'All'}
+                        onChange={onRadioChange}
+                    />
+                    All
+                </label>
+                <p></p>
+                <label>
+                    <input
+                        type="radio"
+                        value="Low"
+                        checked={selectedOption === 'Low'}
+                        onChange={onRadioChange}
+                    />
+                    Low
+                </label>
+                <p></p>
+                <label>
+                    <input
+                        type="radio"
+                        value="Ran out"
+                        checked={selectedOption === 'Ran out'}
+                        onChange={onRadioChange}
+                    />
+                    Ran out
+                </label>
+            </div>
             {
                 remaining.map((rm) => (
                     <Remain product_remain={rm} />
