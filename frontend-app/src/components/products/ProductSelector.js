@@ -3,6 +3,7 @@ import ProductComponent from "./ProductComponent";
 import SelectedProduct from "./SelectedProduct";
 import './product.css'
 import './../../index.css'
+import './../../static_controls/inputs.css'
 const MOCK_PRODUCTS = [ //MOCK: from server
     {
         id: 1,
@@ -18,7 +19,7 @@ const MOCK_PRODUCTS = [ //MOCK: from server
     },
     {
         id: 3,
-        name: 'marshmallow',
+        name: 'tasty marshmallow colors',
         price: 30,
         pictureUrl: 'https://static.toiimg.com/thumb/52762770.cms?imgsize=65333&width=800&height=800'
     },
@@ -34,10 +35,18 @@ const MOCK_PRODUCTS = [ //MOCK: from server
         price: 10,
         pictureUrl: 'https://5.imimg.com/data5/LL/LL/GLADMIN-/mint-candy-250x250.jpg'
 
+    },
+
+    {
+        id: 6,
+        name: 'Product with no image',
+        price: 10,
+        pictureUrl: null
+
     }
 ]
 
-function ProductSelector({confirmAction}) {
+function ProductSelector({confirmAction, theme}) {
     const [selectedProducts, setSelectedProducts] = useState([])
     const [searchPrompt, setSearchPrompt] = useState('')
 
@@ -120,17 +129,21 @@ function ProductSelector({confirmAction}) {
                     type="text"
                     value={searchPrompt}
                     placeholder="Product name"
+                    className={"gen-input"}
                     onChange={onTextChange}
                 />
-                <button onClick={onSearch}>Search</button>
+                <button onClick={onSearch} className={`gen-button ${theme}`}>Search</button>
             </div>
-            <div className="product-grid">
-                {products.map((ch_p, index) => (
-                    <ProductComponent product={ch_p.product}
-                                      is_added={ch_p.checked}
-                                      onAdd={onAddProduct}
-                                      onCancel={onCancelProduct}  />
-                ))}
+            <div className={"product-grid-wrapper"}>
+                <div className="product-grid">
+                    {products.map((ch_p, index) => (
+                        <ProductComponent product={ch_p.product}
+                                          is_added={ch_p.checked}
+                                          onAdd={onAddProduct}
+                                          onCancel={onCancelProduct}
+                                          theme={theme}  />
+                    ))}
+                </div>
             </div>
             <div>
                 <p>Selected items</p>

@@ -7,3 +7,7 @@ export function LogoImage() {
         </div>
     )
 }
+
+export function NoProductUrl() {
+    return require("./../images/missing-cookie.jpg");
+}

@@ -11,7 +11,13 @@ export function Sidenav({open, toggleOpen, role}) {
             <div className={"nav-list-contents nav-link-wrap"}>
                 <div className={"nav-category-space nav-link-wrap"}>
                     <Link to={"/"} className={"nav-link-module"}>🏠 Main page</Link>
+                    {(role === "cashier" || role === "admin") &&
+                        (
+                            <div><Link to={"/"} className={"nav-link-module"}>👥 Profile</Link></div>
+                        )
+                    }
                 </div>
+
                 <p className={"nav-category"}>Information</p>
                 <ul className={"nav-category-space nav-link-wrap"}>
                     <li><Link to={"/"} className={"nav-link-module"}>🍰 Production</Link></li>

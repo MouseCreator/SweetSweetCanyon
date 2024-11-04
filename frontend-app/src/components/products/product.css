@@ -1,8 +1,15 @@
 .product-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 16px;
     padding: 16px;
+}
+.product-grid-wrapper {
+    height: 540px;
+    max-height: 540px;
+    overflow-y: auto;
+    box-sizing: border-box;
+    border: solid 2px #cccccc;
 }
 
 .selected-product {
@@ -50,4 +57,53 @@ input[type=number] {
 
 .cancel-button {
     color: red;
+}
+
+.gen-button.green {
+    background-color: #4BC134;
+}
+.gen-button.green:hover {
+    background-color: #3EA02B;
+}
+.gen-button.blue {
+    background-color: blue;
+}
+.gen-button.red {
+    background-color: red;
+}
+
+.product-component {
+    border: solid #cccccc 2px;
+    border-radius: 10px;
+    margin: 2px;
+    padding: 5px;
+    width: 360px;
+}
+.product-image-fit {
+    object-fit: cover;
+    object-position: center;
+    border-radius: 10%;
+}
+
+.product-component-image {
+    width: 150px;
+    height: 150px;
+}
+.product-component-image-wrap {
+    margin: 4px;
+}
+
+.product-component-title {
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 1;
+}
+
+.product-component-price {
+    font-size: 16px;
+    padding-top: 2px;
+}
+
+.product-component-cb-wrap {
+    width: 100%;
 }

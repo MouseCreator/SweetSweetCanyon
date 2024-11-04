@@ -12,6 +12,10 @@ const USE_REASONS = [
     {
         id: 3,
         name: 'Damaged'
+    },
+    {
+        i4: 4,
+        name: 'Other'
     }
 ]
 function LossComponent({ product, reasons, initAmount, onAmountChange, onCancel, onSetReason }) {

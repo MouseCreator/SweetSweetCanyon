@@ -9,7 +9,7 @@ function SalePage() {
     }
     return (
         <MainLayout>
-            <ProductSelector confirmAction={confirmAction} />
+            <ProductSelector confirmAction={confirmAction} theme={"green"} />
         </MainLayout>
     )
 }
