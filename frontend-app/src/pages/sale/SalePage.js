@@ -1,5 +1,6 @@
 import ProductSelector from "../../components/products/ProductSelector";
 import { useNavigate } from 'react-router-dom';
+import MainLayout from "../../components/layout/Layout";
 function SalePage() {
     const navigate = useNavigate();
     const confirmAction = (selectedProducts) => {
@@ -7,7 +8,9 @@ function SalePage() {
         navigate('/orders/status/1'); // put id here
     }
     return (
-        <ProductSelector confirmAction={confirmAction} />
+        <MainLayout>
+            <ProductSelector confirmAction={confirmAction} />
+        </MainLayout>
     )
 }
 export default SalePage

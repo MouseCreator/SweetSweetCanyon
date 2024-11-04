@@ -1,0 +1,85 @@
+@import "../../static_controls/images.css";
+.sidenav {
+    position: fixed;
+    left: 0;
+    top: 0;
+
+    transition: width 0.3s ease, height 0.3s ease, border 0.3s linear;
+    color: black;
+    overflow: hidden;
+    display: flex;
+
+    flex-direction: column;
+    align-items: flex-start;
+    padding-top: 2px;
+
+    background: #eee;
+}
+.sidenav.open {
+    height: 100vh;
+    width:260px;
+    border-right: solid 2px #ccc;
+}
+.sidenav.closed {
+    height: 40px;
+    width: 40px;
+}
+.main-tab {
+    margin-right: 50px;
+    margin-left: 50px;
+}
+.main-content {
+    padding-top: 40px;
+    margin-left: 260px;
+    transition: margin-left 0.3s ease;
+    flex: 1;
+}
+
+.main-content.collapsed {
+    margin-left: 0;
+}
+.toggle-btn {
+    background: none;
+    border: none;
+    color: black;
+    font-size: 24px;
+    margin: 0 10px;
+    cursor: pointer;
+}
+
+.nav-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 20px 0 0 10px;
+}
+
+.nav-list li a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    padding: 10px 0;
+}
+
+.nav-category {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.nav-category-space {
+    padding-bottom: 15px;
+}
+.nav-list-contents {
+    margin-left: 15px;
+    font-size: 16px;
+}
+.nav-link-wrap {
+    width: 100%;
+}
+.nav-link-module {
+    display: block;
+    width: 90%;
+    border-radius: 5px;
+}
+.nav-link-module:hover {
+    background: #cccccc;
+}

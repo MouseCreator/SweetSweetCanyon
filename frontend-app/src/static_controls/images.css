@@ -1,0 +1,8 @@
+@import "../App.css";
+
+.sweet-img {
+    max-width:100%;
+}
+.sweet-img-wrapper {
+    margin: 3px;
+}
