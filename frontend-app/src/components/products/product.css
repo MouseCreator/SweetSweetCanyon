@@ -1,12 +1,13 @@
 .product-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
     gap: 16px;
     padding: 16px;
 }
 .product-grid-wrapper {
-    height: 540px;
-    max-height: 540px;
+    width: 50%;
+    height: 90vh;
+    max-height: 90vh;
     overflow-y: auto;
     box-sizing: border-box;
     border: solid 2px #cccccc;
@@ -72,6 +73,18 @@ input[type=number] {
     background-color: red;
 }
 
+.product-operation {
+    font-weight: bold;
+    font-size: 24px;
+    padding-right: 20px;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.product-operation.green {
+    color: #3EA02B;
+}
+
 .product-component {
     border: solid #cccccc 2px;
     border-radius: 10px;
@@ -106,4 +119,7 @@ input[type=number] {
 
 .product-component-cb-wrap {
     width: 100%;
+}
+.products-upper {
+    padding-bottom: 4px;
 }

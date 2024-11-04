@@ -124,44 +124,49 @@ function ProductSelector({confirmAction, theme}) {
     }
     return (
         <div>
-            <div>
+            <div className={"flex flex-row w-1/2 products-upper"}>
+                <h2 className={`product-operation ${theme}`}>Sale products</h2>
                 <input
                     type="text"
                     value={searchPrompt}
                     placeholder="Product name"
-                    className={"gen-input"}
+                    className={"gen-input w-1/2"}
                     onChange={onTextChange}
                 />
                 <button onClick={onSearch} className={`gen-button ${theme}`}>Search</button>
             </div>
-            <div className={"product-grid-wrapper"}>
-                <div className="product-grid">
-                    {products.map((ch_p, index) => (
-                        <ProductComponent product={ch_p.product}
-                                          is_added={ch_p.checked}
-                                          onAdd={onAddProduct}
-                                          onCancel={onCancelProduct}
-                                          theme={theme}  />
-                    ))}
+            <div className={"flex flex-row"}>
+                <div className={"product-grid-wrapper"}>
+                    <div className="product-grid">
+                        {products.map((ch_p, index) => (
+                            <ProductComponent product={ch_p.product}
+                                              is_added={ch_p.checked}
+                                              onAdd={onAddProduct}
+                                              onCancel={onCancelProduct}
+                                              theme={theme}  />
+                        ))}
+                    </div>
                 </div>
-            </div>
-            <div>
-                <p>Selected items</p>
-                <div>
-                    {
-                        selectedProducts.map((selected, index) => (
-                            <SelectedProduct product={selected.product} initAmount = {selected.amount} onAmountChange={onChangeAmount} onCancel={onCancelProduct}/>
-                            )
-                        )
-                    }
-                </div>
-            </div>
+                <div className={"w-1/2"}>
+                    <div>
+                        <p>Selected items</p>
+                        <div>
+                            {
+                                selectedProducts.map((selected, index) => (
+                                    <SelectedProduct product={selected.product} initAmount = {selected.amount} onAmountChange={onChangeAmount} onCancel={onCancelProduct}/>
+                                    )
+                                )
+                            }
+                        </div>
+                    </div>
 
-            <div>
-                <button
-                    style={ { color: selectedProducts.length > 0 ? 'green' : 'gray' }}
-                    onClick={onConfirm}>Confirm</button>
-                <button onClick={cancelAll}>Cancel</button>
+                    <div>
+                        <button
+                            style={ { color: selectedProducts.length > 0 ? 'green' : 'gray' }}
+                            onClick={onConfirm}>Confirm</button>
+                        <button onClick={cancelAll}>Cancel</button>
+                    </div>
+                </div>
             </div>
         </div>
     );
