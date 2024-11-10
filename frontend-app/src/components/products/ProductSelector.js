@@ -48,7 +48,7 @@ const MOCK_PRODUCTS = [ //MOCK: from server
     }
 ]
 
-function ProductSelector({confirmAction, theme}) {
+function ProductSelector({confirmAction, theme, mode}) {
     const [selectedProducts, setSelectedProducts] = useState([])
     const [searchPrompt, setSearchPrompt] = useState('')
 
@@ -139,10 +139,13 @@ function ProductSelector({confirmAction, theme}) {
         const val = e.target.value
         setSearchPrompt(val)
     }
+
+    const titleText = mode === "sale" ? "Sale products" : "Product selector"
+
     return (
         <div>
             <div className={"flex flex-row w-1/2 products-upper"}>
-                <h2 className={`product-operation themed-text ${theme}`}>Sale products</h2>
+                <h2 className={`product-operation themed-text ${theme}`}>{titleText}</h2>
                 <input
                     type="text"
                     value={searchPrompt}
@@ -176,7 +179,7 @@ function ProductSelector({confirmAction, theme}) {
                             }
                         </div>
                     </div>
-                    <p>Total: {
+                    <p className={"mx-2 selected-on-text"}>Total: {
                         formatPrice(
                         selectedProducts.reduce(
                         (accumulator, currentValue) => accumulator + currentValue.product.price * currentValue.amount,
@@ -184,7 +187,8 @@ function ProductSelector({confirmAction, theme}) {
                         )}</p>
                     <div>
                         <button
-                            className={`gen-button ${theme}`}
+                            className={`gen-button ${selectedProducts.length === 0 ? 'disb' : theme}`}
+                            disabled = {selectedProducts.length === 0}
                             onClick={onConfirm}>Confirm</button>
                         <button className={`gen-button`} onClick={cancelAll}>Cancel</button>
                     </div>

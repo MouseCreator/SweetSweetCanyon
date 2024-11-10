@@ -1,15 +1,32 @@
 import ProductSelector from "../../components/products/ProductSelector";
 import { useNavigate } from 'react-router-dom';
 import MainLayout from "../../components/layout/Layout";
+import {OverlayBase} from "../../components/overlay/OverlayBase";
+import {SaleOverlayContent} from "../../components/products/sale/SaleOverlayContent";
+import {useState} from "react";
 function SalePage() {
     const navigate = useNavigate();
+    const [isOverlayActive, setIsOverlayActive] = useState(false);
+    const [products, setProducts] = useState([])
     const confirmAction = (selectedProducts) => {
-        // MOCK: new order
-        navigate('/orders/status/1'); // put id here
+        setProducts(products);
+        setIsOverlayActive(true);
     }
+    const overlayOnCancel = () => {
+        setIsOverlayActive(false);
+        setProducts([]);
+    }
+    const overlayOnPay = () => {
+        navigate('/orders/status/1');
+    }
+
     return (
+
         <MainLayout>
-            <ProductSelector confirmAction={confirmAction} theme={"green"} />
+            <ProductSelector confirmAction={confirmAction} theme={"green"} mode={"sale"} />
+            <OverlayBase isActive={isOverlayActive} onClose={overlayOnCancel} >
+                <SaleOverlayContent onPay={overlayOnPay} onCancel={overlayOnCancel} />
+            </OverlayBase>
         </MainLayout>
     )
 }

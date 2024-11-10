@@ -3,17 +3,14 @@ const PriceInput = ({myId, onChange}) => {
     const [price, setPrice] = useState('');
 
     const handleChange = (e) => {
-        // Get the value from the input
         const value = e.target.value;
 
-        // Check if the value is a valid number
         if (value === '' || !isNaN(value)) {
             setPrice(value);
         }
     };
 
     const handleBlur = () => {
-        // Round the value to two decimal places when input loses focus
         if (price !== '') {
             const roundedPrice = parseFloat(price).toFixed(2);
             setPrice(roundedPrice);
