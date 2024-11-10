@@ -1,6 +1,8 @@
 import {useState} from "react";
 
 import './product.css'
+import {ProductImage} from "./ProductImage";
+import {formatPrice} from "../../utils/date";
 function SelectedProduct({ product, initAmount, onAmountChange, onCancel }) {
     const id = product.id
 
@@ -12,7 +14,7 @@ function SelectedProduct({ product, initAmount, onAmountChange, onCancel }) {
             return;
         }
         setAmount((prevAmount) => prevAmount + 1);
-        onAmountChange(id, amount);
+        onAmountChange(id, amount+1);
     };
 
     const handleDecrement = () => {
@@ -55,24 +57,32 @@ function SelectedProduct({ product, initAmount, onAmountChange, onCancel }) {
 
 
     return (
-        <div className="selected-product">
-            <img src={product.pictureUrl} alt={product.name} className="product-image" />
-            <div className="product-details">
-                <h3>{product.name}</h3>
+        <div className="selected-product flex flex-row w-90 ">
+            <div className={"selected-square-1 selected-on-text"}>
+                <ProductImage name={product.name} size={"s-70"} pictureUrl={product.pictureUrl} />
             </div>
-            <div className="product-details">
-                <h2>{product.price} $</h2>
+            <div className={"flex w-full flex-row selected-on-text p-2"}>
+                <p className={"selected-product-name"}>{product.name}</p>
+                <p className={"selected-product-price"}>{formatPrice(product.price)}</p>
             </div>
-            <button className="decrement-button" onClick={handleDecrement}>⬇️</button>
-            <input
-                type="number"
-                value={amount}
-                onChange={handleAmountChange}
-                min="1"
-                className="amount-input"
-            />
-            <button className="increment-button" onClick={handleIncrement}>⬆️</button>
-            <button className="cancel-button" onClick={handleCancel}>❌</button>
+            <div className={"selected-square-3"}>
+                <div className={"flex justify-between"}>
+                    <div>
+                        <button className="decrement-button selected-on-text" onClick={handleDecrement}>⬇️</button>
+                        <input
+                            type="number"
+                            value={amount}
+                            onChange={handleAmountChange}
+                            min="1"
+                            className="amount-input gen-input"
+                        />
+                        <button className="increment-button selected-on-text" onClick={handleIncrement}>⬆️</button>
+                    </div>
+                    <div>
+                        <button className="cancel-button selected-on-text" onClick={handleCancel}>❌</button>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }

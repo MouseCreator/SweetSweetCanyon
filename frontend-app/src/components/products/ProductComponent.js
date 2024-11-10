@@ -2,20 +2,9 @@ import {useState} from "react";
 import './product.css'
 import './checkbox.css'
 import './../../index.css'
-import {NoProductUrl} from "../../static_controls/Images";
 import {formatPrice} from "../../utils/date";
+import {ProductImage} from "./ProductImage"
 
-function ProductImage({pictureUrl, name}) {
-    return (
-        <div className={"product-component-image-wrap"}>
-            {
-                pictureUrl == null ?
-                (<img className={"product-component-image product-image-fit"} src = {NoProductUrl()} alt={name}></img>) :
-                (<img className={"product-component-image product-image-fit"} src={ pictureUrl } alt={name} />)
-            }
-        </div>
-    )
-}
 
 function ProductCheckbox({is_added, theme}) {
     return (
@@ -32,14 +21,11 @@ function ProductCheckbox({is_added, theme}) {
     )
 }
 function ProductComponent({ product, is_added, onAdd, onCancel, theme }) {
-    const [selected, setSelected] = useState(is_added);
     const name = product.name
     const pictureUrl = product.pictureUrl
     const price = product.price
     const handleCheckboxChange = () => {
-        const newValue = !selected;
-        setSelected(newValue);
-
+        const newValue = !is_added;
         if (newValue) {
             onAdd(product);
         } else {
@@ -50,13 +36,13 @@ function ProductComponent({ product, is_added, onAdd, onCancel, theme }) {
         <div className={"product-component"}
              style={
                 {
-                    borderColor: selected ? '#4BC134' : '#aaaaaa',
+                    borderColor: is_added ? '#4BC134' : '#aaaaaa',
                 }
         }
         >
         <div className={"flex cursor-pointer"} onClick={handleCheckboxChange}>
             <div className={"w-1/2"}>
-            <ProductImage pictureUrl={pictureUrl} name={name} />
+                <ProductImage pictureUrl={pictureUrl} name={name} size={"s-150"} />
             </div>
             <div className={"w-1/2 pt-2"}>
                 <div className={"flex h-full flex-col justify-between"}>

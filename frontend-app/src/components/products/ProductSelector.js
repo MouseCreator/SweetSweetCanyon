@@ -4,6 +4,8 @@ import SelectedProduct from "./SelectedProduct";
 import './product.css'
 import './../../index.css'
 import './../../static_controls/inputs.css'
+import {formatPrice} from "../../utils/date";
+import selectedProduct from "./SelectedProduct";
 const MOCK_PRODUCTS = [ //MOCK: from server
     {
         id: 1,
@@ -56,9 +58,17 @@ function ProductSelector({confirmAction, theme}) {
         if (!product) {
             return
         }
-        const existing = selectedProducts.find((s) => s.id === product.id);
-       if (existing) {
-            existing.amount = 1;
+        const existing = selectedProducts.find((s) => s.product.id === product.id);
+        if (existing) {
+            const newSelectedProducts = selectedProducts.map((s) => {
+                if (s.product.id===product.id) {
+                    return { product: product, amount: 1 }
+                } else {
+                    return s
+                }
+            });
+
+            setSelectedProducts(newSelectedProducts);
         } else {
             setSelectedProducts([...selectedProducts, { product: product, amount: 1 }])
         }
@@ -69,8 +79,11 @@ function ProductSelector({confirmAction, theme}) {
                 return ch_p;
             }
         });
+
         setProducts(newProducts);
+        console.log(newProducts);
     }
+
     const onCancelProduct = (product) => {
         if (!product) {
             return
@@ -85,20 +98,24 @@ function ProductSelector({confirmAction, theme}) {
                 return ch_p;
             }
         });
-        console.log(newProducts)
         setProducts(newProducts);
+        console.log(newProducts)
     }
 
     const cancelAll = () => {
         setProducts(MOCK_PRODUCTS.map(
             (p)=>({product: p, checked: false})))
-        setSelectedProducts([])
+        setSelectedProducts([]);
     }
     const onChangeAmount = (id, amount) => {
-        const product = selectedProducts.find((s) => s.id === id);
-        if (product) {
-            product.amount = amount;
-        }
+        const newSelectedProducts = selectedProducts.map((ch_p) => {
+            if (ch_p.product.id === id) {
+                return { product: ch_p.product, amount: amount };
+            } else {
+                return ch_p;
+            }
+        });
+        setSelectedProducts(newSelectedProducts);
     }
     const onSearch = () => {
         const prompt = searchPrompt.trim().toLowerCase()
@@ -125,12 +142,12 @@ function ProductSelector({confirmAction, theme}) {
     return (
         <div>
             <div className={"flex flex-row w-1/2 products-upper"}>
-                <h2 className={`product-operation ${theme}`}>Sale products</h2>
+                <h2 className={`product-operation themed-text ${theme}`}>Sale products</h2>
                 <input
                     type="text"
                     value={searchPrompt}
                     placeholder="Product name"
-                    className={"gen-input w-1/2"}
+                    className={"gen-input w-1/2 mx-2"}
                     onChange={onTextChange}
                 />
                 <button onClick={onSearch} className={`gen-button ${theme}`}>Search</button>
@@ -138,7 +155,7 @@ function ProductSelector({confirmAction, theme}) {
             <div className={"flex flex-row"}>
                 <div className={"product-grid-wrapper"}>
                     <div className="product-grid">
-                        {products.map((ch_p, index) => (
+                        {products.map((ch_p) => (
                             <ProductComponent product={ch_p.product}
                                               is_added={ch_p.checked}
                                               onAdd={onAddProduct}
@@ -148,9 +165,9 @@ function ProductSelector({confirmAction, theme}) {
                     </div>
                 </div>
                 <div className={"w-1/2"}>
-                    <div>
-                        <p>Selected items</p>
-                        <div>
+                    <div className={"right-pane-wrapper"}>
+                        <p className={`selected-items-text themed-text ${theme}`}>Selected items</p>
+                        <div className={"selected-items-wrapper"}>
                             {
                                 selectedProducts.map((selected, index) => (
                                     <SelectedProduct product={selected.product} initAmount = {selected.amount} onAmountChange={onChangeAmount} onCancel={onCancelProduct}/>
@@ -159,12 +176,17 @@ function ProductSelector({confirmAction, theme}) {
                             }
                         </div>
                     </div>
-
+                    <p>Total: {
+                        formatPrice(
+                        selectedProducts.reduce(
+                        (accumulator, currentValue) => accumulator + currentValue.product.price * currentValue.amount,
+                        0)
+                        )}</p>
                     <div>
                         <button
-                            style={ { color: selectedProducts.length > 0 ? 'green' : 'gray' }}
+                            className={`gen-button ${theme}`}
                             onClick={onConfirm}>Confirm</button>
-                        <button onClick={cancelAll}>Cancel</button>
+                        <button className={`gen-button`} onClick={cancelAll}>Cancel</button>
                     </div>
                 </div>
             </div>

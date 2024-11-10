@@ -11,5 +11,5 @@ export const formatDate = (date) => {
 }
 
 export const formatPrice = (price) => {
-    return price + " $"
+    return `${price.toFixed(2)} $`;
 }
