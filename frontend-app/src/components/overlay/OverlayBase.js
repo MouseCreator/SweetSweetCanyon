@@ -1,5 +1,6 @@
 import React from 'react';
 import './overlay.css';
+import './../themed/themed.css';
 
 export const OverlayBase = ({ children, isActive, onClose }) => {
     if (!isActive) return null;

@@ -9,7 +9,7 @@ function SalePage() {
     const [isOverlayActive, setIsOverlayActive] = useState(false);
     const [products, setProducts] = useState([])
     const confirmAction = (selectedProducts) => {
-        setProducts(products);
+        setProducts(selectedProducts);
         setIsOverlayActive(true);
     }
     const overlayOnCancel = () => {
@@ -25,7 +25,7 @@ function SalePage() {
         <MainLayout>
             <ProductSelector confirmAction={confirmAction} theme={"green"} mode={"sale"} />
             <OverlayBase isActive={isOverlayActive} onClose={overlayOnCancel} >
-                <SaleOverlayContent onPay={overlayOnPay} onCancel={overlayOnCancel} />
+                <SaleOverlayContent selectedProducts={products} onPay={overlayOnPay} onCancel={overlayOnCancel} />
             </OverlayBase>
         </MainLayout>
     )

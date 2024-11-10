@@ -5,7 +5,8 @@ import './product.css'
 import './../../index.css'
 import './../../static_controls/inputs.css'
 import {formatPrice} from "../../utils/date";
-import selectedProduct from "./SelectedProduct";
+import './../themed/themed.css';
+import {calculatePrice} from "./Price";
 const MOCK_PRODUCTS = [ //MOCK: from server
     {
         id: 1,
@@ -172,7 +173,7 @@ function ProductSelector({confirmAction, theme, mode}) {
                         <p className={`selected-items-text themed-text ${theme}`}>Selected items</p>
                         <div className={"selected-items-wrapper"}>
                             {
-                                selectedProducts.map((selected, index) => (
+                                selectedProducts.map((selected) => (
                                     <SelectedProduct product={selected.product} initAmount = {selected.amount} onAmountChange={onChangeAmount} onCancel={onCancelProduct}/>
                                     )
                                 )
@@ -181,9 +182,7 @@ function ProductSelector({confirmAction, theme, mode}) {
                     </div>
                     <p className={"mx-2 selected-on-text"}>Total: {
                         formatPrice(
-                        selectedProducts.reduce(
-                        (accumulator, currentValue) => accumulator + currentValue.product.price * currentValue.amount,
-                        0)
+                        calculatePrice(selectedProducts)
                         )}</p>
                     <div>
                         <button

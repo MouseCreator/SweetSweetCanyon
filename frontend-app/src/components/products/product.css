@@ -56,29 +56,6 @@ input[type=number] {
     font-size: 16px;
 }
 
-.cancel-button {
-    color: red;
-}
-
-.gen-button.green {
-    background-color: #4BC134;
-}
-.gen-button.green:hover {
-    background-color: #3EA02B;
-}
-.gen-button.disb {
-    background-color: #8a8a8a;
-}
-.gen-button.disb:hover {
-    background-color: #7a7a7a;
-}
-.gen-button.blue {
-    background-color: blue;
-}
-.gen-button.red {
-    background-color: red;
-}
-
 .product-operation {
     font-weight: bold;
     font-size: 24px;
@@ -86,10 +63,7 @@ input[type=number] {
     overflow: hidden;
     white-space: nowrap;
 }
-.themed-text {}
-.themed-text.green{
-    color: #3EA02B;
-}
+
 
 .product-component {
     border: solid #cccccc 2px;

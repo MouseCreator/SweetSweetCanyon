@@ -1,10 +1,9 @@
-import {useState} from "react";
 import './product.css'
 import './checkbox.css'
 import './../../index.css'
 import {formatPrice} from "../../utils/date";
 import {ProductImage} from "./ProductImage"
-
+import './../themed/themed.css';
 
 function ProductCheckbox({is_added, theme}) {
     return (

@@ -1,6 +1,7 @@
 import {useState} from "react";
 
 import './product.css'
+import './../themed/themed.css';
 import {ProductImage} from "./ProductImage";
 import {formatPrice} from "../../utils/date";
 function SelectedProduct({ product, initAmount, onAmountChange, onCancel }) {
