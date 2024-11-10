@@ -4,10 +4,26 @@ import MainLayout from "../../components/layout/Layout";
 import {OverlayBase} from "../../components/overlay/OverlayBase";
 import {SaleOverlayContent} from "../../components/products/sale/SaleOverlayContent";
 import {useState} from "react";
+
+
+const ERRORS = {
+    primaryError: "Not all products are in stock",
+    productSpecific: [
+        {
+            id: 1,
+            message: "Not enough",
+        },
+        {
+            id: 2,
+            message: "Not enough",
+        },
+    ]
+}
 function SalePage() {
     const navigate = useNavigate();
     const [isOverlayActive, setIsOverlayActive] = useState(false);
     const [products, setProducts] = useState([])
+    const [errors, setErrors] = useState(null)
     const confirmAction = (selectedProducts) => {
         setProducts(selectedProducts);
         setIsOverlayActive(true);
@@ -20,10 +36,11 @@ function SalePage() {
         navigate('/orders/status/1');
     }
 
+
     return (
 
         <MainLayout>
-            <ProductSelector confirmAction={confirmAction} theme={"green"} mode={"sale"} />
+            <ProductSelector confirmAction={confirmAction} theme={"green"} mode={"sale"} errors={errors} shopId={1} />
             <OverlayBase isActive={isOverlayActive} onClose={overlayOnCancel} >
                 <SaleOverlayContent selectedProducts={products} onPay={overlayOnPay} onCancel={overlayOnCancel} />
             </OverlayBase>

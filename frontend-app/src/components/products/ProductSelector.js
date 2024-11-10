@@ -39,22 +39,56 @@ const MOCK_PRODUCTS = [ //MOCK: from server
         pictureUrl: 'https://5.imimg.com/data5/LL/LL/GLADMIN-/mint-candy-250x250.jpg'
 
     },
-
     {
         id: 6,
         name: 'Product with no image',
         price: 10,
         pictureUrl: null
-
     }
 ]
 
-function ProductSelector({confirmAction, theme, mode}) {
+const MOCK_STOCKS = [ //MOCK: from server
+    {
+        id: 1,
+        remaining: 20
+    },
+    {
+        id: 2,
+        remaining: 10
+    },
+    {
+        id: 3,
+        remaining: 5
+    },
+    {
+        id: 4,
+        remaining: 200
+    },
+    {
+        id: 5,
+        remaining: 12
+
+    },
+    {
+        id: 6,
+        remaining: 3
+    }
+]
+
+function ProductSelector({confirmAction, theme, mode, errors, shopId}) {
     const [selectedProducts, setSelectedProducts] = useState([])
     const [searchPrompt, setSearchPrompt] = useState('')
 
     const [products, setProducts] = useState(MOCK_PRODUCTS.map(
         (p)=>({ product: p, checked: false})));
+    const [stocks, setStocks] = useState(MOCK_STOCKS)
+
+    const useStocks = shopId != null
+
+    const stockMap = new Map();
+    if (useStocks) {
+        stocks.forEach((s) => stockMap.set(s.id, s.remaining))
+    }
     const onAddProduct = (product) => {
         if (!product) {
             return
@@ -142,19 +176,31 @@ function ProductSelector({confirmAction, theme, mode}) {
     }
 
     const titleText = mode === "sale" ? "Sale products" : "Product selector"
-
+    const hasErrors = errors !== null
+    const errorMap = new Map();
+    if (hasErrors) {
+        const specific = errors.productSpecific
+        specific.forEach((err) => errorMap.set(err.id, err.message))
+    }
     return (
         <div>
-            <div className={"flex flex-row w-1/2 products-upper"}>
-                <h2 className={`product-operation themed-text ${theme}`}>{titleText}</h2>
-                <input
-                    type="text"
-                    value={searchPrompt}
-                    placeholder="Product name"
-                    className={"gen-input w-1/2 mx-2"}
-                    onChange={onTextChange}
-                />
-                <button onClick={onSearch} className={`gen-button ${theme}`}>Search</button>
+            <div className={"flex w-full"}>
+                <div className={"flex flex-row w-1/2 products-upper"}>
+                    <h2 className={`product-operation themed-text ${theme}`}>{titleText}</h2>
+                    <input
+                        type="text"
+                        value={searchPrompt}
+                        placeholder="Product name"
+                        className={"gen-input w-1/2 mx-2"}
+                        onChange={onTextChange}
+                    />
+                    <button onClick={onSearch} className={`gen-button ${theme}`}>Search</button>
+                </div>
+                <div className={"flex flex-row w-1/2"}>
+                    {
+                        hasErrors && <div className={"selected-errors bg-red-100"}>{errors.primaryError}</div>
+                    }
+                </div>
             </div>
             <div className={"flex flex-row"}>
                 <div className={"product-grid-wrapper"}>
@@ -164,6 +210,7 @@ function ProductSelector({confirmAction, theme, mode}) {
                                               is_added={ch_p.checked}
                                               onAdd={onAddProduct}
                                               onCancel={onCancelProduct}
+                                              inStock={useStocks ? stockMap.get(ch_p.product.id) : -1}
                                               theme={theme}  />
                         ))}
                     </div>
@@ -174,7 +221,12 @@ function ProductSelector({confirmAction, theme, mode}) {
                         <div className={"selected-items-wrapper"}>
                             {
                                 selectedProducts.map((selected) => (
-                                    <SelectedProduct product={selected.product} initAmount = {selected.amount} onAmountChange={onChangeAmount} onCancel={onCancelProduct}/>
+                                    <SelectedProduct product={selected.product}
+                                                     initAmount = {selected.amount}
+                                                     onAmountChange={onChangeAmount}
+                                                     onCancel={onCancelProduct}
+                                                     errorType={
+                                    errorMap.has(selected.product.id) ? errorMap.get(selected.product.id) : ""}/>
                                     )
                                 )
                             }

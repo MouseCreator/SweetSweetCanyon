@@ -17,6 +17,7 @@
     display: flex;
     align-items: center;
     border: 1px solid black;
+    border-radius: 10px;
     padding: 8px;
     margin: 8px;
 }
@@ -150,7 +151,24 @@ input[type=number] {
     justify-content: center;
     flex: 0.7;
 }
+.selected-product-error {
+    color: red;
+}
 .selected-product-price {
     justify-content: center;
     flex: 0.3;
+}
+
+.selected-errors {
+    height: 100%;
+    width: 100%;
+    margin-left: 10px;
+    padding: 2px;
+    border-radius: 10px;
+    border: solid red 1px;
+    font-weight: bold;
+}
+
+.short-line {
+    line-height: 1;
 }

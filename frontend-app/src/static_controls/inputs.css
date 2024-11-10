@@ -12,3 +12,7 @@
     color: white;
     font-weight: bold;
 }
+
+.gen-button:hover {
+    background: #676767;
+}

@@ -19,10 +19,12 @@ function ProductCheckbox({is_added, theme}) {
         </div>
     )
 }
-function ProductComponent({ product, is_added, onAdd, onCancel, theme }) {
+function ProductComponent({ product, is_added, onAdd, onCancel, theme, inStock }) {
     const name = product.name
     const pictureUrl = product.pictureUrl
     const price = product.price
+
+    const useStock = inStock >= 0
     const handleCheckboxChange = () => {
         const newValue = !is_added;
         if (newValue) {
@@ -47,7 +49,12 @@ function ProductComponent({ product, is_added, onAdd, onCancel, theme }) {
                 <div className={"flex h-full flex-col justify-between"}>
                     <div>
                         <p className={"product-component-title"}>{name}</p>
-                        <p>Price: {formatPrice(price)}</p>
+                        <p className={"short-line"}>Price: {formatPrice(price)}</p>
+                        {
+                            useStock && (
+                                <p className={"short-line"}>In stock: {inStock}</p>
+                            )
+                        }
                     </div>
                     <div className={"flex justify-end align-bottom product-component-cb-wrap"}>
                         <ProductCheckbox theme={theme} is_added={is_added} />

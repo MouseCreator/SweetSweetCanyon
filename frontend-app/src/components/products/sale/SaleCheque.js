@@ -4,19 +4,22 @@ import {calculatePrice} from "../Price";
 
 export function SaleCheque({selectedProducts}) {
     return (
-        <div>
-            <div>
+        <div className={"flex flex-col items-start"}>
+            <div className={"cheque-table"}>
                 {
-                    selectedProducts.map((sp) =>
-                        (<div className={"flex justify-between"}>
-                            <div>{sp.product.name}</div>
-                            <div>{sp.product.price}</div>
-                            <div>{sp.amount}</div>
-                        </div>)
+                selectedProducts.map((sp) =>
+                    (
+                    <div className={"cheque-container"}>
+                        <div>{sp.product.name}</div>
+                        <div>{formatPrice(sp.product.price)}</div>
+                        <div>{sp.amount}</div>
+                    </div>
                     )
+                )
                 }
             </div>
-            <p>Total: {formatPrice(calculatePrice(selectedProducts))}</p>
+            <div className={"cheque-sep"}></div>
+            <p className={"font-bold"}>Total: {formatPrice(calculatePrice(selectedProducts))}</p>
         </div>
     )
 }

@@ -4,11 +4,13 @@ import './product.css'
 import './../themed/themed.css';
 import {ProductImage} from "./ProductImage";
 import {formatPrice} from "../../utils/date";
-function SelectedProduct({ product, initAmount, onAmountChange, onCancel }) {
+function SelectedProduct({ product, initAmount, onAmountChange, onCancel, errorType }) {
     const id = product.id
 
     const [amount, setAmount] = useState(initAmount);
     const [errorValue, setErrorValue] = useState(false)
+
+    const hasError = errorType !== "";
 
     const handleIncrement = () => {
         if (errorValue) {
@@ -37,7 +39,7 @@ function SelectedProduct({ product, initAmount, onAmountChange, onCancel }) {
     };
 
     const handleAmountChange = (e) => {
-        let value = 0;
+        let value;
         let parsing = e.target.value
         parsing = parsing.trim()
         if (parsing === '') {
@@ -45,7 +47,7 @@ function SelectedProduct({ product, initAmount, onAmountChange, onCancel }) {
         } else {
             value = parseInt(parsing, 10);
         }
-        const valueNaN =isNaN(value);
+        const valueNaN = isNaN(value);
         if (valueNaN) {
             setErrorValue(true)
         }
@@ -58,12 +60,19 @@ function SelectedProduct({ product, initAmount, onAmountChange, onCancel }) {
 
 
     return (
-        <div className="selected-product flex flex-row w-90 ">
+        <div className={`selected-product flex flex-row w-90 ${hasError && "bg-red-100"}`}>
             <div className={"selected-square-1 selected-on-text"}>
                 <ProductImage name={product.name} size={"s-70"} pictureUrl={product.pictureUrl} />
             </div>
             <div className={"flex w-full flex-row selected-on-text p-2"}>
+                { hasError ?
+                    <div className={"selected-product-name"}>
+                        <p>{product.name}</p>
+                        <p className={"selected-product-error"}>{errorType}</p>
+                    </div>
+                    :
                 <p className={"selected-product-name"}>{product.name}</p>
+                }
                 <p className={"selected-product-price"}>{formatPrice(product.price)}</p>
             </div>
             <div className={"selected-square-3"}>
