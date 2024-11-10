@@ -34,13 +34,7 @@ function ProductComponent({ product, is_added, onAdd, onCancel, theme, inStock }
         }
     };
     return (
-        <div className={"product-component"}
-             style={
-                {
-                    borderColor: is_added ? '#4BC134' : '#aaaaaa',
-                }
-        }
-        >
+        <div className={`product-component ${is_added ? `product-component-add ${theme}` : "product-component-not"}`}>
         <div className={"flex cursor-pointer"} onClick={handleCheckboxChange}>
             <div className={"w-1/2"}>
                 <ProductImage pictureUrl={pictureUrl} name={name} size={"s-150"} />

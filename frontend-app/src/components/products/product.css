@@ -6,8 +6,8 @@
 }
 .product-grid-wrapper {
     width: 50%;
-    height: 90vh;
-    max-height: 90vh;
+    height: 80vh;
+    max-height: 80vh;
     overflow-y: auto;
     box-sizing: border-box;
     border: solid 2px #cccccc;
@@ -121,8 +121,8 @@ input[type=number] {
 }
 .selected-items-wrapper {
     width: 100%;
-    height: 60vh;
-    max-height: 60vh;
+    height: 65vh;
+    max-height: 65vh;
     overflow-y: auto;
     box-sizing: border-box;
     border: solid 2px #cccccc;
@@ -171,4 +171,8 @@ input[type=number] {
 
 .short-line {
     line-height: 1;
+}
+
+.product-selector-main {
+    height: 100%;
 }

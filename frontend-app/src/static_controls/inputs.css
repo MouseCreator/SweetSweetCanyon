@@ -3,6 +3,10 @@
     padding: 2px;
     border-radius: 5px;
 }
+.gen-input.gen-error {
+    border: solid 1px red;
+    background: #fff0f0;
+}
 
 .gen-button {
     background: gray;

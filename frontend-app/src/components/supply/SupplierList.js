@@ -1,7 +1,8 @@
-import React, {useState} from "react";
-
-function SupplierList({onSelectSupplier, onTypeName}) {
-    const [supplierId, setSupplierId] = useState(0);
+import React, {useEffect, useState} from "react";
+import "./supply.css"
+import "./../../static_controls/inputs.css"
+function SupplierList({onSelectSupplier, onTypeName, supplierError, nameError}) {
+    const [supplierId, setSupplierId] = useState(-1);
     const [name, setName] = useState('');
     const suppliersList = [
         {
@@ -13,6 +14,11 @@ function SupplierList({onSelectSupplier, onTypeName}) {
             title: 'Factory 2'
         }
     ]
+    useEffect(()=> {
+        if (suppliersList.length===1) {
+            onSelectSupplier(suppliersList[0].id)
+        }
+    })
     const m_onSupplierChange = (sup) => {
         onSelectSupplier(sup);
         setSupplierId(sup)
@@ -21,20 +27,28 @@ function SupplierList({onSelectSupplier, onTypeName}) {
         setName(name);
         onTypeName(name);
     }
+
+
     return (
-        <div>
+        <div className={"supply-component"}>
             {
-                suppliersList.length <= 0 ?
-                    (
-                        <p>No suppliers available</p>
-                    ) : suppliersList.length === 1 ? (
-                        <p>Supplier: {suppliersList[0].title}</p>
+            suppliersList.length <= 0 ?
+                (
+                    <p className={"text-red-600"}>No suppliers available</p>
+                ) : (
+                    <span>
+                    {
+                    suppliersList.length === 1 ? (
+                        <p><span className={"font-bold"}>Supplier:</span> {suppliersList[0].title}</p>
                     ) : (
+                    <span>
+                        <label className={"supply-component-label"} htmlFor={"supplier"}>Supplier:</label>
                         <select
                             id="supplier"
+                            className={`gen-input ${supplierError && "gen-error"} supply-component-mp`}
                             value={supplierId}
                             onChange={(e) => m_onSupplierChange(e.target.value)}
-                        >
+                            >
                             <option value={-1} disabled>Select Supplier</option>
                             {
                                 suppliersList.map((supplier) => (
@@ -44,12 +58,19 @@ function SupplierList({onSelectSupplier, onTypeName}) {
                                 ))
                             }
                         </select>
+                        <label className={"supply-component-label"} htmlFor={"supNameIn"}>Delivered by:</label>
+                        <input className={`gen-input ${nameError && "gen-error"} supply-component-mp`}
+                               id={"supNameIn"}
+                               type={"text"}
+                               value={name} onChange={(e)=>m_onNameChange(e.target.value)}
+                               placeholder={"Deliverer's name"}/>
+                    </span>
                     )
+                    }
+            </span>
+                )
             }
-
-            <label htmlFor={"supNameIn"}>Delivered by:</label>
-            <input id={"supNameIn"} type={"text"} value={name} onChange={(e)=>m_onNameChange(e.target.value)} />
-        </div>
+            </div>
     )
 }
 export default SupplierList

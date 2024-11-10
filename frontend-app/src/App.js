@@ -10,6 +10,7 @@ import ProductsCreate from "./pages/products/ProductsCreate";
 import OrderPage from "./pages/orders/OrderPage";
 import RemainingPage from "./pages/shop/RemainingPage";
 import SupplyPage from "./pages/supply/SupplyPage";
+import LossPage from "./pages/loss/LossPage";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path="/cashiers/create" element={<CashierProfileSettingsCreate />} />
           <Route path="/sale" element={<SalePage />} />
           <Route path="/supply" element={<SupplyPage />} />
+          <Route path="/loss" element={<LossPage />} />
           <Route path="/products/create" element={<ProductsCreate />} />
         </Routes>
       </Router>

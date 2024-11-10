@@ -33,12 +33,11 @@ function SalePage() {
         setProducts([]);
     }
     const overlayOnPay = () => {
-        navigate('/orders/status/1');
+        navigate('/orders/1');
     }
 
 
     return (
-
         <MainLayout>
             <ProductSelector confirmAction={confirmAction} theme={"green"} mode={"sale"} errors={errors} shopId={1} />
             <OverlayBase isActive={isOverlayActive} onClose={overlayOnCancel} >

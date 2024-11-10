@@ -1,0 +1,11 @@
+.loss-component {
+    margin: 5px;
+    padding: 2px;
+}
+.loss-component-mp {
+    margin: 4px;
+}
+.loss-component-label {
+    font-weight: bold;
+    margin-right: 4px;
+}

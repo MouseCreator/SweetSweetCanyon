@@ -1,47 +1,86 @@
-import React, {useState} from "react";
-import SelectedProduct from "../products/SelectedProduct";
-const USE_REASONS = [
-    {
-        id: 1,
-        name: 'Out of date'
-    },
-    {
-        id: 2,
-        name: 'Poor quality'
-    },
-    {
-        id: 3,
-        name: 'Damaged'
-    },
-    {
-        i4: 4,
-        name: 'Other'
+import React, {useEffect, useState} from "react";
+import "./loss.css"
+import "./../../static_controls/inputs.css"
+function LossReasonList({onSelectReason, onTypeComment, reasonError, commentError}) {
+    const [supplierId, setSupplierId] = useState(-1);
+    const [name, setName] = useState('');
+    const reasonList = [
+        {
+            id: 1,
+            title: 'Other'
+        },
+        {
+            id: 2,
+            title: 'Out of date'
+        },
+        {
+            id: 3,
+            title: 'Damaged'
+        }
+    ]
+    const sortedReasons =
+        reasonList.sort((a, b) => {
+        if (a.title.toLowerCase() === 'other') return 1;
+        if (b.title.toLowerCase() === 'other') return -1;
+        return 0;
+    });
+    useEffect(()=> {
+        if (reasonList.length===1) {
+            onSelectReason(reasonList[0].id)
+        }
+    })
+    const m_onSelectReason = (sup) => {
+        onSelectReason(sup);
+        setSupplierId(sup)
     }
-]
-function LossComponent({ product, reasons, initAmount, onAmountChange, onCancel, onSetReason }) {
-    const [lossReason, setLossReason] = useState(-1);
+    const m_onCommentChange = (name) => {
+        setName(name);
+        onTypeComment(name);
+    }
 
-    const onChangeReason = (val) => {
-        onSetReason(val);
-        setLossReason(val);
-    }
+
     return (
-        <div>
-            <SelectedProduct product={product} initAmount={initAmount} onAmountChange={onAmountChange} onCancel={onCancel} />
-            <select
-                id="reason"
-                value={lossReason}
-                onChange={(e) => onChangeReason(e.target.value)}
-            >
-                <option value={""} disabled>Select Shop</option>
-                {
-                    reasons.map((rsn) => (
-                        <option key={rsn.id} value={rsn.id}>
-                            {rsn.name}
-                        </option>
-                    ))
-                }
-            </select>
+        <div className={"loss-component"}>
+            {
+                sortedReasons.length <= 0 ?
+                    (
+                        <p className={"text-red-600"}>No suppliers available</p>
+                    ) : (
+                        <span>
+                    {
+                        sortedReasons.length === 1 ? (
+                            <p><span className={"font-bold"}>Reason:</span> {sortedReasons[0].title}</p>
+                        ) : (
+                            <span>
+                        <label className={"loss-component-label"} htmlFor={"reason"}>Reason:</label>
+                        <select
+                            id="reason"
+                            className={`gen-input ${reasonError && "gen-error"} loss-component-mp`}
+                            value={supplierId}
+                            onChange={(e) => m_onSelectReason(e.target.value)}
+                        >
+                            <option value={-1} disabled>Select Reason</option>
+                            {
+                                sortedReasons.map((supplier) => (
+                                    <option key={supplier.id} value={supplier.id}>
+                                        {supplier.title}
+                                    </option>
+                                ))
+                            }
+                        </select>
+                        <label className={"loss-component-label"} htmlFor={"supNameIn"}>Comment:</label>
+                        <input className={`gen-input ${commentError && "gen-error"} loss-component-mp`}
+                               id={"supNameIn"}
+                               type={"text"}
+                               value={name} onChange={(e)=>m_onCommentChange(e.target.value)}
+                               />
+                    </span>
+                        )
+                    }
+            </span>
+                    )
+            }
         </div>
-    );
+    )
 }
+export default LossReasonList

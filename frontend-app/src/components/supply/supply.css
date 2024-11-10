@@ -1,0 +1,11 @@
+.supply-component {
+    margin: 5px;
+    padding: 2px;
+}
+.supply-component-mp {
+    margin: 4px;
+}
+.supply-component-label {
+    font-weight: bold;
+    margin-right: 4px;
+}

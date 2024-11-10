@@ -15,7 +15,10 @@
     background-color: #7a7a7a;
 }
 .gen-button.blue {
-    background-color: blue;
+    background-color: #6363f1;
+}
+.gen-button.blue:hover {
+    background-color: #4040d0;
 }
 .gen-button.red {
     background-color: red;
@@ -23,4 +26,29 @@
 .themed-text {}
 .themed-text.green{
     color: #3EA02B;
+}
+.themed-text.blue{
+    color: #4040d0;
+}
+.themed-text.orange{
+    color: #ffa116;
+}
+
+.gen-button.orange {
+    background-color: #ffad38;
+}
+.gen-button.orange:hover {
+    background-color: #ffa116;
+}
+
+.product-component-add {
+}
+.product-component-add.green {
+    border-color: #3EA02B;
+}
+.product-component-add.blue {
+    border-color: #4040d0;
+}
+.product-component-add.orange {
+    border-color: #ffad38;
 }

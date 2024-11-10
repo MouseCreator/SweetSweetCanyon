@@ -75,7 +75,7 @@ const MOCK_STOCKS = [ //MOCK: from server
     }
 ]
 
-function ProductSelector({confirmAction, theme, mode, errors, shopId}) {
+function ProductSelector({confirmAction, theme, mode, errors, shopId, children}) {
     const [selectedProducts, setSelectedProducts] = useState([])
     const [searchPrompt, setSearchPrompt] = useState('')
 
@@ -116,7 +116,6 @@ function ProductSelector({confirmAction, theme, mode, errors, shopId}) {
         });
 
         setProducts(newProducts);
-        console.log(newProducts);
     }
 
     const onCancelProduct = (product) => {
@@ -134,7 +133,6 @@ function ProductSelector({confirmAction, theme, mode, errors, shopId}) {
             }
         });
         setProducts(newProducts);
-        console.log(newProducts)
     }
 
     const cancelAll = () => {
@@ -175,7 +173,10 @@ function ProductSelector({confirmAction, theme, mode, errors, shopId}) {
         setSearchPrompt(val)
     }
 
-    const titleText = mode === "sale" ? "Sale products" : "Product selector"
+    const titleText =    mode === "sale" ? "Sale products" :
+                                mode === "supply" ? "Supply products" :
+                                mode === "loss" ? "Product loss" :
+                                 "Product selector"
     const hasErrors = errors !== null
     const errorMap = new Map();
     if (hasErrors) {
@@ -183,9 +184,9 @@ function ProductSelector({confirmAction, theme, mode, errors, shopId}) {
         specific.forEach((err) => errorMap.set(err.id, err.message))
     }
     return (
-        <div>
+        <div className={"product-selector-main"}>
             <div className={"flex w-full"}>
-                <div className={"flex flex-row w-1/2 products-upper"}>
+                <div className={"flex flex-row w-1/2 products-upper h-full"}>
                     <h2 className={`product-operation themed-text ${theme}`}>{titleText}</h2>
                     <input
                         type="text"
@@ -202,6 +203,11 @@ function ProductSelector({confirmAction, theme, mode, errors, shopId}) {
                     }
                 </div>
             </div>
+            <div className={"flex w-full"}>
+                {
+                    children
+                }
+            </div>
             <div className={"flex flex-row"}>
                 <div className={"product-grid-wrapper"}>
                     <div className="product-grid">
@@ -215,7 +221,7 @@ function ProductSelector({confirmAction, theme, mode, errors, shopId}) {
                         ))}
                     </div>
                 </div>
-                <div className={"w-1/2"}>
+                <div className={"w-1/2 h-full"}>
                     <div className={"right-pane-wrapper"}>
                         <p className={`selected-items-text themed-text ${theme}`}>Selected items</p>
                         <div className={"selected-items-wrapper"}>
