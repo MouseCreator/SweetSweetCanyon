@@ -1,6 +1,7 @@
 import {useState} from "react";
 import ProductSimple from "./ProductSimple";
 import "./simple.css"
+import {Link} from "react-router-dom";
 const MOCK_PRODUCTS = [ //MOCK: from server
     {
         id: 1,
@@ -49,7 +50,9 @@ export function ProductSimpleListing() {
             {
 
                 products.map((p) => (
-                    <ProductSimple product={p} />
+                    <Link to={`/products/${p.id}`}>
+                        <ProductSimple product={p} />
+                    </Link>
                 ))
 
             }

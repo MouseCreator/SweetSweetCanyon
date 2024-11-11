@@ -80,6 +80,10 @@ input[type=number] {
     border-radius: 10%;
 }
 .product-component-image {}
+.product-component-image.s-large {
+    width: 350px;
+    height: 350px;
+}
 .product-component-image.s-150 {
     width: 150px;
     height: 150px;

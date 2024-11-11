@@ -7,6 +7,7 @@ import './App.css';
 import SalePage from "./pages/sale/SalePage";
 import OrderSuccessfulPage from "./pages/orders/OrderSuccessPage";
 import ProductsCreate from "./pages/products/ProductsCreate";
+import ProductsDescPage from "./pages/products/ProductsDescPage";
 import OrderPage from "./pages/orders/OrderPage";
 import RemainingPage from "./pages/shop/RemainingPage";
 import SupplyPage from "./pages/supply/SupplyPage";
@@ -30,6 +31,7 @@ function App() {
           <Route path="/supply" element={<SupplyPage />} />
           <Route path="/loss" element={<LossPage />} />
           <Route path="/products/create" element={<ProductsCreate />} />
+          <Route path="/products/:id" element={<ProductsDescPage />} />
           <Route path="/products/" element={<ProductsPage />} />
         </Routes>
       </Router>

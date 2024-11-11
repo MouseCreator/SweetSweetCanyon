@@ -23,6 +23,9 @@
 .gen-button.red {
     background-color: red;
 }
+.gen-button.red:hover {
+    background-color: #cb0000;
+}
 .themed-text {}
 .themed-text.green{
     color: #3EA02B;
