@@ -73,6 +73,7 @@ input[type=number] {
     padding: 5px;
     width: 360px;
 }
+
 .product-image-fit {
     object-fit: cover;
     object-position: center;

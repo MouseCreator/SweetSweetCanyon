@@ -11,6 +11,7 @@ import OrderPage from "./pages/orders/OrderPage";
 import RemainingPage from "./pages/shop/RemainingPage";
 import SupplyPage from "./pages/supply/SupplyPage";
 import LossPage from "./pages/loss/LossPage";
+import ProductsPage from "./pages/products/ProductsPage";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           <Route path="/supply" element={<SupplyPage />} />
           <Route path="/loss" element={<LossPage />} />
           <Route path="/products/create" element={<ProductsCreate />} />
+          <Route path="/products/" element={<ProductsPage />} />
         </Routes>
       </Router>
   );
