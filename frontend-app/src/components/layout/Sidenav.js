@@ -20,9 +20,10 @@ export function Sidenav({open, toggleOpen, role}) {
 
                 <p className={"nav-category"}>Information</p>
                 <ul className={"nav-category-space nav-link-wrap"}>
-                    <li><Link to={"/"} className={"nav-link-module"}>🍰 Production</Link></li>
-                    <li><Link to={"/"} className={"nav-link-module"}>🏪 Shops</Link></li>
-                    {(role === "cashier" || role === "admin") &&
+                    <li><Link to={"/products"} className={"nav-link-module"}>🍰 Products</Link></li>
+                    <li><Link to={"/shops"} className={"nav-link-module"}>🏪 Shops</Link></li>
+                    {
+                        (role === "cashier" || role === "admin") &&
                         (
                             <li><Link to={"/"} className={"nav-link-module"}>🎟️ Transactions</Link></li>
                         )

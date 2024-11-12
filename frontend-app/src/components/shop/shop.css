@@ -1,0 +1,41 @@
+
+.shop-image-fit {
+    object-fit: cover;
+    object-position: center;
+    border-radius: 10%;
+}
+.shop-component-image {}
+.shop-component-image.s-large {
+    width: 700px;
+    height: 350px;
+}
+.shop-component-image.s-medium {
+    width: 300px;
+    height: 150px;
+}
+
+.shop-component-image-wrap {
+    margin: 4px;
+}
+
+.shop-simple-item {
+    border-radius: 10px;
+    border: solid 2px #8a8a8a;
+    padding: 4px 10px;
+}
+
+.shop-simple-title {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.shop-simple-list {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.shop-address-imp {
+    font-size: 18px;
+}

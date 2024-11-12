@@ -14,6 +14,7 @@ import SupplyPage from "./pages/supply/SupplyPage";
 import LossPage from "./pages/loss/LossPage";
 import ProductsPage from "./pages/products/ProductsPage";
 import ProductsEditPage from "./pages/products/ProductsEditPage";
+import ShopsPage from "./pages/shop/ShopsPage";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
             { /* orders */}
           <Route path="/orders/:id" element={<OrderPage />} />
           <Route path="/orders/:id/status" element={<OrderSuccessfulPage />} />
+          <Route path="/shops/" element={<ShopsPage />} />
           <Route path="/shops/:id/remaining/" element={<RemainingPage />} />
 
             { /* cashiers */}

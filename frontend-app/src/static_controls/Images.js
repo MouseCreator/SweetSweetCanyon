@@ -11,3 +11,7 @@ export function LogoImage() {
 export function NoProductUrl() {
     return require("./../images/missing-cookie.jpg");
 }
+
+export function NoShopUrl() {
+    return require("./../images/missing-shop.jpg");
+}

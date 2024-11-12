@@ -46,6 +46,8 @@ export function ProductDescription({productId, isAdmin}) {
              <div className={"flex flex-row justify-center w-full"}>
                 <div className={"product-center"}>
                     <h1 className={"product-title"}>{productById.name}</h1>
+                    <p className={"location-hint"}>
+                        <span className={"location-link"} onClick={onOther}>Products</span>/</p>
                     <div className={"flex flex-row"}>
                         <ProductImage pictureUrl={productById.pictureUrl} size={"s-large"} />
                         <div className={"mx-5 w-1/2"}>

@@ -1,5 +1,5 @@
 
-.prod-head {
+.cmn-head {
     width: 100%;
     height: 140px;
     border-radius: 20px;
@@ -7,13 +7,13 @@
     margin-bottom: 20px;
 }
 
-.prod-head-title {
+.cmn-head-title {
     color: white;
     font-size: 72px;
     font-weight: bold;
 }
 
-.prod-head-link {
+.cmn-head-link {
     background: white;
     font-size: 18px;
     font-weight: bold;
