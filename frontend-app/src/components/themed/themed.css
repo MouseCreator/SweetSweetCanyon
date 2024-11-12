@@ -26,6 +26,12 @@
 .gen-button.red:hover {
     background-color: #cb0000;
 }
+.gen-button.pink {
+    background-color: #fe2eb8;
+}
+.gen-button.pink:hover {
+    background-color: #d71f9a;
+}
 .themed-text {}
 .themed-text.green{
     color: #3EA02B;

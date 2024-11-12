@@ -31,12 +31,20 @@
 }
 .main-content {
     padding-top: 40px;
-    margin-left: 260px;
     transition: margin-left 0.3s ease;
     flex: 1;
     height: 100vh;
 }
-
+@media (min-width: 640px) {
+    .main-content {
+        margin-left: 260px;
+    }
+}
+@media (max-width: 640px) {
+    .main-content {
+        margin-left: 0;
+    }
+}
 .main-content.collapsed {
     margin-left: 0;
 }

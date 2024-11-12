@@ -25,7 +25,7 @@ export function ProductImage({pictureUrl, name, size}) {
     return (
         <div className={"product-component-image-wrap"}>
             {
-                pictureUrl == null ?
+                pictureUrl == null || pictureUrl === '' ?
                     (<img className={`product-component-image ${size} product-image-fit`} src = {NoProductUrl()} alt={name}></img>) :
                     (<img className={`product-component-image ${size} product-image-fit`} src={ pictureUrl } alt={name} />)
             }

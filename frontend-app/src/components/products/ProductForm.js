@@ -1,6 +1,9 @@
 import React, {useState} from "react";
-const PriceInput = ({myId, onChange}) => {
-    const [price, setPrice] = useState('');
+import "../themed/forms.css"
+import "../themed/themed.css"
+import {ProductImage} from "./ProductImage";
+const PriceInput = ({myId, initial, onChange}) => {
+    const [price, setPrice] = useState(initial);
 
     const handleChange = (e) => {
         const value = e.target.value;
@@ -20,7 +23,7 @@ const PriceInput = ({myId, onChange}) => {
 
     return (
         <div>
-            <input
+            <input className={"form-input gen-input"}
                 id={myId}
                 type="number"
                 step="0.01"
@@ -41,17 +44,17 @@ const ImageURLInput = ({initial, onChange}) => {
     };
 
     return (
-        <div>
-            <div>
-            <p>Preview</p>
-            { url === '' ?
-                <div>No image</div> :
-                <img id={"preview"} src={url} alt={"Product"} />
-            }
-            </div>
-            <div>
-                <label htmlFor={"urlInput"}>URL</label>
-                <textarea id={"urlInput"} onChange={handleChange} />
+        <div className={"form-input-len"}>
+            <div className={"image-form w-full"}>
+                <div className={"w-full"}>
+                    <label className={"form-label"} htmlFor={"urlInput"}>URL</label>
+                    <textarea className={"gen-area form-area-full"} id={"urlInput"} value={url} onChange={handleChange} />
+                </div>
+                <div className={"flex justify-end w-1/2"}>
+                    <div className={"form-img-holder"}>
+                        <ProductImage name={"Product"} size={"s-150"} pictureUrl={url} />
+                    </div>
+                </div>
             </div>
         </div>
     );
@@ -72,21 +75,24 @@ function ProductForm({mode, initialProduct, onSubmit, onCancel}) {
     }
 
     return (
-        <div>
+        <div className={"w-full"}>
             <div>
-                <label htmlFor="name">Name</label>
-                <input id={"name"} type={"text"} value={name}/>
+                <label className={"form-label"} htmlFor="name">Name</label>
+                <input className={"gen-input form-input"} id={"name"} type={"text"} value={name} onChange={(e) => setName(e.target.value)}/>
             </div>
             <div>
-                <label htmlFor="desc">Description</label>
-                <textarea id={"desc"} value={description}/>
+                <label className={"form-label"} htmlFor="desc">Description</label>
+                <textarea className={"gen-area form-area"} id={"desc"} value={description} onChange={(e) => setDescription(e.target.value)}/>
             </div>
             <div>
-                <label htmlFor="price">Price</label>
-                <PriceInput myId={"price"} onChange={setPrice} />
+                <label className={"form-label"} htmlFor="price">Price</label>
+                <PriceInput myId={"price"} initial={price} onChange={setPrice} />
             </div>
-            <ImageURLInput initial={''} onChange={setPicture}/>
-            <button onClick={handleSubmit}>{mode === 'create' ? 'Create' : 'Submit'}</button>
+            <ImageURLInput initial={picture} onChange={setPicture}/>
+            <div className={"form-buttons"}>
+                <button className={"gen-button form-button"} onClick={onCancel}>Cancel</button>
+                <button className={"gen-button pink form-button"} onClick={handleSubmit}>{mode === 'create' ? 'Create' : 'Submit'}</button>
+            </div>
         </div>
     )
 }

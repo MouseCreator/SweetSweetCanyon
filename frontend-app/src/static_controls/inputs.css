@@ -20,3 +20,10 @@
 .gen-button:hover {
     background: #676767;
 }
+
+.gen-area {
+    border: solid 1px black;
+    padding: 2px;
+    border-radius: 5px;
+    resize: none;
+}
