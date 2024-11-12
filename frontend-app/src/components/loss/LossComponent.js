@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import "./loss.css"
 import "./../../static_controls/inputs.css"
 import {CommonCheckbox} from "../common/checkbox/common-checkbox";
+import {sortReasons} from "../../utils/data";
 function LossReasonList({onSelectReason, onTypeComment, reasonError, commentError, free, onFreeCheck}) {
     const [supplierId, setSupplierId] = useState(-1);
     const [name, setName] = useState('');
@@ -19,12 +20,7 @@ function LossReasonList({onSelectReason, onTypeComment, reasonError, commentErro
             title: 'Damaged'
         }
     ]
-    const sortedReasons =
-        reasonList.sort((a, b) => {
-        if (a.title.toLowerCase() === 'other') return 1;
-        if (b.title.toLowerCase() === 'other') return -1;
-        return 0;
-    });
+    const sortedReasons = sortReasons(reasonList);
     useEffect(()=> {
         if (reasonList.length===1) {
             onSelectReason(reasonList[0].id)

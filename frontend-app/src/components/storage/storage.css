@@ -1,0 +1,85 @@
+.storage-frame {
+    border: #8a8a8a solid 2px;
+    width: 100%;
+    padding: 6px;
+    margin: 4px;
+    border-radius: 10px;
+}
+
+.storage-im-text {
+    font-weight: bold;
+    line-height: 1.1;
+}
+
+.store-right {
+    margin-top: 10px;
+    font-size: 32px;
+    cursor: pointer;
+}
+.st-left-wrap {
+    width: 30%;
+}
+.st-right-wrap {
+    width: 70%;
+}
+.st-left-wrap.out {
+    background: #c0c0c0;
+    border-radius: 5px;
+}
+
+.store-right-box {
+    border: #8a8a8a solid 1px;
+    border-radius: 10px;
+}
+
+.store-select {
+    height: 30px;
+}
+.store-left {
+    border: #8a8a8a solid 1px;
+    border-radius: 10px;
+}
+.right-wrap {
+    border: #8a8a8a solid 1px;
+    border-radius: 10px;
+    display: flex;
+    width: 100%;
+    padding: 4px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    height: 80px;
+}
+
+.increment-button, .decrement-button, .cancel-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+.store-pan-1 { flex-grow: 0; flex-shrink: 0 }
+.store-pan-2 { flex-grow: 1;}
+.store-pan-3 { flex-grow: 0; flex-shrink: 0}
+
+.store-content {
+    width: 80%;
+}
+
+.store-menu {
+    margin-left: 10px;
+    width: 20%;
+    top: 20px;
+    min-height: 200px;
+    border: #fe2eb8 solid 2px;
+    border-radius: 10px;
+}
+
+.store-title {
+    color: #fe2eb8;
+    font-size: 20px;
+    font-weight: bold;
+}
+.store-buttons {
+    margin-top: 16px;
+    margin-bottom: 8px;
+}
