@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import "../themed/forms.css"
 import "../themed/themed.css"
+import {ShopImage} from "../image/ShopImage";
 const ImageURLInput = ({initial, onChange}) => {
     const [url, setURL] = useState(initial);
     const handleChange = (e) => {

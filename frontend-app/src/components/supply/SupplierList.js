@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from "react";
 import "./supply.css"
 import "./../../static_controls/inputs.css"
-function SupplierList({onSelectSupplier, onTypeName, supplierError, nameError}) {
+import {CommonCheckbox} from "../common/checkbox/common-checkbox";
+function SupplierList({onSelectSupplier, onTypeName, supplierError, nameError, free, onFreeCheck}) {
     const [supplierId, setSupplierId] = useState(-1);
     const [name, setName] = useState('');
     const suppliersList = [
@@ -26,6 +27,10 @@ function SupplierList({onSelectSupplier, onTypeName, supplierError, nameError}) 
     const m_onNameChange = (name) => {
         setName(name);
         onTypeName(name);
+    }
+
+    const toggleFree = () => {
+        onFreeCheck(!free);
     }
 
 
@@ -64,6 +69,8 @@ function SupplierList({onSelectSupplier, onTypeName, supplierError, nameError}) 
                                type={"text"}
                                value={name} onChange={(e)=>m_onNameChange(e.target.value)}
                                placeholder={"Deliverer's name"}/>
+                        <span className={"loss-component-label"}>Free: </span>
+                        <CommonCheckbox theme={"blue"} size={"medium"} state={free} onChange={toggleFree} />
                     </span>
                     )
                     }

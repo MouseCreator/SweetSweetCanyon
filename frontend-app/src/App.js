@@ -16,6 +16,7 @@ import ProductsPage from "./pages/products/ProductsPage";
 import ProductsEditPage from "./pages/products/ProductsEditPage";
 import ShopsPage from "./pages/shop/ShopsPage";
 import ShopDescriptionPage from "./pages/shop/ShopDescriptionPage";
+import ShopCreatePage from "./pages/shop/ShopCreatePage";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path="/orders/:id/status" element={<OrderSuccessfulPage />} />
           { /* shop */}
           <Route path="/shops/" element={<ShopsPage />} />
+          <Route path="/shops/create" element={<ShopCreatePage />} />
           <Route path="/shops/:id" element={<ShopDescriptionPage />} />
           <Route path="/shops/:id/remaining/" element={<RemainingPage />} />
 

@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from "react";
 import "./loss.css"
 import "./../../static_controls/inputs.css"
-function LossReasonList({onSelectReason, onTypeComment, reasonError, commentError}) {
+import {CommonCheckbox} from "../common/checkbox/common-checkbox";
+function LossReasonList({onSelectReason, onTypeComment, reasonError, commentError, free, onFreeCheck}) {
     const [supplierId, setSupplierId] = useState(-1);
     const [name, setName] = useState('');
     const reasonList = [
@@ -39,6 +40,9 @@ function LossReasonList({onSelectReason, onTypeComment, reasonError, commentErro
     }
 
 
+    const toggleFree = () => {
+        onFreeCheck(!free);
+    };
     return (
         <div className={"loss-component"}>
             {
@@ -51,7 +55,7 @@ function LossReasonList({onSelectReason, onTypeComment, reasonError, commentErro
                         sortedReasons.length === 1 ? (
                             <p><span className={"font-bold"}>Reason:</span> {sortedReasons[0].title}</p>
                         ) : (
-                            <span>
+                        <span>
                         <label className={"loss-component-label"} htmlFor={"reason"}>Reason:</label>
                         <select
                             id="reason"
@@ -74,6 +78,8 @@ function LossReasonList({onSelectReason, onTypeComment, reasonError, commentErro
                                type={"text"}
                                value={name} onChange={(e)=>m_onCommentChange(e.target.value)}
                                />
+                        <span className={"loss-component-label"}>Free: </span>
+                        <CommonCheckbox theme={"orange"} size={"medium"} state={free} onChange={toggleFree} />
                     </span>
                         )
                     }
