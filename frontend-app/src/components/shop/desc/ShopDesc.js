@@ -5,7 +5,7 @@ import {OverlayBase} from "../../overlay/OverlayBase";
 import DeleteProductOverlay from "../../products/desc/DeleteProductOverlay";
 import {ShopImage} from "../image/ShopImage";
 import "./shop-desc.css"
-export function ShopDesc({shopId, isAdmin}) {
+export function ShopDesc({shopId, role}) {
     const shopById =
         {
             id: 1,
@@ -24,13 +24,16 @@ export function ShopDesc({shopId, isAdmin}) {
         navigate('/products/');
     }
     const onEdit = () => {
-        navigate(`/products/${shopId}/edit`)
+        navigate(`/shops/${shopId}/edit`)
     }
     const onOther = () => {
         navigate('/shops/');
     }
     const deletePressed = () => {
         setOverlayActive(true);
+    }
+    const managePressed = () => {
+        navigate(`/shops/${shopId}/manager`);
     }
     const noProduct = shopById == null;
     return (
@@ -56,10 +59,16 @@ export function ShopDesc({shopId, isAdmin}) {
                                     <p className={"text-xl mb-4 text-wrap"}>{shopById.description}</p>
                                     <div className={"cmn-buttons"}>
                                         <button onClick={onOther} className={"gen-button"}>Other shops</button>
-                                        { isAdmin &&
+                                        { role==='admin' &&
                                             <div className={"cmn-buttons"}>
                                                 <button onClick={onEdit} className={"gen-button pink"}>Edit shop</button>
+                                                <button onClick={managePressed} className={"gen-button pink"}>Manage shop</button>
                                                 <button onClick={deletePressed} className={"gen-button red"}>Delete shop</button>
+                                            </div>
+                                        }
+                                        { role==='cashier' &&
+                                            <div className={"cmn-buttons"}>
+                                                <button onClick={managePressed} className={"gen-button pink"}>Manage shop</button>
                                             </div>
                                         }
                                     </div>

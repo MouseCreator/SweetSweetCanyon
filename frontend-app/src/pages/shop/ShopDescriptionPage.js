@@ -5,7 +5,7 @@ const ShopsPage = () => {
     return (
         <MainLayout>
             <div className={""}>
-                <ShopDesc shopId={1} isAdmin={true} />
+                <ShopDesc shopId={1} role={'admin'} />
             </div>
         </MainLayout>
     )
