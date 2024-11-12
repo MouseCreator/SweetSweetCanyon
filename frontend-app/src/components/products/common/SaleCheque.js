@@ -2,9 +2,9 @@ import "./salecheck.css"
 import {formatPrice} from "../../../utils/date";
 import {calculatePrice} from "../Price";
 
-export function SaleCheque({selectedProducts, isFree}) {
+export function SaleCheque({selectedProducts}) {
 
-    const price = isFree ? 0 : calculatePrice(selectedProducts);
+    const price = calculatePrice(selectedProducts);
 
     return (
         <div className={"flex flex-col items-start"}>
@@ -22,7 +22,7 @@ export function SaleCheque({selectedProducts, isFree}) {
                 }
             </div>
             <div className={"cheque-sep"}></div>
-            <p className={"font-bold"}>Total: {formatPrice(price)} {isFree && "(Free Checked)"}</p>
+            <p className={"font-bold"}>Total: {formatPrice(price)}</p>
         </div>
     )
 }

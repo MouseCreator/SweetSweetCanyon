@@ -17,7 +17,6 @@ function SupplyPage() {
     const [supplierName, setSupplierName] = useState('');
     const [supplierError, setSupplierError] = useState(false);
     const [nameError, setNameError] = useState(false);
-    const [free, setFree] = useState(false);
 
     const validateData = () => {
         let success = true;
@@ -57,10 +56,10 @@ function SupplyPage() {
             <div className={"static-content"}>
                 <ProductSelector confirmAction={confirmAction} theme={"blue"} mode={"supply"} errors={errors} shopId={1}>
                     <SupplierList onSelectSupplier={setSupplierId} onTypeName={setSupplierName}
-                    supplierError={supplierError} nameError={nameError} free={free} onFreeCheck={setFree}/>
+                    supplierError={supplierError} nameError={nameError} onFreeCheck={setFree}/>
                 </ProductSelector>
                 <OverlayBase isActive={isOverlayActive} onClose={overlayOnCancel} >
-                    <SupplyOverlayContent free={free} selectedProducts={products} onPay={overlayOnPay} onCancel={overlayOnCancel} />
+                    <SupplyOverlayContent selectedProducts={products} onPay={overlayOnPay} onCancel={overlayOnCancel} />
                 </OverlayBase>
             </div>
         </MainLayout>

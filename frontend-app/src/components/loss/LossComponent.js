@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from "react";
 import "./loss.css"
 import "./../../static_controls/inputs.css"
-import {CommonCheckbox} from "../common/checkbox/common-checkbox";
 import {sortReasons} from "../../utils/data";
-function LossReasonList({onSelectReason, onTypeComment, reasonError, commentError, free, onFreeCheck}) {
+function LossReasonList({onSelectReason, onTypeComment, reasonError, commentError}) {
     const [supplierId, setSupplierId] = useState(-1);
     const [name, setName] = useState('');
     const reasonList = [
@@ -35,10 +34,6 @@ function LossReasonList({onSelectReason, onTypeComment, reasonError, commentErro
         onTypeComment(name);
     }
 
-
-    const toggleFree = () => {
-        onFreeCheck(!free);
-    };
     return (
         <div className={"loss-component"}>
             {
@@ -74,8 +69,6 @@ function LossReasonList({onSelectReason, onTypeComment, reasonError, commentErro
                                type={"text"}
                                value={name} onChange={(e)=>m_onCommentChange(e.target.value)}
                                />
-                        <span className={"loss-component-label"}>Free: </span>
-                        <CommonCheckbox theme={"orange"} size={"medium"} state={free} onChange={toggleFree} />
                     </span>
                         )
                     }

@@ -20,8 +20,6 @@ function LossPage() {
     const [comment, setComment] = useState('');
     const [commentError, setCommentError] = useState(false);
 
-    const [free, setFree] = useState(false);
-
     const validateData = () => {
         let success = true;
         if (reasonId < 0) {
@@ -59,11 +57,11 @@ function LossPage() {
         <MainLayout>
             <div className={"static-content"}>
                 <ProductSelector confirmAction={confirmAction} theme={"orange"} mode={"loss"} errors={errors} shopId={1}>
-                    <LossReasonList onSelectReason={setReasonId} onTypeComment={setComment} onFreeCheck={setFree}
-                                  reasonError={reasonError} commentError={commentError} free={free}/>
+                    <LossReasonList onSelectReason={setReasonId} onTypeComment={setComment}
+                                  reasonError={reasonError} commentError={commentError}/>
                 </ProductSelector>
                 <OverlayBase isActive={isOverlayActive} onClose={overlayOnCancel} >
-                    <LossOverlayContent selectedProducts={products} onLoss={overlayOnSubmit} isFree={free} onCancel={overlayOnCancel} />
+                    <LossOverlayContent selectedProducts={products} onLoss={overlayOnSubmit}onCancel={overlayOnCancel} />
                 </OverlayBase>
             </div>
         </MainLayout>
