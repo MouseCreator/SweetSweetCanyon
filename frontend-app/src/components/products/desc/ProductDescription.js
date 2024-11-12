@@ -1,13 +1,12 @@
 import {ProductImage} from "../ProductImage";
-import {Link, useNavigate} from "react-router-dom";
-import "./product-description.css"
+import {useNavigate} from "react-router-dom";
 import {formatPrice} from "../../../utils/date";
 import "../../../static_controls/inputs.css";
 import "../../themed/themed.css";
 import {OverlayBase} from "../../overlay/OverlayBase";
 import React, {useState} from "react";
 import DeleteProductOverlay from "./DeleteProductOverlay";
-
+import "../../common/desc/common-info.css"
 export function ProductDescription({productId, isAdmin}) {
     const productById =
      {
@@ -40,23 +39,27 @@ export function ProductDescription({productId, isAdmin}) {
             {
                 noProduct ? (
                     <div className={"flex flex-row justify-center"}>
-                        <h1 className={"product-title"}>The product doesn't exist</h1>
+                        <h1 className={"cmn-title"}>The product doesn't exist</h1>
                     </div>
                     ) : (
              <div className={"flex flex-row justify-center w-full"}>
-                <div className={"product-center"}>
-                    <h1 className={"product-title"}>{productById.name}</h1>
+                <div className={"cmn-center"}>
+                    <h1 className={"cmn-title"}>{productById.name}</h1>
                     <p className={"location-hint"}>
                         <span className={"location-link"} onClick={onOther}>Products</span>/</p>
                     <div className={"flex flex-row"}>
                         <ProductImage pictureUrl={productById.pictureUrl} size={"s-large"} />
                         <div className={"mx-5 w-1/2"}>
                             <div className={"text-2xl font-bold mb-2"}>Price: {formatPrice(productById.price)}</div>
-                            <p className={"text-xl mb-4 text-wrap product-desc-detail"}>{productById.description}</p>
-                            <div>
+                            <p className={"text-xl mb-4 text-wrap cmn-desc-detail"}>{productById.description}</p>
+                            <div className={"cmn-buttons"}>
                                 <button onClick={onOther} className={"gen-button"}>Other products</button>
-                                <button onClick={onEdit} className={"gen-button pink"}>Edit product</button>
-                                <button onClick={deletePressed} className={"gen-button red"}>Delete product</button>
+                                { isAdmin &&
+                                    <div className={"cmn-buttons"}>
+                                        <button onClick={onEdit} className={"gen-button pink"}>Edit product</button>
+                                        <button onClick={deletePressed} className={"gen-button red"}>Delete product</button>
+                                    </div>
+                                }
                             </div>
                         </div>
                     </div>
@@ -68,6 +71,5 @@ export function ProductDescription({productId, isAdmin}) {
             )
             }
         </div>
-
     )
 }

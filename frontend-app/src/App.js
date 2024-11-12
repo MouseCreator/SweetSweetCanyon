@@ -15,6 +15,7 @@ import LossPage from "./pages/loss/LossPage";
 import ProductsPage from "./pages/products/ProductsPage";
 import ProductsEditPage from "./pages/products/ProductsEditPage";
 import ShopsPage from "./pages/shop/ShopsPage";
+import ShopDescriptionPage from "./pages/shop/ShopDescriptionPage";
 
 function App() {
   return (
@@ -23,13 +24,16 @@ function App() {
             { /* orders */}
           <Route path="/orders/:id" element={<OrderPage />} />
           <Route path="/orders/:id/status" element={<OrderSuccessfulPage />} />
+          { /* shop */}
           <Route path="/shops/" element={<ShopsPage />} />
+          <Route path="/shops/:id" element={<ShopDescriptionPage />} />
           <Route path="/shops/:id/remaining/" element={<RemainingPage />} />
 
-            { /* cashiers */}
+           { /* cashiers */}
           <Route path="/cashiers/:id" element={<CashierProfileSettings />} />
           <Route path="/cashiers/:id/edit" element={<CashierProfileSettingsEdit />} />
           <Route path="/cashiers/create" element={<CashierProfileSettingsCreate />} />
+          { /* products */ }
           <Route path="/sale" element={<SalePage />} />
           <Route path="/supply" element={<SupplyPage />} />
           <Route path="/loss" element={<LossPage />} />

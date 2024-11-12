@@ -1,4 +1,4 @@
-import {NoShopUrl} from "../../../static_controls/images.js";
+import {NoShopUrl} from "../../../static_controls/Images";
 import '../shop.css'
 export function ShopImage({pictureUrl, name, size}) {
     return (
