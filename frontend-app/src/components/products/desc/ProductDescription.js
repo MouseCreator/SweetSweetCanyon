@@ -53,7 +53,7 @@ export function ProductDescription({productId, isAdmin}) {
                             <p className={"text-xl mb-4 text-wrap product-desc-detail"}>{productById.description}</p>
                             <div>
                                 <button onClick={onOther} className={"gen-button"}>Other products</button>
-                                <button onClick={onEdit} className={"gen-button green"}>Edit product</button>
+                                <button onClick={onEdit} className={"gen-button pink"}>Edit product</button>
                                 <button onClick={deletePressed} className={"gen-button red"}>Delete product</button>
                             </div>
                         </div>
