@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import "./supply.css"
-import "./../../static_controls/inputs.css"
+import "../../../static_controls/inputs.css"
 function SupplierList({onSelectSupplier, onTypeName, supplierError, nameError}) {
     const [supplierId, setSupplierId] = useState(-1);
     const [name, setName] = useState('');

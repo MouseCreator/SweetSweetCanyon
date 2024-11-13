@@ -5,7 +5,7 @@ import MainLayout from "../../components/layout/Layout";
 import {OverlayBase} from "../../components/overlay/OverlayBase";
 import {SupplyOverlayContent} from "../../components/products/supply/SupplyOverlayContent";
 import "./../../static_controls/content.css"
-import LossReasonList from "../../components/loss/LossComponent";
+import LossReasonList from "../../components/products/loss/LossComponent";
 import {LossOverlayContent} from "../../components/products/loss/LossOverlayContent";
 
 function LossPage() {

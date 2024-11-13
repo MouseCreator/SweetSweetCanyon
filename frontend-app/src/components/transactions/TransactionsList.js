@@ -82,7 +82,7 @@ function TransactionsList() {
     }
     return (
         <main>
-            <TransactionsControl controlParams={params} updateControlParams={updateParams} />
+            <TransactionsControl controlParams={params} updateControlParams={updateParams} shops={shops} />
             <TransactionPageControl page={page} onPageChange={updatePage} numPages={numPages} />
         </main>
     )

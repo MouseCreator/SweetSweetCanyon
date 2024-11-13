@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import "./loss.css"
-import "./../../static_controls/inputs.css"
-import {sortReasons} from "../../utils/data";
+import "../../../static_controls/inputs.css"
+import {sortReasons} from "../../../utils/data";
 function LossReasonList({onSelectReason, onTypeComment, reasonError, commentError}) {
     const [supplierId, setSupplierId] = useState(-1);
     const [name, setName] = useState('');

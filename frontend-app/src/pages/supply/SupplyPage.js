@@ -1,6 +1,6 @@
 import ProductSelector from "../../components/products/ProductSelector";
 import { useNavigate } from 'react-router-dom';
-import SupplierList from "../../components/supply/SupplierList";
+import SupplierList from "../../components/products/supply/SupplierList";
 import {useState} from "react";
 import MainLayout from "../../components/layout/Layout";
 import {OverlayBase} from "../../components/overlay/OverlayBase";
