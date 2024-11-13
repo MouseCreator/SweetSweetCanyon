@@ -59,7 +59,7 @@ function TransactionsList() {
     }
     const [transactions, setTransactions] = useState(MOCK_TRANSACTIONS);
     const [shops, setShops] = useState(MOCK_SHOPS);
-    const [page, setPage] = useState(searchParams.get('page'))
+    const [page, setPage] = useState(searchParams.get('page') || 0)
     const [params, setParams] = useState(defParams);
     const [numPages, setNumPages] = useState(10);
 

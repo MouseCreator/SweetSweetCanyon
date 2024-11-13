@@ -34,8 +34,8 @@ export function TransactionsControl({controlParams, updateControlParams, shops})
                 <select
                     id="type"
                     className={`gen-input`}
-                    value={controlParams.shopId}
-                    onChange={(e) => selectType(e.target.value)}>
+                    value={controlParams.shop}
+                    onChange={(e) => selectShop(e.target.value)}>
                     <option value={"all"}>All</option>
                     {
                         shops.map((s)=>(<option key={s.id} value={s.id}>{s.name}</option>))
@@ -48,10 +48,10 @@ export function TransactionsControl({controlParams, updateControlParams, shops})
                     id="type"
                     className={`gen-input`}
                     value={controlParams.sort}
-                    onChange={(e) => selectType(e.target.value)}>
+                    onChange={(e) => selectSortBy(e.target.value)}>
                     <option value={"recent"}>Recent</option>
-                    <option value={"recent"}>Price</option>
-                    <option value={"recent"}>Oldest</option>
+                    <option value={"price"}>Price</option>
+                    <option value={"oldest"}>Oldest</option>
                 </select>
             </div>
         </div>
