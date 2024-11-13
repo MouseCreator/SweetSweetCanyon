@@ -2,6 +2,39 @@ import React, {useState} from "react";
 import "../themed/forms.css"
 import "../themed/themed.css"
 import {ShopImage} from "../image/ShopImage";
+const PriceInput = ({myId, onChange}) => {
+    const [price, setPrice] = useState('');
+
+    const handleChange = (e) => {
+        const value = e.target.value;
+
+        if (value === '' || !isNaN(value)) {
+            setPrice(value);
+        }
+    };
+
+    const handleBlur = () => {
+        if (price !== '') {
+            const roundedPrice = parseFloat(price).toFixed(2);
+            setPrice(roundedPrice);
+            onChange(roundedPrice);
+        }
+    };
+
+    return (
+        <div>
+            <input
+                id={myId}
+                type="number"
+                step="0.01"
+                value={price}
+                onChange={handleChange}
+                onBlur={handleBlur}
+            />
+        </div>
+    );
+};
+
 const ImageURLInput = ({initial, onChange}) => {
     const [url, setURL] = useState(initial);
     const handleChange = (e) => {

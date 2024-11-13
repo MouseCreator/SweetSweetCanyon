@@ -56,7 +56,7 @@ function SupplyPage() {
             <div className={"static-content"}>
                 <ProductSelector confirmAction={confirmAction} theme={"blue"} mode={"supply"} errors={errors} shopId={1}>
                     <SupplierList onSelectSupplier={setSupplierId} onTypeName={setSupplierName}
-                    supplierError={supplierError} nameError={nameError} onFreeCheck={setFree}/>
+                    supplierError={supplierError} nameError={nameError} />
                 </ProductSelector>
                 <OverlayBase isActive={isOverlayActive} onClose={overlayOnCancel} >
                     <SupplyOverlayContent selectedProducts={products} onPay={overlayOnPay} onCancel={overlayOnCancel} />
