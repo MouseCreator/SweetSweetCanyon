@@ -8,7 +8,7 @@ export function ShopHeader({isAdmin}) {
                 {
                     isAdmin &&
                     <div>
-                        <Link className={"cmn-head-link"} to={"/products/create"}>New shop</Link>
+                        <Link className={"cmn-head-link"} to={"/shops/create"}>New shop</Link>
                     </div>
                 }
             </div>

@@ -18,6 +18,7 @@ import ShopsPage from "./pages/shop/ShopsPage";
 import ShopDescriptionPage from "./pages/shop/ShopDescriptionPage";
 import ShopCreatePage from "./pages/shop/ShopCreatePage";
 import ShopStoreManager from "./pages/shop/ShopStoreManager";
+import ShopEditPage from "./pages/shop/ShopEditPage";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
           <Route path="/shops/:id" element={<ShopDescriptionPage />} />
           <Route path="/shops/:id/remaining/" element={<RemainingPage />} />
           <Route path="/shops/:id/manager/" element={<ShopStoreManager />} />
+          <Route path="/shops/:id/edit/" element={<ShopEditPage />} />
 
            { /* cashiers */}
           <Route path="/cashiers/:id" element={<CashierProfileSettings />} />
