@@ -31,7 +31,7 @@ function App() {
           <Route path="/shops/" element={<ShopsPage />} />
           <Route path="/shops/create" element={<ShopCreatePage />} />
           <Route path="/shops/:id" element={<ShopDescriptionPage />} />
-          <Route path="/shops/:id/remaining/" element={<RemainingPage />} />
+          <Route path="/shops/:id/stock/" element={<RemainingPage />} />
           <Route path="/shops/:id/manager/" element={<ShopStoreManager />} />
           <Route path="/shops/:id/edit/" element={<ShopEditPage />} />
 

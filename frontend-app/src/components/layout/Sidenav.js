@@ -45,7 +45,6 @@ export function Sidenav({open, toggleOpen, role}) {
                             <p className={"nav-category"}>Admin cabinet</p>
                             <ul className={"nav-category-space"}>
                                 <li><Link to={"/"} className={"nav-link-module"}>🖥️ Reports</Link></li>
-                                <li><Link to={"/"} className={"nav-link-module"}>🎯 Accounts</Link></li>
                             </ul>
                         </div>
                     ) : (
