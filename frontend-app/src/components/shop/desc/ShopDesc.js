@@ -2,9 +2,9 @@ import "./../../common/desc/common-info.css"
 import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {OverlayBase} from "../../overlay/OverlayBase";
-import DeleteProductOverlay from "../../products/desc/DeleteProductOverlay";
 import {ShopImage} from "../image/ShopImage";
 import "./shop-desc.css"
+import DeleteShopOverlay from "../overlay/DeleteShopOverlay";
 export function ShopDesc({shopId, role}) {
     const shopById =
         {
@@ -76,7 +76,7 @@ export function ShopDesc({shopId, role}) {
                             </div>
                         </div>
                         <OverlayBase isActive={overlayActive} onClose={onClose}>
-                            <DeleteProductOverlay onDelete={onDelete} onCancel={onClose}/>
+                            <DeleteShopOverlay onDelete={onDelete} onCancel={onClose} onManage={managePressed}/>
                         </OverlayBase>
                     </div>
                 )

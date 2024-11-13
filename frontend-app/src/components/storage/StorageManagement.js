@@ -137,6 +137,10 @@ export function StorageManagement({shopId}) {
     const myShop = MOCK_SHOPS.find((s)=>s.id===shopNum)
     return (
         <div className={"w-full"}>
+            <p className={"location-hint"}>
+            <span className={"location-link"} onClick={()=>{navigate('/shops')}}>Shops</span>/
+            <span className={"location-link"} onClick={()=>{navigate(`/shops/${shopId}`)}}>{myShop.name}</span>/Manage
+            </p>
             {
                 myShop === undefined ? (<p>Shop not found!</p>) :
                 <div className={"w-full flex items-start"}>
