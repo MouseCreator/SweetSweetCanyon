@@ -19,6 +19,7 @@ import ShopDescriptionPage from "./pages/shop/ShopDescriptionPage";
 import ShopCreatePage from "./pages/shop/ShopCreatePage";
 import ShopStoreManager from "./pages/shop/ShopStoreManager";
 import ShopEditPage from "./pages/shop/ShopEditPage";
+import TransactionsPage from "./pages/transactions/TransactionsPage";
 
 function App() {
   return (
@@ -47,6 +48,9 @@ function App() {
           <Route path="/products/:id/edit" element={<ProductsEditPage />} />
           <Route path="/products/:id" element={<ProductsDescPage />} />
           <Route path="/products/" element={<ProductsPage />} />
+          {/* transactions */}
+          <Route path="/transactions/" element={<TransactionsPage />} />
+
         </Routes>
       </Router>
   );

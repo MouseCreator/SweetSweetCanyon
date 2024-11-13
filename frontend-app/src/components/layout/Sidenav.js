@@ -25,7 +25,7 @@ export function Sidenav({open, toggleOpen, role}) {
                     {
                         (role === "cashier" || role === "admin") &&
                         (
-                            <li><Link to={"/"} className={"nav-link-module"}>🎟️ Transactions</Link></li>
+                            <li><Link to={"/transactions"} className={"nav-link-module"}>🎟️ Transactions</Link></li>
                         )
                     }
 
