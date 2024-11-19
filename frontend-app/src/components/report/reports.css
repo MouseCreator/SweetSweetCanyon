@@ -1,0 +1,60 @@
+.report-controls {
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+}
+.report-errors-pan {
+    margin-top: 10px;
+    width: 100%;
+    min-height: 80px;
+    color: red;
+    padding-left: 10px;
+    background: #eeeeee;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.reports-top {
+    padding-top: 20px;
+    font-size: 42px;
+    font-weight: bold;
+    color: #fe2eb8;
+    padding-bottom: 30px;
+}
+
+.report-wrap {
+    padding: 10px;
+    border: #7a7a7a solid 2px;
+    border-radius: 10px;
+}
+
+.trc-td {
+    padding: 4px;
+    min-width: 50px;
+    text-align: center;
+    border-radius: 10px;
+    background: #eeeeee;
+    margin: 2px;
+}
+.trc-td.htop {
+    background: #fe2eb8;
+    color: white;
+    font-weight: bold;
+}
+.trc-table {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 4px;
+}
+.trc-td.hlt {
+    font-weight: bold;
+}
+.trc-row:nth-child(even) .trc-td {
+    background-color: #ebebeb;
+}
+.trc-row {
+    display: contents;
+}
+.trc-head {
+    font-weight: bold;
+}
