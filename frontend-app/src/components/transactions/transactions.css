@@ -9,3 +9,69 @@
     flex-direction: column;
     padding: 4px;
 }
+
+.transaction-item-wrap {
+    width: 280px;
+    min-height: 140px;
+    border: #8a8a8a solid;
+    border-radius: 10px;
+    padding: 5px;
+    margin: 3px;
+    cursor: pointer;
+}
+.tr-title {
+    font-weight: bold;
+    font-size: 18px;
+}
+.tr-inner {
+    display: flex;
+    align-self: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.tr-text-pink {
+    margin-left: 8px;
+    font-size: 22px;
+    color: #fe2eb8;
+    font-weight: bold;
+}
+
+.tr-grid {
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(auto-fit, 300px);
+}
+.tr-btn {
+    font-size: 20px;
+    min-width: 35px;
+    min-height: 35px;
+    padding: 2px;
+    margin: 2px;
+    cursor: pointer;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.tr-btn-in {
+    width: 100%;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+}
+.tr-btn.side {
+    background: #dedede;
+
+}
+.tr-btn.defs {
+    background: #ffafe2;
+}
+.tr-btn.selected {
+    background: #fe2eb8;
+}
+.tr-buttons-pan {
+    display: flex;
+    width: 100%;
+    justify-items: center;
+}

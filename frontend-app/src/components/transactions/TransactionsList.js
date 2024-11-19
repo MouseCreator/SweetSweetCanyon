@@ -2,22 +2,31 @@ import {TransactionsControl} from "./TransactionsControl";
 import {TransactionPageControl} from "./TransactionPageControl";
 import {useState} from "react";
 import {useSearchParams} from "react-router-dom";
+import {TransactionItem} from "./TransactionItem";
 
 const MOCK_TRANSACTIONS = [
     {
         id: 1,
         type: 'sale',
-        date: Date,
-        products: [],
+        date: new Date(),
+        products: [ {id: 1, name: 'A', amount: 2, price: 20} ],
         price: 11,
+        shop: {
+            id: 1,
+            name: 'Shop'
+        },
         cashier: 'Mouse'
     },
     {
         id: 2,
         type: 'supply',
-        date: Date,
-        products: [],
+        date: new Date(),
+        products: [ {id: 1, name: 'A', amount: 2, price: 20} ],
         price: 44,
+        shop: {
+            id: 1,
+            name: 'Shop'
+        },
         cashier: 'Mouse',
         supplier: {
             id: 1,
@@ -28,9 +37,13 @@ const MOCK_TRANSACTIONS = [
     {
         id: 3,
         type: 'loss',
-        date: Date,
-        products: [],
+        date: new Date(),
+        products: [ {id: 1, name: 'A', amount: 2, price: 20} ],
         price: 55,
+        shop: {
+            id: 1,
+            name: 'Shop'
+        },
         cashier: 'Mouse',
         reason: {
             id: 1,
@@ -54,7 +67,7 @@ function TransactionsList() {
     const [searchParams, setSearchParams] = useSearchParams();
     const defParams = {
         shopId: searchParams.get('shop') || 'all',
-        type: searchParams.get('type') || "sell",
+        type: searchParams.get('type') || "sale",
         sort: searchParams.get('sort') || "recent"
     }
     const [transactions, setTransactions] = useState(MOCK_TRANSACTIONS);
@@ -82,7 +95,13 @@ function TransactionsList() {
     }
     return (
         <main>
+            <p className={"location-hint"}>Transactions/</p>
+            <h2 className={"tr-text-pink"}>Filters:</h2>
             <TransactionsControl controlParams={params} updateControlParams={updateParams} shops={shops} />
+            <h2 className={"tr-text-pink"}>Transactions:</h2>
+            <div className={"tr-grid"}>
+                { transactions.map((t) => (<TransactionItem key={t.id} itemData={t} />)) }
+            </div>
             <TransactionPageControl page={page} onPageChange={updatePage} numPages={numPages} />
         </main>
     )
