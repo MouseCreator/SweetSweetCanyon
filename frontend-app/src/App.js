@@ -20,6 +20,9 @@ import ShopCreatePage from "./pages/shop/ShopCreatePage";
 import ShopStoreManager from "./pages/shop/ShopStoreManager";
 import ShopEditPage from "./pages/shop/ShopEditPage";
 import TransactionsPage from "./pages/transactions/TransactionsPage";
+import TSupplyPage from "./pages/transactions/TSupplyPage";
+import TSalePage from "./pages/transactions/TSalePage";
+import TLossPage from "./pages/transactions/TLossPage";
 
 function App() {
   return (
@@ -50,6 +53,9 @@ function App() {
           <Route path="/products/" element={<ProductsPage />} />
           {/* transactions */}
           <Route path="/transactions/" element={<TransactionsPage />} />
+          <Route path="/transactions/supplies/:id" element={<TSupplyPage />} />
+          <Route path="/transactions/sales/:id" element={<TSalePage />} />
+          <Route path="/transactions/losses/:id" element={<TLossPage />} />
 
         </Routes>
       </Router>

@@ -11,14 +11,14 @@ export function TransactionItem({itemData}) {
     const handleClick = () => {
         let navigateTo = "/transactions/unknown";
         switch(type) {
-            case "sell":
-                navigateTo = `/sales/${id}`;
+            case "sale":
+                navigateTo = `/transactions/sales/${id}`;
                 break;
             case "loss":
-                navigateTo = `/sales/${id}`;
+                navigateTo = `/transactions/losses/${id}`;
                 break;
             case "supply":
-                navigateTo = `/supplies/${id}`
+                navigateTo = `/transactions/supplies/${id}`
                 break;
             default:
                 break;
