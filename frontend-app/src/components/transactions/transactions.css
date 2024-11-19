@@ -71,6 +71,7 @@
     background: #fe2eb8;
 }
 .tr-buttons-pan {
+    margin-top: 24px;
     display: flex;
     width: 100%;
     justify-items: center;
