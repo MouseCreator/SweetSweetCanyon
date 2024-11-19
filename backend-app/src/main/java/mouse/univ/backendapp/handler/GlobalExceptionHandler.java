@@ -1,7 +1,8 @@
 package mouse.univ.backendapp.handler;
 
 import mouse.univ.backendapp.api.ApiResponse;
-import mouse.univ.backendapp.exception.EntityNotFoundException;
+import mouse.univ.backendapp.exception.DataNotFoundException;
+import mouse.univ.backendapp.exception.UpdateNotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
@@ -15,16 +16,23 @@ public class GlobalExceptionHandler {
 
     private static final Logger logger = LogManager.getLogger(GlobalExceptionHandler.class);
 
-    @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<ApiResponse<Object>> handleEntityNotFoundException(EntityNotFoundException ex) {
+    @ExceptionHandler(DataNotFoundException.class)
+    public ResponseEntity<ApiResponse<Object>> handleEntityNotFoundException(DataNotFoundException ex) {
         ApiResponse<Object> apiResponse = new ApiResponse<>(false, ex.getMessage(), null);
         logger.error(ex.getMessage(), ex);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(apiResponse);
     }
     @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<ApiResponse<Object>> handleEntityNotFoundException(RuntimeException ex) {
+    public ResponseEntity<ApiResponse<Object>> handleRuntimeError(RuntimeException ex) {
         ApiResponse<Object> apiResponse = new ApiResponse<>(false, "Internal error", null);
         logger.error(ex.getMessage(), ex);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(apiResponse);
+    }
+
+    @ExceptionHandler(UpdateNotFoundException.class)
+    public ResponseEntity<ApiResponse<Object>> handleEntityNotFoundException(UpdateNotFoundException ex) {
+        ApiResponse<Object> apiResponse = new ApiResponse<>(false, ex.getMessage(), null);
+        logger.error(ex.getMessage(), ex);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(apiResponse);
     }
 }

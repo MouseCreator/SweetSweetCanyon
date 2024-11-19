@@ -16,6 +16,7 @@ const ProductCreate = () => {
         name: 'muffin',
         description: 'Delicious muffin',
         price: 20,
+        deliveryPrice: 18,
         pictureUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-HVuracEvP5iGSPPnsF69NRv32glS3eYWbQ&s'
     }
     return (
