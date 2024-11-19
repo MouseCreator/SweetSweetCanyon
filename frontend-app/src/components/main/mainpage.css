@@ -1,0 +1,118 @@
+.main-page-header {
+    height: 500px;
+    width: 100%;
+    background: #fe2eb8;
+    display: flex;
+    flex-direction: column-reverse;
+    border-radius: 10px;
+}
+.main-page-title {
+    color: white;
+    font-weight: bold;
+    font-size: 144px;
+    padding-left: 40px;
+}
+
+.mp-content {
+    display: flex;
+    width: 80%;
+    align-items: center;
+}
+.mp-side-img {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-items: center;
+}
+.mp-side-text {
+    width: 50%;
+    padding: 10px;
+}
+.image-container {
+    width: 70%;
+    height: 0;
+    padding-top: 70%;
+    position: relative;
+}
+.mp-footer {
+    margin-top: 20px;
+    width: 100%;
+    background: #eeeeee;
+    min-height: 200px;
+    padding-bottom: 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.mpf-content {
+    font-size: 24px;
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    background: white;
+    border-radius: 10px;
+    align-items: center;
+}
+.mpf-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+.mp-fill {
+    width: 80%;
+}
+.mp-flex {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.mp-content.left {
+    flex-direction: row;
+}
+.mp-content.right {
+    flex-direction: row-reverse;
+}
+.mp-pause {
+    height: 40px;
+}
+@media screen and (min-width: 1200px) and (max-width: 1900px) {
+    .main-page-title {
+        font-size: 72px;
+    }
+    .main-page-header {
+        height: 400px;
+    }
+}
+@media screen and (min-width: 890px) and (max-width: 1200px) {
+    .main-page-title {
+        font-size: 48px;
+    }
+    .main-page-header {
+        height: 300px;
+    }
+}
+
+@media screen and (max-width: 890px) {
+    .main-page-title {
+        font-size: 32px;
+    }
+    .main-page-header {
+        height: 250px;
+    }
+}
+
+.image-container img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    object-fit: cover;
+    object-position: center;
+}
