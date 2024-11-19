@@ -49,7 +49,7 @@ function LossPage() {
         setProducts([]);
     }
     const overlayOnSubmit = () => {
-        navigate('/losses/1');
+        navigate('/transactions/losses/1');
     }
 
 

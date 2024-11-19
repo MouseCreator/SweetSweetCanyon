@@ -19,10 +19,10 @@ function ProductCheckbox({is_added, theme}) {
         </div>
     )
 }
-function ProductComponent({ product, is_added, onAdd, onCancel, theme, inStock }) {
+function ProductComponent({ product, is_added, onAdd, onCancel, theme, inStock, getPrice }) {
     const name = product.name
     const pictureUrl = product.pictureUrl
-    const price = product.price
+    const price = getPrice(product)
 
     const useStock = inStock >= 0
     const handleCheckboxChange = () => {

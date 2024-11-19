@@ -1,5 +1,5 @@
-export const calculatePrice = (selectedProducts) => {
+export const calculatePrice = (selectedProducts, getPrice) => {
     return selectedProducts.reduce(
-        (accumulator, currentValue) => accumulator + currentValue.product.price * currentValue.amount,
+        (accumulator, currentValue) => accumulator + getPrice(currentValue.product) * currentValue.amount,
         0)
 }

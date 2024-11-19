@@ -2,9 +2,11 @@ import "./salecheck.css"
 import {formatPrice} from "../../../utils/date";
 import {calculatePrice} from "../Price";
 
-export function SaleCheque({selectedProducts}) {
-
-    const price = calculatePrice(selectedProducts);
+export function SaleCheque({selectedProducts, isDelivery}) {
+    const getPrice = (pr) => {
+        return isDelivery ? pr.deliveryPrice : pr.price
+    }
+    const price = calculatePrice(selectedProducts, getPrice);
 
     return (
         <div className={"flex flex-col items-start"}>

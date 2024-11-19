@@ -6,7 +6,7 @@ export default function ProductsPage() {
     const { id } = useParams();
     return (
         <MainLayout>
-            <ProductDescription productId={id} isAdmin={true} />
+            <ProductDescription productId={id} role={"admin"} />
         </MainLayout>
     )
 }

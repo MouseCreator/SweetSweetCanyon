@@ -63,11 +63,13 @@ function ProductForm({mode, initialProduct, onSubmit, onCancel}) {
     const [name, setName] = useState(initialProduct.name)
     const [description, setDescription] = useState(initialProduct.description)
     const [price, setPrice] = useState(initialProduct.price)
+    const [deliveryPrice, setDeliveryPrice] = useState(initialProduct.deliveryPrice)
     const [picture, setPicture] = useState(initialProduct.pictureUrl)
 
     const [nameError, setNameError] = useState(false);
     const [descError, setDescError] = useState(false);
     const [priceError, setPriceError] = useState(false);
+    const [delError, setDelError] = useState(false);
     const [pictureError, setPictureError] = useState(false);
 
     const validateData = () => {
@@ -82,20 +84,26 @@ function ProductForm({mode, initialProduct, onSubmit, onCancel}) {
         if (description === undefined) {
             setDescError(true);
             error = true;
-        } else if (nameError) {
+        } else if (descError) {
             setDescError(false);
         }
 
         if (price <= 0) {
             setPriceError(true);
             error = true;
-        } else if (nameError) {
+        } else if (priceError) {
             setPriceError(false);
+        }
+        if (deliveryPrice <= 0) {
+            setDelError(true);
+            error = true;
+        } else if (delError) {
+            setDelError(false);
         }
         if (picture === undefined) {
             setPictureError(true);
             error = true;
-        } else if (nameError) {
+        } else if (pictureError) {
             setPictureError(false);
         }
 
@@ -109,6 +117,7 @@ function ProductForm({mode, initialProduct, onSubmit, onCancel}) {
             name: name,
             description: description,
             price: price,
+            deliveryPrice: deliveryPrice,
             picture : picture
         })
     }
@@ -126,6 +135,10 @@ function ProductForm({mode, initialProduct, onSubmit, onCancel}) {
             <div>
                 <label className={"form-label"} htmlFor="price">Price</label>
                 <PriceInput myId={"price"} initial={price} onChange={setPrice} error={priceError} />
+            </div>
+            <div>
+                <label className={"form-label"} htmlFor="price">Delivery price</label>
+                <PriceInput myId={"price"} initial={deliveryPrice} onChange={setDeliveryPrice} error={delError} />
             </div>
             <ImageURLInput initial={picture} onChange={setPicture} error={pictureError}/>
             <div className={"form-buttons"}>

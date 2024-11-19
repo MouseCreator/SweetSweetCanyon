@@ -7,17 +7,20 @@ import {OverlayBase} from "../../overlay/OverlayBase";
 import React, {useState} from "react";
 import DeleteProductOverlay from "./DeleteProductOverlay";
 import "../../common/desc/common-info.css"
-export function ProductDescription({productId, isAdmin}) {
+export function ProductDescription({productId, role}) {
     const productById =
      {
             id: 1,
             name: 'Cookie',
             description: 'A tasty cookies with chocolate sprinkles. Baked in an oven and prepared with love. You should definitely try it!',
             price: 10,
+            deliveryPrice: 8,
             pictureUrl: 'https://assets.bonappetit.com/photos/5ca534485e96521ff23b382b/1:1/w_2700,h_2700,c_limit/chocolate-chip-cookie.jpg'
     }
     const [overlayActive, setOverlayActive] = useState(false)
     const navigate = useNavigate()
+    const isAuthorized = role === "admin" || role === "cashier"
+    const isAdmin = role === "admin"
     const onClose = () => {
         setOverlayActive(false);
     }
@@ -51,6 +54,7 @@ export function ProductDescription({productId, isAdmin}) {
                         <ProductImage pictureUrl={productById.pictureUrl} size={"s-large"} />
                         <div className={"mx-5 w-1/2"}>
                             <div className={"text-2xl font-bold mb-2"}>Price: {formatPrice(productById.price)}</div>
+                            { isAuthorized && <p className={"mb-2 text-xl"}>Delivery price: {formatPrice(productById.deliveryPrice)}</p>}
                             <p className={"text-xl mb-4 text-wrap cmn-desc-detail"}>{productById.description}</p>
                             <div className={"cmn-buttons"}>
                                 <button onClick={onOther} className={"gen-button"}>Other products</button>

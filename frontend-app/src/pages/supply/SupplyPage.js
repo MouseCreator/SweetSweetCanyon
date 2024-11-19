@@ -47,14 +47,14 @@ function SupplyPage() {
         setProducts([]);
     }
     const overlayOnPay = () => {
-        navigate('/deliveries/1');
+        navigate('/transactions/supplies/1');
     }
 
 
     return (
         <MainLayout>
             <div className={"static-content"}>
-                <ProductSelector confirmAction={confirmAction} theme={"blue"} mode={"supply"} errors={errors} shopId={1}>
+                <ProductSelector confirmAction={confirmAction} theme={"blue"} mode={"supply"} errors={errors} shopId={1} isDelivery={true}>
                     <SupplierList onSelectSupplier={setSupplierId} onTypeName={setSupplierName}
                     supplierError={supplierError} nameError={nameError} />
                 </ProductSelector>

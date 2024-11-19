@@ -12,30 +12,35 @@ const MOCK_PRODUCTS = [ //MOCK: from server
         id: 1,
         name: 'cookie',
         price: 10,
+        deliveryPrice: 8,
         pictureUrl: 'https://assets.bonappetit.com/photos/5ca534485e96521ff23b382b/1:1/w_2700,h_2700,c_limit/chocolate-chip-cookie.jpg'
     },
     {
         id: 2,
         name: 'cake',
         price: 20,
+        deliveryPrice: 10,
         pictureUrl: 'https://static01.nyt.com/images/2023/10/27/multimedia/27cakerex-plzm/27cakerex-plzm-threeByTwoMediumAt2X.jpg'
     },
     {
         id: 3,
         name: 'tasty marshmallow colors',
         price: 30,
+        deliveryPrice: 15,
         pictureUrl: 'https://static.toiimg.com/thumb/52762770.cms?imgsize=65333&width=800&height=800'
     },
     {
         id: 4,
         name: 'muffins',
         price: 25,
+        deliveryPrice: 20,
         pictureUrl: 'https://www.allrecipes.com/thmb/RdyL1EgIB0Qq_fr5HjdsAmcpMlU=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/228553-moist-chocolate-muffins-DDMFS-4x3-a9f73a46938547c99d921613dc167741.jpg'
     },
     {
         id: 5,
         name: 'mint candies',
         price: 10,
+        deliveryPrice: 7,
         pictureUrl: 'https://5.imimg.com/data5/LL/LL/GLADMIN-/mint-candy-250x250.jpg'
 
     },
@@ -43,6 +48,7 @@ const MOCK_PRODUCTS = [ //MOCK: from server
         id: 6,
         name: 'Product with no image',
         price: 10,
+        deliveryPrice: 8,
         pictureUrl: null
     }
 ]
@@ -75,9 +81,10 @@ const MOCK_STOCKS = [ //MOCK: from server
     }
 ]
 
-function ProductSelector({confirmAction, theme, mode, errors, shopId, children}) {
+function ProductSelector({confirmAction, theme, mode, errors, shopId, children, isDelivery}) {
     const [selectedProducts, setSelectedProducts] = useState([])
     const [searchPrompt, setSearchPrompt] = useState('')
+
 
     const [products, setProducts] = useState(MOCK_PRODUCTS.map(
         (p)=>({ product: p, checked: false})));
@@ -88,6 +95,9 @@ function ProductSelector({confirmAction, theme, mode, errors, shopId, children})
     const stockMap = new Map();
     if (useStocks) {
         stocks.forEach((s) => stockMap.set(s.id, s.remaining))
+    }
+    const getPrice = (pr) => {
+        return isDelivery ? pr.deliveryPrice : pr.price;
     }
     const onAddProduct = (product) => {
         if (!product) {
@@ -213,6 +223,7 @@ function ProductSelector({confirmAction, theme, mode, errors, shopId, children})
                     <div className="product-grid">
                         {products.map((ch_p) => (
                             <ProductComponent product={ch_p.product}
+                                              getPrice={getPrice}
                                               is_added={ch_p.checked}
                                               onAdd={onAddProduct}
                                               onCancel={onCancelProduct}
@@ -231,6 +242,7 @@ function ProductSelector({confirmAction, theme, mode, errors, shopId, children})
                                                      initAmount = {selected.amount}
                                                      onAmountChange={onChangeAmount}
                                                      onCancel={onCancelProduct}
+                                                     getPrice={getPrice}
                                                      errorType={
                                     errorMap.has(selected.product.id) ? errorMap.get(selected.product.id) : ""}/>
                                     )
@@ -240,7 +252,7 @@ function ProductSelector({confirmAction, theme, mode, errors, shopId, children})
                     </div>
                     <p className={"mx-2 selected-on-text"}>Total: {
                         formatPrice(
-                        calculatePrice(selectedProducts)
+                        calculatePrice(selectedProducts, getPrice)
                         )}</p>
                     <div>
                         <button

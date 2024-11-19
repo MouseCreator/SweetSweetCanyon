@@ -4,7 +4,7 @@ import './product.css'
 import './../themed/themed.css';
 import {ProductImage} from "./ProductImage";
 import {formatPrice} from "../../utils/date";
-function SelectedProduct({ product, initAmount, onAmountChange, onCancel, errorType }) {
+function SelectedProduct({ product, initAmount, onAmountChange, onCancel, errorType, getPrice }) {
     const id = product.id
 
     const [amount, setAmount] = useState(initAmount);
@@ -73,7 +73,7 @@ function SelectedProduct({ product, initAmount, onAmountChange, onCancel, errorT
                     :
                 <p className={"selected-product-name"}>{product.name}</p>
                 }
-                <p className={"selected-product-price"}>{formatPrice(product.price)}</p>
+                <p className={"selected-product-price"}>{formatPrice(getPrice(product))}</p>
             </div>
             <div className={"selected-square-3"}>
                 <div className={"flex justify-between"}>
