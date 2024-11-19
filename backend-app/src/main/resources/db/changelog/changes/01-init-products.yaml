@@ -9,6 +9,7 @@ databaseChangeLog:
               - column:
                   name: id
                   type: BIGINT
+                  autoIncrement: true
                   constraints:
                     primaryKey: true
                     nullable: false
@@ -17,56 +18,19 @@ databaseChangeLog:
                   type: VARCHAR(255)
                   constraints:
                     nullable: false
-
-  - changeSet:
-      id: 2
-      author: Mykhailo Tyshchenko
-      changes:
-        - createTable:
-            tableName: types
-            columns:
               - column:
-                  name: id
-                  type: BIGINT
-                  constraints:
-                    primaryKey: true
-                    nullable: false
-              - column:
-                  name: name
-                  type: VARCHAR(255)
-                  constraints:
-                    nullable: false
-
-  - changeSet:
-      id: 3
-      author: Mykhailo Tyshchenko
-      changes:
-        - createTable:
-            tableName: products_types
-            columns:
-              - column:
-                  name: product_id
-                  type: BIGINT
+                  name: price
+                  type: DECIMAL(10,2)
                   constraints:
                     nullable: false
               - column:
-                  name: type_id
-                  type: BIGINT
+                  name: delivery_price
+                  type: DECIMAL(10,2)
                   constraints:
                     nullable: false
-        - addPrimaryKey:
-            tableName: products_types
-            columnNames: product_id, type_id
-            constraintName: pk_products_types
-        - addForeignKeyConstraint:
-            baseTableName: products_types
-            baseColumnNames: product_id
-            referencedTableName: products
-            referencedColumnNames: id
-            constraintName: fk_products_types_product
-        - addForeignKeyConstraint:
-            baseTableName: products_types
-            baseColumnNames: type_id
-            referencedTableName: types
-            referencedColumnNames: id
-            constraintName: fk_products_types_type
+              - column:
+                  name: description
+                  type: VARCHAR(8192)
+              - column:
+                  name: picture_url
+                  type: VARCHAR(8192)
