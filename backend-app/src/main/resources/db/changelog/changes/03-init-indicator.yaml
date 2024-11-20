@@ -1,0 +1,50 @@
+databaseChangeLog:
+  - changeSet:
+      id: 4
+      author: Mykhailo Tyshchenko
+      changes:
+        - createTable:
+            tableName: product_indicators
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: date
+                  type: Timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: type
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: shopId
+                  type: BIGINT
+              - column:
+                  name: isTotal
+                  type: BOOLEAN
+                  constraints:
+                    nullable: false
+              - column:
+                  name: value
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: price
+                  type: DECIMAL(10,2)
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            constraintName: indicators_fk
+            baseTableName: product_indicators
+            baseColumnNames: shopId
+            referencedTableName: shops
+            referencedColumnNames: id
+            onDelete: SET NULL

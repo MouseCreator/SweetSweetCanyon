@@ -3,3 +3,5 @@ databaseChangeLog:
       file: db/changelog/changes/01-init-products.yaml
   - include:
       file: db/changelog/changes/02-init-data.yaml
+  - include:
+      file: db/changelog/changes/03-init-indicator.yaml
