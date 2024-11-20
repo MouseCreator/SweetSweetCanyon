@@ -168,6 +168,11 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
+                  name: type
+                  type: BOOLEAN
+                  constraints:
+                    nullable: false
+              - column:
                   name: date
                   type: Timestamp
                   constraints:

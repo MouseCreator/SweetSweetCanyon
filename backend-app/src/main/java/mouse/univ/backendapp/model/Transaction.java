@@ -17,4 +17,5 @@ public class Transaction {
     private LocalDateTime date;
     private BigDecimal price;
     private String cashier;
+    private boolean moved;
 }
