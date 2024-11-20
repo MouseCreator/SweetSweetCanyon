@@ -7,6 +7,7 @@ import mouse.univ.backendapp.dto.product.ProductCreateDTO;
 import mouse.univ.backendapp.dto.product.ProductResponseDTO;
 import mouse.univ.backendapp.dto.product.ProductUpdateDTO;
 import mouse.univ.backendapp.exception.DataNotFoundException;
+import mouse.univ.backendapp.exception.UpdateBadRequestException;
 import mouse.univ.backendapp.exception.UpdateNotFoundException;
 import mouse.univ.backendapp.mapper.ProductMapper;
 import mouse.univ.backendapp.model.Product;
@@ -42,6 +43,9 @@ public class ProductService {
     public ProductResponseDTO updateProduct(ProductUpdateDTO updateDTO) {
         Product product = mapper.fromUpdateDTO(updateDTO);
         Long id = product.getId();
+        if (id == null) {
+            throw new UpdateBadRequestException("Cannot update product, product has no id");
+        }
         boolean exists = productRepository.existsById(id);
         if (!exists) {
             throw new UpdateNotFoundException("Cannot update product. No product found by id: " + id);

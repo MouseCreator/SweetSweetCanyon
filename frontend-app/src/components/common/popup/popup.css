@@ -16,6 +16,9 @@
 .popup.green {
     color: green;
 }
+.popup.red {
+    color: red;
+}
 .popup-active {
     top: 20px;
     opacity: 1;

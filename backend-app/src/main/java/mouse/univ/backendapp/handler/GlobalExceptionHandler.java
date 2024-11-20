@@ -2,6 +2,7 @@ package mouse.univ.backendapp.handler;
 
 import mouse.univ.backendapp.api.ApiResponse;
 import mouse.univ.backendapp.exception.DataNotFoundException;
+import mouse.univ.backendapp.exception.UpdateBadRequestException;
 import mouse.univ.backendapp.exception.UpdateNotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -34,5 +35,12 @@ public class GlobalExceptionHandler {
         ApiResponse<Object> apiResponse = new ApiResponse<>(false, ex.getMessage(), null);
         logger.error(ex.getMessage(), ex);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(apiResponse);
+    }
+
+    @ExceptionHandler(UpdateBadRequestException.class)
+    public ResponseEntity<ApiResponse<Object>> handleEntityNotFoundException(UpdateBadRequestException ex) {
+        ApiResponse<Object> apiResponse = new ApiResponse<>(false, ex.getMessage(), null);
+        logger.error(ex.getMessage(), ex);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiResponse);
     }
 }

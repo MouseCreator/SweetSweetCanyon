@@ -3,7 +3,7 @@ import axios from "axios";
 
 import {doGet, onError} from "./connectCommons";
 export async function getAllProducts() {
-    return doGet(`${ST.HOST_URL}/products/`);
+    return doGet(`${ST.HOST_URL}/products`);
 }
 export async function getProductById(id) {
     return axios.get(`${ST.HOST_URL}/products/${id}`)

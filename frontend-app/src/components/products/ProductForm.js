@@ -20,14 +20,18 @@ const PriceInput = ({myId, initial, onChange, error}) => {
             onChange(roundedPrice);
         }
     };
-
+    const showPrice = (p) => {
+        if (price !== '') {
+            return parseFloat(p).toFixed(2);
+        }
+    }
     return (
         <div>
             <input className={`form-input gen-input ${error && "gen-error"}`}
                 id={myId}
                 type="number"
                 step="0.01"
-                value={price}
+                value={showPrice(price)}
                 onChange={handleChange}
                 onBlur={handleBlur}
             />
@@ -60,11 +64,11 @@ const ImageURLInput = ({initial, onChange, error}) => {
     );
 };
 function ProductForm({mode, initialProduct, onSubmit, onCancel}) {
-    const [name, setName] = useState(initialProduct.name)
-    const [description, setDescription] = useState(initialProduct.description)
-    const [price, setPrice] = useState(initialProduct.price)
-    const [deliveryPrice, setDeliveryPrice] = useState(initialProduct.deliveryPrice)
-    const [picture, setPicture] = useState(initialProduct.pictureUrl)
+    const [name, setName] = useState(initialProduct?.name ?? '')
+    const [description, setDescription] = useState(initialProduct?.description ?? '')
+    const [price, setPrice] = useState(initialProduct?.price ?? 0)
+    const [deliveryPrice, setDeliveryPrice] = useState(initialProduct?.deliveryPrice ?? 0)
+    const [picture, setPicture] = useState(initialProduct?.pictureUrl ?? '')
 
     const [nameError, setNameError] = useState(false);
     const [descError, setDescError] = useState(false);
@@ -118,7 +122,7 @@ function ProductForm({mode, initialProduct, onSubmit, onCancel}) {
             description: description,
             price: price,
             deliveryPrice: deliveryPrice,
-            picture : picture
+            pictureUrl : picture
         })
     }
 
