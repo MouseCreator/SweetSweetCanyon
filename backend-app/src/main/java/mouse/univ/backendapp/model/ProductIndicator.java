@@ -16,7 +16,7 @@ public class ProductIndicator {
     private LocalDateTime date;
     private String type;
     @ManyToOne
-    @JoinColumn(name = "shopId")
+    @JoinColumn(name = "shop_id")
     private Shop shop;
     private Boolean isTotal;
     private Long value;
