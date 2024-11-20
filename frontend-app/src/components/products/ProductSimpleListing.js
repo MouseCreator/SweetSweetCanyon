@@ -21,6 +21,9 @@ export function ProductSimpleListing() {
         <div>
             <div className={"simple-container"}>
             {
+                products.length === 0 ?
+                    (<div className={"simple-placeholder"}>No products added yet</div>)
+                    :
 
                 products.map((p) => (
                     <Link to={`/products/${p.id}`}>

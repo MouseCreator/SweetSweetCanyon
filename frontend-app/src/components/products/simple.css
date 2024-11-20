@@ -4,3 +4,10 @@
     grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
     gap: 20px;
 }
+
+.simple-placeholder {
+    font-size: 20px;
+    width: 100%;
+    text-align: center;
+    font-style: italic;
+}
