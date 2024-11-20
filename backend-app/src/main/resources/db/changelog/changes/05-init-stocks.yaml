@@ -1,0 +1,40 @@
+databaseChangeLog:
+  - changeSet:
+      id: 5
+      author: Mykhailo Tyshchenko
+      changes:
+        - createTable:
+            tableName: stocks
+            columns:
+              - column:
+                  name: product_id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: shop_id
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: amount
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            constraintName: stocks_products_fk
+            baseTableName: stocks
+            baseColumnNames: product_id
+            referencedTableName: products
+            referencedColumnNames: id
+            onDelete: SET NULL
+        - addForeignKeyConstraint:
+            constraintName: stocks_shops_fk
+            baseTableName: stocks
+            baseColumnNames: shop_id
+            referencedTableName: shops
+            referencedColumnNames: id
+            onDelete: SET NULL

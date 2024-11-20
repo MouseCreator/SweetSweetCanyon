@@ -17,5 +17,6 @@ public class Transaction {
     private LocalDateTime date;
     private BigDecimal price;
     private String cashier;
+    @Column(name="is_moved")
     private boolean moved;
 }

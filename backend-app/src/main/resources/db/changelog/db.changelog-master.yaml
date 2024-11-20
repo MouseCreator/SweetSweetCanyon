@@ -7,3 +7,5 @@ databaseChangeLog:
       file: db/changelog/changes/03-init-indicator.yaml
   - include:
       file: db/changelog/changes/04-init-admins.yaml
+  - include:
+      file: db/changelog/changes/05-init-stocks.yaml

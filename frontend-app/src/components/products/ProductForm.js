@@ -51,7 +51,7 @@ const ImageURLInput = ({initial, onChange, error}) => {
         <div className={"form-input-len"}>
             <div className={"image-form w-full"}>
                 <div className={"w-full"}>
-                    <label className={"form-label"} htmlFor={"urlInput"}>URL</label>
+                    <label className={"form-label"} htmlFor={"urlInput"}>Picture URL</label>
                     <textarea className={`gen-area form-area-full ${error && "gen-error"}`} id={"urlInput"} value={url} onChange={handleChange} />
                 </div>
                 <div className={"flex justify-end w-1/2"}>
