@@ -4,28 +4,46 @@ import {formatPrice} from "../../../utils/date";
 import "../../../static_controls/inputs.css";
 import "../../themed/themed.css";
 import {OverlayBase} from "../../overlay/OverlayBase";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import DeleteProductOverlay from "./DeleteProductOverlay";
 import "../../common/desc/common-info.css"
+import {deleteProductById, getProductById} from "../../../connect/connectProducts";
+import {GlobalErrorPage} from "../../common/errors/GlobalErrorPage";
+import {usePopup} from "../../common/popup/PopupContext";
 export function ProductDescription({productId, role}) {
-    const productById =
-     {
-            id: 1,
-            name: 'Cookie',
-            description: 'A tasty cookies with chocolate sprinkles. Baked in an oven and prepared with love. You should definitely try it!',
-            price: 10,
-            deliveryPrice: 8,
-            pictureUrl: 'https://assets.bonappetit.com/photos/5ca534485e96521ff23b382b/1:1/w_2700,h_2700,c_limit/chocolate-chip-cookie.jpg'
-    }
+    const [productById, setProductById] = useState(null)
     const [overlayActive, setOverlayActive] = useState(false)
     const navigate = useNavigate()
     const isAuthorized = role === "admin" || role === "cashier"
     const isAdmin = role === "admin"
+    const [error, setError] = useState("");
+    const { invokePopup } = usePopup();
+    useEffect(()=> {
+        getProductById(productId).then(
+            (product) => {
+                if (product.success) {
+                    setProductById(product.data);
+                    setError(null);
+                } else {
+                    setError('Cannot get product from server');
+                }
+            }
+        ).catch(error=>{setError('Error!')})
+    }, [productId]);
     const onClose = () => {
         setOverlayActive(false);
     }
     const onDelete = () => {
-        navigate('/products/');
+        deleteProductById(productId).then(
+            (p)=>{
+                if (p.success) {
+                    navigate('/products/');
+                } else {
+                    invokePopup('Cannot delete product!', 'red')
+                }
+            }
+        )
+
     }
     const onEdit = () => {
         navigate(`/products/${productId}/edit`)
@@ -37,6 +55,9 @@ export function ProductDescription({productId, role}) {
         setOverlayActive(true);
     }
     const noProduct = productById == null;
+    if (error !== null) {
+        return <GlobalErrorPage text={error} />
+    }
     return (
         <div className={"w-full"}>
             {
