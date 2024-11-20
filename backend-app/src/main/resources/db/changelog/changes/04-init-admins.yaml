@@ -1,0 +1,25 @@
+databaseChangeLog:
+  - changeSet:
+      id: 5
+      author: Mykhailo Tyshchenko
+      changes:
+      - createTable:
+          tableName: admins
+          columns:
+            - column:
+                name: id
+                type: BIGINT
+                autoIncrement: true
+                constraints:
+                  primaryKey: true
+                  nullable: false
+            - column:
+                name: userId
+                type: BIGINT
+      - addForeignKeyConstraint:
+          constraintName: adminsUsers_fk
+          baseTableName: admins
+          baseColumnNames: userId
+          referencedTableName: users
+          referencedColumnNames: id
+          onDelete: CASCADE
