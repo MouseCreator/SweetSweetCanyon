@@ -64,7 +64,7 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: userId
+                  name: user_id
                   type: BIGINT
                   constraints:
                     unique: true
@@ -91,29 +91,32 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: shopId
+                  name: shop_id
                   type: BIGINT
               - column:
-                  name: userId
+                  name: user_id
                   type: BIGINT
+                  constraints:
+                    nullable: false
+                    unique: true
         - addForeignKeyConstraint:
               constraintName: userContacts_fk
               baseTableName: contacts
-              baseColumnNames: userId
+              baseColumnNames: user_id
               referencedTableName: users
               referencedColumnNames: id
               onDelete: CASCADE
         - addForeignKeyConstraint:
             constraintName: cashiersShops_fk
             baseTableName: cashiers
-            baseColumnNames: shopId
+            baseColumnNames: shop_id
             referencedTableName: shops
             referencedColumnNames: id
             onDelete: SET NULL
         - addForeignKeyConstraint:
             constraintName: cashiersUsers_fk
             baseTableName: cashiers
-            baseColumnNames: userId
+            baseColumnNames: user_id
             referencedTableName: users
             referencedColumnNames: id
             onDelete: CASCADE
@@ -171,7 +174,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: price
-                  type: BIGINT
+                  type: DECIMAL(10,2)
                   constraints:
                     nullable: false
               - column:
@@ -251,13 +254,13 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: supplierId
+                  name: supplier_id
                   type: BIGINT
                   constraints:
                     nullable: false
               - column:
-                  name: supplierName
-                  type: BIGINT(255)
+                  name: supplier_name
+                  type: VARCHAR(255)
         - createTable:
             tableName: losses
             columns:
@@ -274,13 +277,13 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: reasonId
+                  name: reason_id
                   type: BIGINT
                   constraints:
                     nullable: false
               - column:
                   name: comment
-                  type: BIGINT(255)
+                  type: VARCHAR(255)
         - addPrimaryKey:
             tableName: transaction_products
             columnNames: transaction_id,product_id
@@ -316,14 +319,32 @@ databaseChangeLog:
         - addForeignKeyConstraint:
             constraintName: supplies_suppliers_fk
             baseTableName: supplies
-            baseColumnNames: supplierId
+            baseColumnNames: supplier_id
             referencedTableName: suppliers
             referencedColumnNames: id
             onDelete: SET NULL
         - addForeignKeyConstraint:
             constraintName: losses_reasons_fk
             baseTableName: losses
-            baseColumnNames: reasonId
+            baseColumnNames: reason_id
             referencedTableName: transactions
             referencedColumnNames: id
             onDelete: SET NULL
+  - changeSet:
+      id: 3a
+      author: Mykhailo Tyshchenko
+      changes:
+      - addForeignKeyConstraint:
+          constraintName: transaction_products_t_fk
+          baseTableName: transaction_products
+          baseColumnNames: transaction_id
+          referencedTableName: transactions
+          referencedColumnNames: id
+          onDelete: CASCADE
+      - addForeignKeyConstraint:
+          constraintName: transaction_products_p_fk
+          baseTableName: transaction_products
+          baseColumnNames: transaction_id
+          referencedTableName: used_products
+          referencedColumnNames: id
+          onDelete: CASCADE

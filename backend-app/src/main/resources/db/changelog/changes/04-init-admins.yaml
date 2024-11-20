@@ -14,12 +14,15 @@ databaseChangeLog:
                   primaryKey: true
                   nullable: false
             - column:
-                name: userId
+                name: user_id
                 type: BIGINT
+                constraints:
+                  nullable: false
+                  unique: true
       - addForeignKeyConstraint:
           constraintName: adminsUsers_fk
           baseTableName: admins
-          baseColumnNames: userId
+          baseColumnNames: user_id
           referencedTableName: users
           referencedColumnNames: id
           onDelete: CASCADE

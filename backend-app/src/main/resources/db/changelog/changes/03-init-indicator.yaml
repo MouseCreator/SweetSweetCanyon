@@ -24,10 +24,10 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: shopId
+                  name: shop_id
                   type: BIGINT
               - column:
-                  name: isTotal
+                  name: is_total
                   type: BOOLEAN
                   constraints:
                     nullable: false
@@ -44,7 +44,7 @@ databaseChangeLog:
         - addForeignKeyConstraint:
             constraintName: indicators_fk
             baseTableName: product_indicators
-            baseColumnNames: shopId
+            baseColumnNames: shop_id
             referencedTableName: shops
             referencedColumnNames: id
             onDelete: SET NULL
