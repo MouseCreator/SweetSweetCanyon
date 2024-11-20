@@ -1,6 +1,6 @@
 package mouse.univ.backendapp.controller;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import mouse.univ.backendapp.api.ApiResponse;
 import mouse.univ.backendapp.dto.product.ProductCreateDTO;
 import mouse.univ.backendapp.dto.product.ProductResponseDTO;
@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@AllArgsConstructor
-@RequestMapping(value = "/products/")
+@RequiredArgsConstructor
+@RequestMapping(value = "/products")
 public class ProductController {
     private final ProductService productService;
 
@@ -38,10 +38,17 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.OK).body(apiResponse);
     }
 
-    @GetMapping("/[id]")
-    public ResponseEntity<ApiResponse<ProductResponseDTO>> getAllProducts(@RequestParam Long id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<ProductResponseDTO>> getAllProducts(@PathVariable Long id) {
         ProductResponseDTO result = productService.findProductById(id);
         ApiResponse<ProductResponseDTO> apiResponse = ApiResponse.ok(result);
+        return ResponseEntity.status(HttpStatus.OK).body(apiResponse);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<ApiResponse<List<ProductResponseDTO>>> getProductsByName(@RequestParam("name") String name) {
+        List<ProductResponseDTO> productsByName = productService.findProductsByName(name);
+        ApiResponse<List<ProductResponseDTO>> apiResponse = ApiResponse.ok(productsByName);
         return ResponseEntity.status(HttpStatus.OK).body(apiResponse);
     }
 

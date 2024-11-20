@@ -1,0 +1,22 @@
+.popup {
+    position: fixed;
+    top: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 20px;
+    background: white;
+    font-weight: bold;
+    font-size: 16px;
+    border-radius: 5px;
+    opacity: 0;
+    transition: all 0.5s ease;
+    z-index: 2000;
+    box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
+}
+.popup.green {
+    color: green;
+}
+.popup-active {
+    top: 20px;
+    opacity: 1;
+}

@@ -2,22 +2,37 @@
 import { useNavigate } from 'react-router-dom';
 import ProductForm from "../../components/products/ProductForm";
 import MainLayout from "../../components/layout/Layout";
+import {postProduct} from "../../connect/connectProducts";
+import {useState} from "react";
+import {ErrorOverlay} from "../../components/common/errors/ErrorOverlay";
+import {PopupProvider, usePopup} from "../../components/common/popup/PopupContext";
 
 const ProductCreate = () => {
     const navigate = useNavigate();
-    const handleSave = (form_output) => {
+    const [error, setError] = useState(null);
+    const { invokePopup, invokePopupTimeout } = usePopup();
+    const handleSave = async (form_output) => {
+        let atomic = { value: true };
+        invokePopupTimeout('Create request sent!', 'green', atomic, 200);
+        const response = await postProduct(form_output);
+        atomic.value = false;
+        if (response.success) {
+            invokePopup('Product created!', 'green');
+            navigate('/products/')
+        } else {
+            setError(response.error);
+        }
     };
 
     const handleCancel = () => {
         navigate('/products/')
     };
     const initialProduct = {
-        id: 1,
-        name: 'muffin',
-        description: 'Delicious muffin',
-        price: 20,
-        deliveryPrice: 18,
-        pictureUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-HVuracEvP5iGSPPnsF69NRv32glS3eYWbQ&s'
+        name: '',
+        description: '',
+        price: 0,
+        deliveryPrice: 0,
+        pictureUrl: ''
     }
     return (
         <MainLayout>
@@ -28,6 +43,7 @@ const ProductCreate = () => {
                     <ProductForm mode={'create'} initialProduct={initialProduct} onSubmit={handleSave} onCancel={handleCancel}/>
                 </main>
             </div>
+            <ErrorOverlay error={error} setError={setError} />
         </MainLayout>
     );
 };

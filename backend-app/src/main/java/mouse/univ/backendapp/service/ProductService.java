@@ -49,4 +49,9 @@ public class ProductService {
         Product updated = productRepository.save(product);
         return mapper.toResponseDTO(updated);
     }
+
+    public List<ProductResponseDTO> findProductsByName(String searchString) {
+        List<Product> productsByName = productRepository.getProductsByNameIgnoreCase(searchString);
+        return productsByName.stream().map(mapper::toResponseDTO).toList();
+    }
 }
