@@ -45,6 +45,13 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.OK).body(apiResponse);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ApiResponse<Object>> deleteProductById(@PathVariable Long id) {
+        productService.deleteProductById(id);
+        ApiResponse<Object> apiResponse = ApiResponse.ok(null);
+        return ResponseEntity.status(HttpStatus.OK).body(apiResponse);
+    }
+
     @GetMapping("/search")
     public ResponseEntity<ApiResponse<List<ProductResponseDTO>>> getProductsByName(@RequestParam("name") String name) {
         List<ProductResponseDTO> productsByName = productService.findProductsByName(name);

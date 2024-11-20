@@ -31,7 +31,7 @@ public class ProductService {
     }
 
     public List<ProductResponseDTO> getAllProducts() {
-        List<Product> all = productRepository.findAll();
+        List<Product> all = productRepository.getProductsByOrderByIdAsc();
         return all.stream().map(mapper::toResponseDTO).toList();
     }
     public ProductResponseDTO findProductById(Long id) {
@@ -57,5 +57,9 @@ public class ProductService {
     public List<ProductResponseDTO> findProductsByName(String searchString) {
         List<Product> productsByName = productRepository.getProductsByNameIgnoreCase(searchString);
         return productsByName.stream().map(mapper::toResponseDTO).toList();
+    }
+
+    public void deleteProductById(Long id) {
+        productRepository.deleteById(id);
     }
 }

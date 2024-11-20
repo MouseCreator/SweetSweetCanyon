@@ -42,12 +42,20 @@ export async function updateProduct(product) {
         })
         .catch(error => { return onError(error) });
 }
-export async  function getProductsByName(name) {
+export async function getProductsByName(name) {
     return axios.get(`${ST.HOST_URL}/products/search`, {
         params: {
             name: name
         }
         })
+        .then(response => {
+            return response.data;
+        })
+        .catch(error => { return onError(error) });
+}
+
+export async function deleteProductById(id) {
+    return axios.delete(`${ST.HOST_URL}/products/${id}`)
         .then(response => {
             return response.data;
         })
