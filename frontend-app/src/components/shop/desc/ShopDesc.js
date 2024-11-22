@@ -1,27 +1,48 @@
 import "./../../common/desc/common-info.css"
-import React, {useState} from "react";
+import "./../../../static_controls/loading.css"
+import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {OverlayBase} from "../../overlay/OverlayBase";
 import {ShopImage} from "../image/ShopImage";
 import "./shop-desc.css"
 import DeleteShopOverlay from "../overlay/DeleteShopOverlay";
+import {deleteShopById, getShopById} from "../../../connect/connectShops";
+import {usePopup} from "../../common/popup/PopupContext";
 export function ShopDesc({shopId, role}) {
-    const shopById =
-        {
-            id: 1,
-            name: "Sweeties",
-            address: "Sweet street",
-            description: "Our shop, our shop in the middle of our street.",
-            workingHours: "9:00-21:00",
-            pictureUrl: "https://static.vecteezy.com/system/resources/thumbnails/000/225/642/small_2x/vector-grocery-store-building.jpg"
-        }
+    const [shopById, setShopById] = useState(null)
+    const [loadingState, setLoadingState] = useState(true);
+    const [error, setError] = useState('')
     const [overlayActive, setOverlayActive] = useState(false)
     const navigate = useNavigate()
+
+    useEffect(()=> {
+        getShopById(shopId).then((r)=>{
+            if (!r.success) {
+                setError(r.error)
+            } else {
+                setShopById(r.data);
+            }
+            setLoadingState(false)
+        });
+    }, [shopId])
+    const {invokePopup} = usePopup();
     const onClose = () => {
         setOverlayActive(false);
     }
     const onDelete = () => {
-        navigate('/products/');
+        deleteShopById(shopId).then((r) => {
+            if (r.success) {
+                navigate('/products/');
+                invokePopup('Shop is deleted successfully', 'green')
+            } else {
+                invokePopup('An error occurred while deleting the shop')
+                setOverlayActive(false);
+            }
+        }).catch(()=>{
+            invokePopup('An error occurred while deleting the shop')
+            setOverlayActive(false);
+        })
+
     }
     const onEdit = () => {
         navigate(`/shops/${shopId}/edit`)
@@ -32,10 +53,23 @@ export function ShopDesc({shopId, role}) {
     const deletePressed = () => {
         setOverlayActive(true);
     }
+    const stocksPressed = () => {
+        navigate(`/shops/${shopId}/stock`);
+    }
     const managePressed = () => {
         navigate(`/shops/${shopId}/manager`);
     }
     const noProduct = shopById == null;
+    if (error !== '') {
+        return (
+            <div className={'load-err'}>
+                { error }
+            </div>
+        )
+    }
+    if (loadingState) {
+        return (<div className={'load-pr'}></div>)
+    }
     return (
         <div className={"w-full"}>
             {
@@ -61,6 +95,7 @@ export function ShopDesc({shopId, role}) {
                                         <button onClick={onOther} className={"gen-button"}>Other shops</button>
                                         { role==='admin' &&
                                             <div className={"cmn-buttons"}>
+                                                <button onClick={stocksPressed} className={"gen-button green"}>View stocks</button>
                                                 <button onClick={onEdit} className={"gen-button pink"}>Edit shop</button>
                                                 <button onClick={managePressed} className={"gen-button pink"}>Manage shop</button>
                                                 <button onClick={deletePressed} className={"gen-button red"}>Delete shop</button>
@@ -68,6 +103,7 @@ export function ShopDesc({shopId, role}) {
                                         }
                                         { role==='cashier' &&
                                             <div className={"cmn-buttons"}>
+                                                <button onClick={stocksPressed} className={"gen-button green"}>View stocks</button>
                                                 <button onClick={managePressed} className={"gen-button pink"}>Manage shop</button>
                                             </div>
                                         }

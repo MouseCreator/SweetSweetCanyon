@@ -1,25 +1,47 @@
-import axios from "axios";
-import {doGet, doPost, doPut, onError} from "./connectCommons";
+import {doDelete, doGet, doPost, doPut} from "./connectCommons";
 import {ST} from './secret'
-export async function getAllShops() {
-    return doGet(`${ST.HOST_URL}/shops`);
+
+function transformShop(shopFromServer) {
+    return {
+        id: shopFromServer.id,
+        name: shopFromServer.name,
+        description: shopFromServer.description,
+        address: shopFromServer.address,
+        workingHours: shopFromServer.hours,
+        pictureUrl: shopFromServer.pictureUrl
+    }
+}
+function transformSingle(response) {
+    if (!response.success) {
+        return response;
+    }
+    return {...response, data: transformShop(response.data) }
 }
 export async function getShopById(id) {
-    return axios.get(`${ST.HOST_URL}/shops/${id}`)
-        .then(response => {
-            return response.data;
-        })
-        .catch(error => { return onError(error) });
+    const data = await doGet(`${ST.HOST_URL}/shops/${id}`);
+    return transformSingle(data);
 }
+function transformEach(response) {
+    if (!response.success) {
+        return response;
+    }
+    return {...response, data: response.data.map((s) => transformShop(s)) }
+}
+export async function getAllShops() {
+    const data = await doGet(`${ST.HOST_URL}/shops`);
+    return transformEach(data);
+}
+
 export async function postShop(shop) {
     const requestBody = {
         name: shop.name,
         description: shop.description,
         address: shop.address,
-        hours: shop.hours,
+        hours: shop.workingHours,
         pictureUrl: shop.pictureUrl
     }
-    return doPost(`${ST.HOST_URL}/shops`, requestBody);
+    const data = await doPost(`${ST.HOST_URL}/shops`, requestBody);
+    return transformSingle(data);
 }
 export async function updateShop(shop) {
     const requestBody = {
@@ -27,8 +49,12 @@ export async function updateShop(shop) {
         name: shop.name,
         description: shop.description,
         address: shop.address,
-        hours: shop.hours,
+        hours: shop.workingHours,
         pictureUrl: shop.pictureUrl
     }
-    return doPut(`${ST.HOST_URL}/shops`, requestBody);
+    const data = await doPut(`${ST.HOST_URL}/shops`, requestBody);
+    return transformSingle(data);
+}
+export async function deleteShopById(id) {
+    return await doDelete(`${ST.HOST_URL}/shops/${id}`);
 }

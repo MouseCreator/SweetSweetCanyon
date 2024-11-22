@@ -28,11 +28,11 @@ const ImageURLInput = ({initial, onChange, error}) => {
     );
 };
 function ShopForm({mode, initialShop, onSubmit, onCancel}) {
-    const [name, setName] = useState(initialShop.name)
+    const [name, setName] = useState(initialShop?.name ?? '')
     const [description, setDescription] = useState(initialShop.description)
     const [address, setAddress] = useState(initialShop.address)
     const [hours, setHours] = useState(initialShop.workingHours)
-    const [picture, setPicture] = useState(initialShop.pictureUrl)
+    const [picture, setPicture] = useState(initialShop.pictureUrl == null ? '' : initialShop.pictureUrl)
 
     const [nameError, setNameError] = useState(false);
     const [descError, setDescError] = useState(false);

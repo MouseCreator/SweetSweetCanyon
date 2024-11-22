@@ -12,7 +12,7 @@ export const usePopup = () => {
 export const PopupProvider = ({ children }) => {
     const [popupData, setPopupData] = useState({ text: "", color: "", active: false });
 
-    const invokePopup = (text, color) => {
+    const invokePopup = (text, color='black') => {
         setPopupData({ text, color, active: true });
         setTimeout(() => {
             setPopupData((prev) => ({ ...prev, active: false }));

@@ -1,12 +1,28 @@
 import MainLayout from "../../components/layout/Layout";
 import ShopForm from "../../components/shop/form/ShopForm";
 import {useNavigate} from "react-router-dom";
+import {postShop} from "../../connect/connectShops";
+import {usePopup} from "../../components/common/popup/PopupContext";
 
 
 const ShopCreatePage = () => {
 
     const navigate = useNavigate();
+    const { invokePopup, invokePopupTimeout } = usePopup();
     const handleSave = (form_output) => {
+        postShop(form_output).then(
+            (resp) => {
+                if (resp.success) {
+                    const atomic = {value: true};
+                    invokePopupTimeout('Create request sent', 'green', atomic, 500);
+                    atomic.value = false
+                    invokePopup('Shop created!', 'green')
+                    navigate('/shops/')
+                } else {
+                    invokePopup(resp.error, 'red')
+                }
+            }
+        ).catch(() => invokePopup('An error occurred during creating the shop!', 'red'))
     };
 
     const handleCancel = () => {

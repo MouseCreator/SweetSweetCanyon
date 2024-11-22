@@ -1,0 +1,14 @@
+.load-pr {
+    color: #7a7a7a;
+    font-style: italic;
+    font-size: 20px;
+    text-align: center;
+    width: 100%;
+}
+.load-err {
+    color: red;
+    font-style: italic;
+    font-size: 20px;
+    text-align: center;
+    width: 100%;
+}
