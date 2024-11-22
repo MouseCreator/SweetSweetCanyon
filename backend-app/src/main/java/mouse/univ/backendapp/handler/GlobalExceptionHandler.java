@@ -2,6 +2,7 @@ package mouse.univ.backendapp.handler;
 
 import mouse.univ.backendapp.api.ApiResponse;
 import mouse.univ.backendapp.exception.DataNotFoundException;
+import mouse.univ.backendapp.exception.JSONException;
 import mouse.univ.backendapp.exception.UpdateBadRequestException;
 import mouse.univ.backendapp.exception.UpdateNotFoundException;
 import org.apache.logging.log4j.LogManager;
@@ -26,6 +27,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ApiResponse<Object>> handleRuntimeError(RuntimeException ex) {
         ApiResponse<Object> apiResponse = new ApiResponse<>(false, "Internal error", null);
+        logger.error(ex.getMessage(), ex);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(apiResponse);
+    }
+    @ExceptionHandler(JSONException.class)
+    public ResponseEntity<ApiResponse<Object>> handleJsonException(JSONException ex) {
+        ApiResponse<Object> apiResponse = new ApiResponse<>(false, "Failed to parse JSON", null);
         logger.error(ex.getMessage(), ex);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(apiResponse);
     }

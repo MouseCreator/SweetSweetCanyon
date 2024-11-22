@@ -1,0 +1,30 @@
+[
+  {
+    "name": "City Centre Shop",
+    "description": "Nestled in the heart of the bustling city centre, this Sweet Sweet Shop is a candy-lover's paradise. With a vibrant display of handcrafted chocolates, colorful candies, and exotic confections, it’s the perfect spot to grab a sweet treat during a busy shopping spree. Don’t miss their exclusive seasonal specials and delightful gift hampers!",
+    "hours": "9:00-21:00",
+    "address": "12 High Street, Downtown",
+    "pictureUrl": "https://miro.medium.com/v2/resize:fit:1400/1*oE1KN8eLSl4kYzfINpFl8w.jpeg"
+  },
+  {
+    "name": "Shop on the Long Ave",
+    "description": "Located on the charming Long Avenue, this Sweet Sweet Shop offers a cozy atmosphere filled with the aroma of freshly made fudge and toffees. Known for its unique assortment of nostalgic candies and customizable sweets, it's a favorite among families and local residents. Visit for a sugary escape and try their famous caramel bites!",
+    "hours": "10:00–22:00",
+    "address": "47 Long Avenue, West Side",
+    "pictureUrl": "https://images.squarespace-cdn.com/content/v1/652f39f17dfc3727b449f8a7/6375d1fd-a25b-4259-99a8-5a97645468b3/AI+Candy+Banner+v2.jpg"
+  },
+  {
+    "name": "Evening Shop",
+    "description": "The Evening Shop is your go-to for late-night sugar cravings! Featuring an array of decadent desserts, gourmet chocolates, and innovative sweets, this shop is a nighttime gem. Its chic interior and glowing ambiance make it a delightful place to unwind with something sweet after a long day.",
+    "hours": "15:00–23:00",
+    "address": "88 Twilight Lane, East District",
+    "pictureUrl": "https://img.freepik.com/premium-photo/colorful-candy-sweets-display_198067-164887.jpg"
+  },
+  {
+    "name": "The Campus Shop",
+    "description": "Conveniently located near the university, The Campus Shop is the perfect hangout for students and faculty alike. Packed with affordable yet irresistible sweets, this shop offers everything from quick sugary pick-me-ups to thoughtful edible gifts. Don’t forget to check out their student discounts and seasonal promotions!",
+    "hours": "7:00–20:00",
+    "address": "15 College Road, University Area",
+    "pictureUrl": "https://vmsd.com/wp-content/uploads/2021/03/RMDK_Anand-Sweets_03.jpg"
+  }
+]

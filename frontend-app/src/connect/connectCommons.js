@@ -1,4 +1,5 @@
 import axios from "axios";
+import {ST} from "./secret";
 export const isNetworkError = (error) => {
     return !error.response && Boolean(error.request);
 };
@@ -35,6 +36,13 @@ export async function doGet(url, params={}) {
     return axios.get(url, {
         params: params
     })
+        .then(response => {
+            return response.data;
+        })
+        .catch(error => { return onError(error) });
+}
+export async function doDelete(url) {
+    return axios.delete(url)
         .then(response => {
             return response.data;
         })

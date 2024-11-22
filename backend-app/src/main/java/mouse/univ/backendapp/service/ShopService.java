@@ -56,4 +56,8 @@ public class ShopService {
     public void deleteShopById(Long id) {
         shopRepository.deleteById(id);
     }
+
+    public boolean existsByName(String name) {
+        return shopRepository.existsByName(name);
+    }
 }

@@ -62,4 +62,8 @@ public class ProductService {
     public void deleteProductById(Long id) {
         productRepository.deleteById(id);
     }
+
+    public boolean existsByName(String name) {
+        return productRepository.existsByName(name);
+    }
 }

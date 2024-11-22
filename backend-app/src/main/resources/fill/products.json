@@ -1,0 +1,58 @@
+[
+  {
+    "name": "Cookie",
+    "description": "Indulge in our freshly baked cookies, crisp on the outside and delightfully soft within. Each one is generously topped with rich chocolate sprinkles that melt in your mouth. It's a classic treat elevated to chocolatey perfection. Perfect with a cup of coffee or as a sweet pick-me-up any time of day!",
+    "price": 10.00,
+    "deliveryPrice": 8.00,
+    "pictureUrl": "https://media.istockphoto.com/id/517109442/photo/chocolate-chip-cookie-isolated.jpg?s=612x612&w=0&k=20&c=RgZOYwzVRTXnIBy8zSkXK-wJfNBy9w023UGULkbH_VE="
+  },
+  {
+    "name": "Strawberry Jelly",
+    "description": "Experience a burst of fruity delight with our luscious strawberry jelly. Made from ripe, juicy strawberries, this wobbly treat is both sweet and tangy. It's the perfect dessert to brighten up your day. One spoonful, and you'll be hooked on its refreshing flavor!",
+    "price": 12.00,
+    "deliveryPrice": 9.00,
+    "pictureUrl": "https://www.comptoir-irlandais.com/26063/chivers-strawberry-jelly.jpg"
+  },
+  {
+    "name": "Chocolate Cake",
+    "description": "Dive into decadence with our sumptuous chocolate cake. Layers of moist, rich chocolate sponge are enveloped in velvety ganache, creating a heavenly treat for all chocolate lovers. Each slice is a celebration of pure indulgence. Satisfy your cravings and let this masterpiece melt your worries away.",
+    "price": 20.00,
+    "deliveryPrice": 18.00,
+    "pictureUrl": "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/recipe-image-legacy-id-1043451_11-4713959.jpg"
+  },
+  {
+    "name": "Marshmallow",
+    "description": "Add a splash of fun to your snacking with our pack of vibrant marshmallows. Soft, fluffy, and bursting with color, they're a joy for both the eyes and the taste buds. Perfect for roasting over a campfire, topping your hot cocoa, or enjoying straight from the bag. Sweeten up any moment with these delightful confections!",
+    "price": 22.00,
+    "deliveryPrice": 18.00,
+    "pictureUrl": "https://static.toiimg.com/thumb/52762770.cms?imgsize=65333&width=800&height=800"
+  },
+  {
+    "name": "Lollipop",
+    "description": "Unwrap a swirl of joy with our classic lollipops. Each one boasts a rainbow of flavors that will take you back to carefree days. Long-lasting and satisfyingly sweet, they're the perfect treat for kids and the young at heart. Pop one in and let the fun begin!",
+    "price": 7.00,
+    "deliveryPrice": 3.00,
+    "pictureUrl": "https://goodnessuae.com/content/attachments/Candy-Lollipop-Swirl-Medium-6.5-cm-ME-1-PcsSMGT1411320220409120430.jpg"
+  },
+  {
+    "name": "Vanilla Ice Cream",
+    "description": "Cool down with our creamy, dreamy vanilla ice cream. Made with the finest vanilla beans, every scoop is rich, smooth, and full of pure flavor. Whether enjoyed in a cone, a cup, or atop your favorite dessert, it's the timeless classic that never disappoints. Dive into a bowl of bliss and savor the simple pleasures of life.",
+    "price": 8.00,
+    "deliveryPrice": 4.00,
+    "pictureUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQT55hNRrpfX3_TjvJ6fg0iTzyNqd3VyW3ifw&s"
+  },
+  {
+    "name": "Eclair",
+    "description": "Discover elegance in every bite with our delectable éclairs. Light, airy pastry shells are filled with silky vanilla custard and topped with a glossy layer of chocolate icing. It's a harmonious blend of textures and flavors that will transport your senses to a Parisian café. Treat yourself to this exquisite indulgence!",
+    "price": 10.25,
+    "deliveryPrice": 9.00,
+    "pictureUrl": "https://www.recipetineats.com/tachyon/2022/11/Eclairs_0a.jpg?resize=500%2C375"
+  },
+  {
+    "name": "Lemonade",
+    "description": "Quench your thirst with our freshly squeezed lemonade. Bursting with the zesty tang of sun-ripened lemons and just the right touch of sweetness, it's the ultimate refreshment. Served chilled over ice, it's like a sip of sunshine on a hot day. Raise a glass and let the crisp, invigorating taste revitalize your spirit!",
+    "price": 9.50,
+    "deliveryPrice": 7.00,
+    "pictureUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_RbO3DBSz2TE2QAF6Gryd3AJBEFFnYOYmrw&s"
+  }
+]
