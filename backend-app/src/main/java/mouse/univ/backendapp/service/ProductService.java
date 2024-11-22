@@ -23,10 +23,12 @@ import java.util.Optional;
 public class ProductService {
     private final ProductRepository productRepository;
     private final ProductMapper mapper;
+    private final StockService stockService;
     @Transactional
     public ProductResponseDTO createProduct(ProductCreateDTO productCreateDTO) {
         Product product = mapper.fromCreateDTO(productCreateDTO);
         Product saved = productRepository.save(product);
+        stockService.initializeProduct(saved.getId());
         return mapper.toResponseDTO(saved);
     }
 
@@ -58,8 +60,9 @@ public class ProductService {
         List<Product> productsByName = productRepository.getProductsByNameIgnoreCase(searchString);
         return productsByName.stream().map(mapper::toResponseDTO).toList();
     }
-
+    @Transactional
     public void deleteProductById(Long id) {
+        stockService.deleteAllByProduct(id);
         productRepository.deleteById(id);
     }
 

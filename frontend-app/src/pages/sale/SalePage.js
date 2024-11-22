@@ -33,6 +33,7 @@ function SalePage() {
         setProducts([]);
     }
     const overlayOnPay = () => {
+        console.log(products);
         navigate('/transactions/sales/1');
     }
 

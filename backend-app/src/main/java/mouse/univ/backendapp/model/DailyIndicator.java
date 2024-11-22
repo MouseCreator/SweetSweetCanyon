@@ -3,20 +3,18 @@ package mouse.univ.backendapp.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
 @Entity
-@Table(name = "product_indicators")
-public class ProductIndicator {
+@Table(name = "daily_indicators")
+public class DailyIndicator {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private LocalDateTime date;
+    private String type;
     @ManyToOne
-    @JoinColumn(name = "shop_id")
-    private Shop shop;
-    private Boolean isTotal;
-    private Long value;
-    private BigDecimal price;
+    @JoinColumn(name = "indicator_id")
+    private ProductIndicator productIndicator;
 }

@@ -168,13 +168,13 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: is_moved
-                  type: BOOLEAN
+                  name: date
+                  type: Timestamp
                   constraints:
                     nullable: false
               - column:
-                  name: date
-                  type: Timestamp
+                  name: shop_id
+                  type: BIGINT
                   constraints:
                     nullable: false
               - column:
@@ -227,6 +227,7 @@ databaseChangeLog:
                   name: name
                   type: VARCHAR(255)
                   constraints:
+                    unique: true
                     nullable: false
         - createTable:
             tableName: loss_reasons
@@ -242,6 +243,7 @@ databaseChangeLog:
                   name: title
                   type: VARCHAR(255)
                   constraints:
+                    unique: true
                     nullable: false
         - createTable:
             tableName: supplies
@@ -266,6 +268,26 @@ databaseChangeLog:
               - column:
                   name: supplier_name
                   type: VARCHAR(255)
+        - createTable:
+            tableName: movements
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+              - column:
+                  name: transaction_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: to_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
         - createTable:
             tableName: losses
             columns:
@@ -293,6 +315,20 @@ databaseChangeLog:
             tableName: transaction_products
             columnNames: transaction_id,product_id
             constraintName: pk_transaction_products_composite
+        - addForeignKeyConstraint:
+            constraintName: transaction_shop_fk
+            baseTableName: transactions
+            baseColumnNames: shop_id
+            referencedTableName: shops
+            referencedColumnNames: id
+            onDelete: SET NULL
+        - addForeignKeyConstraint:
+            constraintName: movement_to_fk
+            baseTableName: movements
+            baseColumnNames: to_id
+            referencedTableName: shops
+            referencedColumnNames: id
+            onDelete: SET NULL
         - addForeignKeyConstraint:
             constraintName: usedProducts_fk
             baseTableName: used_products

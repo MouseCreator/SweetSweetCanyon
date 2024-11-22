@@ -14,16 +14,6 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: date
-                  type: Timestamp
-                  constraints:
-                    nullable: false
-              - column:
-                  name: type
-                  type: VARCHAR(255)
-                  constraints:
-                    nullable: false
-              - column:
                   name: shop_id
                   type: BIGINT
               - column:
@@ -48,3 +38,71 @@ databaseChangeLog:
             referencedTableName: shops
             referencedColumnNames: id
             onDelete: SET NULL
+  - changeSet:
+      id: 4a
+      author: Mykhailo Tyshchenko
+      changes:
+        - createTable:
+            tableName: daily_indicators
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: date
+                  type: Timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: type
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: indicator_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: monthly_indicators
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: date
+                  type: Timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: type
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: indicator_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            constraintName: daily_fk
+            baseTableName: daily_indicators
+            baseColumnNames: indicator_id
+            referencedTableName: product_indicators
+            referencedColumnNames: id
+            onDelete: CASCADE
+        - addForeignKeyConstraint:
+            constraintName: monthly_fk
+            baseTableName: monthly_indicators
+            baseColumnNames: indicator_id
+            referencedTableName: product_indicators
+            referencedColumnNames: id
+            onDelete: CASCADE

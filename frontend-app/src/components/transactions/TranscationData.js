@@ -1,5 +1,5 @@
 /*
-sell_transaction = {
+sale_transaction = {
     id: number,
     type: 'sale'
     date: Date,

@@ -21,11 +21,13 @@ import java.util.Optional;
 public class ShopService {
     private final ShopRepository shopRepository;
     private final ShopMapper shopMapper;
+    private final StockService stockService;
 
     @Transactional
     public ShopResponseDTO createShop(ShopCreateDTO createDTO) {
         Shop shop = shopMapper.fromCreateDTO(createDTO);
         Shop saved = shopRepository.save(shop);
+        stockService.initializeShop(saved.getId());
         return shopMapper.toResponseDTO(saved);
     }
     @Transactional
@@ -52,8 +54,9 @@ public class ShopService {
         Shop product = byId.orElseThrow(() -> new DataNotFoundException("Cannot find shop by id:" + id));
         return shopMapper.toResponseDTO(product);
     }
-
+    @Transactional
     public void deleteShopById(Long id) {
+        stockService.deleteAllByShop(id);
         shopRepository.deleteById(id);
     }
 
