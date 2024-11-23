@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import ProductComponent from "./ProductComponent";
 import SelectedProduct from "./SelectedProduct";
 import './product.css'
@@ -7,88 +7,41 @@ import './../../static_controls/inputs.css'
 import {formatPrice} from "../../utils/date";
 import './../themed/themed.css';
 import {calculatePrice} from "./Price";
-const MOCK_PRODUCTS = [ //MOCK: from server
-    {
-        id: 1,
-        name: 'cookie',
-        price: 10,
-        deliveryPrice: 8,
-        pictureUrl: 'https://assets.bonappetit.com/photos/5ca534485e96521ff23b382b/1:1/w_2700,h_2700,c_limit/chocolate-chip-cookie.jpg'
-    },
-    {
-        id: 2,
-        name: 'cake',
-        price: 20,
-        deliveryPrice: 10,
-        pictureUrl: 'https://static01.nyt.com/images/2023/10/27/multimedia/27cakerex-plzm/27cakerex-plzm-threeByTwoMediumAt2X.jpg'
-    },
-    {
-        id: 3,
-        name: 'tasty marshmallow colors',
-        price: 30,
-        deliveryPrice: 15,
-        pictureUrl: 'https://static.toiimg.com/thumb/52762770.cms?imgsize=65333&width=800&height=800'
-    },
-    {
-        id: 4,
-        name: 'muffins',
-        price: 25,
-        deliveryPrice: 20,
-        pictureUrl: 'https://www.allrecipes.com/thmb/RdyL1EgIB0Qq_fr5HjdsAmcpMlU=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/228553-moist-chocolate-muffins-DDMFS-4x3-a9f73a46938547c99d921613dc167741.jpg'
-    },
-    {
-        id: 5,
-        name: 'mint candies',
-        price: 10,
-        deliveryPrice: 7,
-        pictureUrl: 'https://5.imimg.com/data5/LL/LL/GLADMIN-/mint-candy-250x250.jpg'
+import {getStocksByShopId} from "../../connect/connectStocks";
+import {GlobalLoading} from "../common/loading/GlobalLoading";
+import {GlobalError} from "../common/errors/GlobalError";
+import {all} from "axios";
 
-    },
-    {
-        id: 6,
-        name: 'Product with no image',
-        price: 10,
-        deliveryPrice: 8,
-        pictureUrl: null
-    }
-]
-
-const MOCK_STOCKS = [ //MOCK: from server
-    {
-        id: 1,
-        remaining: 20
-    },
-    {
-        id: 2,
-        remaining: 10
-    },
-    {
-        id: 3,
-        remaining: 5
-    },
-    {
-        id: 4,
-        remaining: 200
-    },
-    {
-        id: 5,
-        remaining: 12
-
-    },
-    {
-        id: 6,
-        remaining: 3
-    }
-]
 
 function ProductSelector({confirmAction, theme, mode, errors, shopId, children, isDelivery}) {
     const [selectedProducts, setSelectedProducts] = useState([])
     const [searchPrompt, setSearchPrompt] = useState('')
+    const [stocks, setStocks] = useState([])
+    const [localError, setLocalError] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [products, setProducts] = useState([])
+    const [allProducts, setAllProducts] = useState([])
+    useEffect(()=>{
 
+        getStocksByShopId(shopId).then(
+            (s) => {
+                if (s.success) {
+                    const data = s.data
+                    const newStocks = data.map((d)=>({id: d.product.id, remaining: d.remaining}))
+                    setStocks(newStocks)
+                    const allProducts = data.map((d) => d.product)
+                    setLoading(false)
+                    const prd = allProducts.map(
+                        (p)=>({ product: p, checked: false }))
 
-    const [products, setProducts] = useState(MOCK_PRODUCTS.map(
-        (p)=>({ product: p, checked: false})));
-    const [stocks, setStocks] = useState(MOCK_STOCKS)
+                    setProducts(prd)
+                    setAllProducts(allProducts)
+                } else {
+                    setLocalError(s.error)
+                }
+            }
+        )
+    }, [shopId])
 
     const useStocks = shopId != null
 
@@ -146,7 +99,7 @@ function ProductSelector({confirmAction, theme, mode, errors, shopId, children, 
     }
 
     const cancelAll = () => {
-        setProducts(MOCK_PRODUCTS.map(
+        setProducts(allProducts.map(
             (p)=>({product: p, checked: false})))
         setSelectedProducts([]);
     }
@@ -162,7 +115,7 @@ function ProductSelector({confirmAction, theme, mode, errors, shopId, children, 
     }
     const onSearch = () => {
         const prompt = searchPrompt.trim().toLowerCase()
-        setProducts(MOCK_PRODUCTS.filter(pr => pr.name.toLowerCase().indexOf(prompt) > -1)
+        setProducts(allProducts.filter(pr => pr.name.toLowerCase().indexOf(prompt) > -1)
             .map(
                 (p)=>(
                     {
@@ -193,6 +146,14 @@ function ProductSelector({confirmAction, theme, mode, errors, shopId, children, 
         const specific = errors.productSpecific
         specific.forEach((err) => errorMap.set(err.id, err.message))
     }
+    if (loading) {
+        return <GlobalLoading />
+    }
+    if (localError) {
+        return <GlobalError text={localError} />
+    }
+
+
     return (
         <div className={"product-selector-main"}>
             <div className={"flex w-full"}>
@@ -221,8 +182,9 @@ function ProductSelector({confirmAction, theme, mode, errors, shopId, children, 
             <div className={"flex flex-row"}>
                 <div className={"product-grid-wrapper"}>
                     <div className="product-grid">
-                        {products.map((ch_p) => (
-                            <ProductComponent product={ch_p.product}
+                        {products.map((ch_p, index) => (
+                            <ProductComponent
+                                              key = {index}  product={ch_p.product}
                                               getPrice={getPrice}
                                               is_added={ch_p.checked}
                                               onAdd={onAddProduct}
@@ -237,8 +199,8 @@ function ProductSelector({confirmAction, theme, mode, errors, shopId, children, 
                         <p className={`selected-items-text themed-text ${theme}`}>Selected items</p>
                         <div className={"selected-items-wrapper"}>
                             {
-                                selectedProducts.map((selected) => (
-                                    <SelectedProduct product={selected.product}
+                                selectedProducts.map((selected, index) => (
+                                    <SelectedProduct key={index} product={selected.product}
                                                      initAmount = {selected.amount}
                                                      onAmountChange={onChangeAmount}
                                                      onCancel={onCancelProduct}

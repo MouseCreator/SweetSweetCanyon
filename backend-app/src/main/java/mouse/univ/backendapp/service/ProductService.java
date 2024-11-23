@@ -6,12 +6,14 @@ import lombok.AllArgsConstructor;
 import mouse.univ.backendapp.dto.product.ProductCreateDTO;
 import mouse.univ.backendapp.dto.product.ProductResponseDTO;
 import mouse.univ.backendapp.dto.product.ProductUpdateDTO;
+import mouse.univ.backendapp.dto.user.UserDetails;
 import mouse.univ.backendapp.exception.DataNotFoundException;
 import mouse.univ.backendapp.exception.UpdateBadRequestException;
 import mouse.univ.backendapp.exception.UpdateNotFoundException;
 import mouse.univ.backendapp.mapper.ProductMapper;
 import mouse.univ.backendapp.model.Product;
 import mouse.univ.backendapp.repository.ProductRepository;
+import mouse.univ.backendapp.service.transaction.LossService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,6 +26,8 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final ProductMapper mapper;
     private final StockService stockService;
+    private final LossService lossService;
+    private final UserDetailsService userDetailsService;
     @Transactional
     public ProductResponseDTO createProduct(ProductCreateDTO productCreateDTO) {
         Product product = mapper.fromCreateDTO(productCreateDTO);
@@ -61,7 +65,8 @@ public class ProductService {
         return productsByName.stream().map(mapper::toResponseDTO).toList();
     }
     @Transactional
-    public void deleteProductById(Long id) {
+    public void deleteProductById(Long id, UserDetails userDetails) {
+        lossService.loseEveryProductWithId(id, userDetails);
         stockService.deleteAllByProduct(id);
         productRepository.deleteById(id);
     }

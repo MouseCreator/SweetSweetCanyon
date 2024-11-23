@@ -14,7 +14,7 @@ export function onError(error) {
     return {
         success: false,
         error: `${error.response?.data?.error || "An error occurred."}`,
-        data: null
+        data: error.response?.data?.data
     }
 }
 
@@ -47,4 +47,18 @@ export async function doDelete(url) {
             return response.data;
         })
         .catch(error => { return onError(error) });
+}
+
+export function transformSingle(response, mapper) {
+    if (!response.success) {
+        return response;
+    }
+    return {...response, data: mapper(response.data) }
+}
+
+export function transformEach(response, mapper) {
+    if (!response.success) {
+        return response;
+    }
+    return {...response, data: response.data.map((s) => mapper(s)) }
 }

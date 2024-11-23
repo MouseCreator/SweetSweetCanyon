@@ -56,7 +56,7 @@ function LossPage() {
     return (
         <MainLayout>
             <div className={"static-content"}>
-                <ProductSelector confirmAction={confirmAction} theme={"orange"} mode={"loss"} errors={errors} shopId={1}>
+                <ProductSelector confirmAction={confirmAction} theme={"orange"} mode={"loss"} errors={errors} shopId={4}>
                     <LossReasonList onSelectReason={setReasonId} onTypeComment={setComment}
                                   reasonError={reasonError} commentError={commentError}/>
                 </ProductSelector>

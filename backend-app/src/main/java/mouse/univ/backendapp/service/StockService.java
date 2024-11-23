@@ -2,9 +2,11 @@ package mouse.univ.backendapp.service;
 
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import mouse.univ.backendapp.dto.stock.StockResponseDTO;
 import mouse.univ.backendapp.exception.DataNotFoundException;
 import mouse.univ.backendapp.exception.DeleteOrderException;
 import mouse.univ.backendapp.exception.NoStockException;
+import mouse.univ.backendapp.mapper.StockMapper;
 import mouse.univ.backendapp.model.Product;
 import mouse.univ.backendapp.model.Shop;
 import mouse.univ.backendapp.model.Stock;
@@ -14,7 +16,10 @@ import mouse.univ.backendapp.repository.ShopRepository;
 import mouse.univ.backendapp.repository.StockRepository;
 import org.springframework.stereotype.Service;
 
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -23,6 +28,7 @@ public class StockService {
     private final StockRepository stockRepository;
     private final ShopRepository shopRepository;
     private final ProductRepository productRepository;
+    private final StockMapper stockMapper;
 
     private StockKey key(Long shopId, Long productId) {
         return new StockKey(shopId, productId);
@@ -42,7 +48,7 @@ public class StockService {
         Optional<Shop> shopById = shopRepository.findById(shopId);
         Shop shop = shopById.orElseThrow(()->new DataNotFoundException("Cannot find shop with id " + shopId));
 
-        Optional<Product> productById = productRepository.findById(shopId);
+        Optional<Product> productById = productRepository.findById(productId);
         Product product = productById.orElseThrow(()->new DataNotFoundException("Cannot find product with id " + productId));
 
         stock.setProduct(product);
@@ -61,6 +67,9 @@ public class StockService {
         List<Product> all = productRepository.findAll();
         for (Product product : all) {
             Long productId = product.getId();
+            if (stockRepository.existsById(new StockKey(shopId, productId))) {
+                continue;
+            }
             initializeStock(shopId, productId);
         }
 
@@ -76,8 +85,30 @@ public class StockService {
         List<Shop> all = shopRepository.findAll();
         for (Shop shop : all) {
             Long shopId = shop.getId();
+            if (stockRepository.existsById(new StockKey(shopId, productId))) {
+                continue;
+            }
             initializeStock(shopId, productId);
         }
+    }
 
+    public List<StockResponseDTO> findByNameAndShop(String name, Long shopId) {
+        List<Stock> allStocks;
+        if (shopId == null) {
+            if (name == null || name.isEmpty()) {
+                allStocks = stockRepository.findAll();
+            } else {
+                allStocks = stockRepository.findAllByName(name);
+            }
+        }
+        else if (name == null || name.isEmpty()) {
+            Shop shop = shopRepository.findById(shopId)
+                    .orElseThrow(() -> new DataNotFoundException("No shop with id " + shopId));
+            allStocks = stockRepository.findAllByShop(shop);
+        } else {
+            allStocks = stockRepository.findAllByNameAndShop(name, shopId);
+        }
+        Map<Long, Stock> map = new HashMap<>();
+        return allStocks.stream().map(stockMapper::toResponse).toList();
     }
 }

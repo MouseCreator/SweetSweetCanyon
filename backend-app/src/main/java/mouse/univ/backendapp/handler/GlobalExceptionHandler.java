@@ -1,10 +1,7 @@
 package mouse.univ.backendapp.handler;
 
 import mouse.univ.backendapp.api.ApiResponse;
-import mouse.univ.backendapp.exception.DataNotFoundException;
-import mouse.univ.backendapp.exception.JSONException;
-import mouse.univ.backendapp.exception.UpdateBadRequestException;
-import mouse.univ.backendapp.exception.UpdateNotFoundException;
+import mouse.univ.backendapp.exception.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
@@ -24,6 +21,12 @@ public class GlobalExceptionHandler {
         logger.error(ex.getMessage(), ex);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(apiResponse);
     }
+    @ExceptionHandler(PermissionException.class)
+    public ResponseEntity<ApiResponse<Object>> handlePermissionException(PermissionException ex) {
+        ApiResponse<Object> apiResponse = new ApiResponse<>(false, ex.getMessage(), null);
+        logger.error(ex.getMessage(), ex);
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(apiResponse);
+    }
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ApiResponse<Object>> handleRuntimeError(RuntimeException ex) {
         ApiResponse<Object> apiResponse = new ApiResponse<>(false, "Internal error", null);
@@ -42,6 +45,13 @@ public class GlobalExceptionHandler {
         ApiResponse<Object> apiResponse = new ApiResponse<>(false, ex.getMessage(), null);
         logger.error(ex.getMessage(), ex);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(apiResponse);
+    }
+
+    @ExceptionHandler(ProductFormException.class)
+    public ResponseEntity<ApiResponse<Object>> handleProductFormError(ProductFormException ex) {
+        ApiResponse<Object> apiResponse = new ApiResponse<>(false, "FORM_ERROR", ex.getDetails());
+        logger.error(ex.getMessage(), ex);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiResponse);
     }
 
     @ExceptionHandler(UpdateBadRequestException.class)

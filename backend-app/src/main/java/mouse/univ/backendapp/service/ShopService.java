@@ -5,12 +5,14 @@ import lombok.AllArgsConstructor;
 import mouse.univ.backendapp.dto.shop.ShopCreateDTO;
 import mouse.univ.backendapp.dto.shop.ShopResponseDTO;
 import mouse.univ.backendapp.dto.shop.ShopUpdateDTO;
+import mouse.univ.backendapp.dto.user.UserDetails;
 import mouse.univ.backendapp.exception.DataNotFoundException;
 import mouse.univ.backendapp.exception.UpdateBadRequestException;
 import mouse.univ.backendapp.exception.UpdateNotFoundException;
 import mouse.univ.backendapp.mapper.ShopMapper;
 import mouse.univ.backendapp.model.Shop;
 import mouse.univ.backendapp.repository.ShopRepository;
+import mouse.univ.backendapp.service.transaction.LossService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,6 +24,7 @@ public class ShopService {
     private final ShopRepository shopRepository;
     private final ShopMapper shopMapper;
     private final StockService stockService;
+    private final LossService lossService;
 
     @Transactional
     public ShopResponseDTO createShop(ShopCreateDTO createDTO) {
@@ -55,7 +58,8 @@ public class ShopService {
         return shopMapper.toResponseDTO(product);
     }
     @Transactional
-    public void deleteShopById(Long id) {
+    public void deleteShopById(Long id, UserDetails userDetails) {
+        lossService.loseEverythingInShop(id, userDetails);
         stockService.deleteAllByShop(id);
         shopRepository.deleteById(id);
     }

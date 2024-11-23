@@ -5,6 +5,7 @@ import mouse.univ.backendapp.api.ApiResponse;
 import mouse.univ.backendapp.dto.shop.ShopCreateDTO;
 import mouse.univ.backendapp.dto.shop.ShopResponseDTO;
 import mouse.univ.backendapp.dto.shop.ShopUpdateDTO;
+import mouse.univ.backendapp.dto.user.UserDetails;
 import mouse.univ.backendapp.service.ShopService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,7 +48,8 @@ public class ShopController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<Object>> deleteProductById(@PathVariable Long id) {
-        shopService.deleteShopById(id);
+        UserDetails userDetails = UserDetails.asAdmin();
+        shopService.deleteShopById(id, userDetails);
         ApiResponse<Object> apiResponse = ApiResponse.ok(null);
         return ResponseEntity.status(HttpStatus.OK).body(apiResponse);
     }

@@ -10,10 +10,10 @@ export const ShopStockItem = ({product_remaining}) => {
     const color = isLow ? 'yellow' : isNone ? 'red' : 'white'
     return (
         <div className={`stock-item ${color}`}>
-            <ProductImage name={product_remaining.product.name} pictureUrl={product_remaining.product.pictureUrl} size={"s-150"} />
-            <h3 className={"stock-name"}>{product_remaining.product.name}</h3>
+            <ProductImage name={prod.name} pictureUrl={prod.pictureUrl} size={"s-150"} />
+            <h3 className={"stock-name"}>{prod.name}</h3>
             <div className={"w-full pl-2"}>
-                <p>Price: {formatPrice(product_remaining.product.price)}</p>
+                <p>Price: {formatPrice(prod.price)}</p>
                 <p>In Stock: {product_remaining.remaining}</p>
             </div>
         </div>

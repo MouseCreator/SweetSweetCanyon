@@ -13,6 +13,6 @@ public class SaleResponseDTO {
     private String type;
     private LocalDateTime date;
     private List<UsedProductResponseDTO> products;
-    private String cashier;
+    private String username;
     private BigDecimal price;
 }

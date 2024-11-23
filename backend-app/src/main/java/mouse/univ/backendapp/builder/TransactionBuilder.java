@@ -26,7 +26,7 @@ public class TransactionBuilder {
         if (transaction.getType()==null) {
             throw new BuilderException("Transaction has no type");
         }
-        if (transaction.getCashier()==null) {
+        if (transaction.getUsername()==null) {
             throw new BuilderException("Transaction has no cashier");
         }
         if (transaction.getShop() == null) {
@@ -71,8 +71,8 @@ public class TransactionBuilder {
         transaction.setUsedProductList(new ArrayList<>(products));
         return this;
     }
-    public TransactionBuilder cashier(String cashier) {
-        transaction.setCashier(cashier);
+    public TransactionBuilder username(String cashier) {
+        transaction.setUsername(cashier);
         return this;
     }
 }

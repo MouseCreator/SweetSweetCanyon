@@ -54,7 +54,7 @@ function SupplyPage() {
     return (
         <MainLayout>
             <div className={"static-content"}>
-                <ProductSelector confirmAction={confirmAction} theme={"blue"} mode={"supply"} errors={errors} shopId={1} isDelivery={true}>
+                <ProductSelector confirmAction={confirmAction} theme={"blue"} mode={"supply"} errors={errors} shopId={4} isDelivery={true}>
                     <SupplierList onSelectSupplier={setSupplierId} onTypeName={setSupplierName}
                     supplierError={supplierError} nameError={nameError} />
                 </ProductSelector>

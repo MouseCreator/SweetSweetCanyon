@@ -25,6 +25,7 @@ public class SaleMapperImpl implements SaleMapper {
         List<UsedProductResponseDTO> list = transaction.getUsedProductList().stream().map(usedProductMapper::fromProduct).toList();
 
         saleResponseDTO.setProducts(list);
+        saleResponseDTO.setUsername(transaction.getUsername());
         saleResponseDTO.setPrice(transaction.getPrice());
         return saleResponseDTO;
     }

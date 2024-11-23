@@ -4,26 +4,15 @@ import MainLayout from "../../components/layout/Layout";
 import {OverlayBase} from "../../components/overlay/OverlayBase";
 import {SaleOverlayContent} from "../../components/products/sale/SaleOverlayContent";
 import {useState} from "react";
+import {postSale} from "../../connect/connectTransactions";
 
-
-const ERRORS = {
-    primaryError: "Not all products are in stock",
-    productSpecific: [
-        {
-            id: 1,
-            message: "Not enough",
-        },
-        {
-            id: 2,
-            message: "Not enough",
-        },
-    ]
-}
 function SalePage() {
     const navigate = useNavigate();
     const [isOverlayActive, setIsOverlayActive] = useState(false);
     const [products, setProducts] = useState([])
     const [errors, setErrors] = useState(null)
+
+
     const confirmAction = (selectedProducts) => {
         setProducts(selectedProducts);
         setIsOverlayActive(true);
@@ -33,14 +22,29 @@ function SalePage() {
         setProducts([]);
     }
     const overlayOnPay = () => {
-        console.log(products);
-        navigate('/transactions/sales/1');
+        postSale(products).then((r)=>{
+            if (r.success) {
+                navigate(`/transactions/sales/${r.data.id}`);
+            } else {
+                if (r.error === 'FORM_ERROR') {
+                    setErrors(r.data)
+                    console.log(r)
+                } else {
+                    setErrors({primaryError: r.error, productSpecific: []})
+                }
+                setIsOverlayActive(false);
+            }
+        }).catch((r) => {
+            setErrors({primaryError: r.message, productSpecific: []})
+            setIsOverlayActive(false)
+        })
+
     }
 
 
     return (
         <MainLayout>
-            <ProductSelector confirmAction={confirmAction} theme={"green"} mode={"sale"} errors={errors} shopId={1} />
+            <ProductSelector confirmAction={confirmAction} theme={"green"} mode={"sale"} errors={errors} shopId={4} />
             <OverlayBase isActive={isOverlayActive} onClose={overlayOnCancel} >
                 <SaleOverlayContent selectedProducts={products} onPay={overlayOnPay} onCancel={overlayOnCancel} />
             </OverlayBase>

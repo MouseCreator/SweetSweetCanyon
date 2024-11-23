@@ -1,4 +1,4 @@
-import {doDelete, doGet, doPost, doPut} from "./connectCommons";
+import {doDelete, doGet, doPost, doPut, transformSingle, transformEach} from "./connectCommons";
 import {ST} from './secret'
 
 function transformShop(shopFromServer) {
@@ -11,25 +11,14 @@ function transformShop(shopFromServer) {
         pictureUrl: shopFromServer.pictureUrl
     }
 }
-function transformSingle(response) {
-    if (!response.success) {
-        return response;
-    }
-    return {...response, data: transformShop(response.data) }
-}
+
 export async function getShopById(id) {
     const data = await doGet(`${ST.HOST_URL}/shops/${id}`);
-    return transformSingle(data);
-}
-function transformEach(response) {
-    if (!response.success) {
-        return response;
-    }
-    return {...response, data: response.data.map((s) => transformShop(s)) }
+    return transformSingle(data, transformShop);
 }
 export async function getAllShops() {
     const data = await doGet(`${ST.HOST_URL}/shops`);
-    return transformEach(data);
+    return transformEach(data, transformShop);
 }
 
 export async function postShop(shop) {
@@ -41,7 +30,7 @@ export async function postShop(shop) {
         pictureUrl: shop.pictureUrl
     }
     const data = await doPost(`${ST.HOST_URL}/shops`, requestBody);
-    return transformSingle(data);
+    return transformSingle(data, transformShop);
 }
 export async function updateShop(shop) {
     const requestBody = {
@@ -53,7 +42,7 @@ export async function updateShop(shop) {
         pictureUrl: shop.pictureUrl
     }
     const data = await doPut(`${ST.HOST_URL}/shops`, requestBody);
-    return transformSingle(data);
+    return transformSingle(data, transformShop);
 }
 export async function deleteShopById(id) {
     return await doDelete(`${ST.HOST_URL}/shops/${id}`);
