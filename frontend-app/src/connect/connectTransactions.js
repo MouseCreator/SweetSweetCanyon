@@ -18,3 +18,12 @@ export async function postSale(sale) {
     const data = await doPost(`${ST.HOST_URL}/sale`, body);
     return transformSingle(data, transformSale);
 }
+
+export async function postSupply(sale) {
+    const items = sale.map((pr)=> ({ productId: pr.product.id, amount: pr.amount} ))
+    const body = {
+        items: items
+    }
+    const data = await doPost(`${ST.HOST_URL}/sale`, body);
+    return transformSingle(data, transformSale);
+}

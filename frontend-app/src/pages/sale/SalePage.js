@@ -28,7 +28,6 @@ function SalePage() {
             } else {
                 if (r.error === 'FORM_ERROR') {
                     setErrors(r.data)
-                    console.log(r)
                 } else {
                     setErrors({primaryError: r.error, productSpecific: []})
                 }

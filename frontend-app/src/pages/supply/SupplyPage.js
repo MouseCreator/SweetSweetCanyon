@@ -6,6 +6,7 @@ import MainLayout from "../../components/layout/Layout";
 import {OverlayBase} from "../../components/overlay/OverlayBase";
 import {SupplyOverlayContent} from "../../components/products/supply/SupplyOverlayContent";
 import "./../../static_controls/content.css"
+import {postSupply} from "../../connect/connectTransactions";
 
 function SupplyPage() {
     const navigate = useNavigate();
@@ -47,7 +48,21 @@ function SupplyPage() {
         setProducts([]);
     }
     const overlayOnPay = () => {
-        navigate('/transactions/supplies/1');
+        postSupply({items: products, supplierId: supplierId, supplierName: supplierName}).then((r)=>{
+            if (r.success) {
+                navigate(`/transactions/supplies/${r.data.id}`);
+            } else {
+                if (r.error === 'FORM_ERROR') {
+                    setErrors(r.data)
+                } else {
+                    setErrors({primaryError: r.error, productSpecific: []})
+                }
+                setIsOverlayActive(false);
+            }
+        }).catch((r) => {
+            setErrors({primaryError: r.message, productSpecific: []})
+            setIsOverlayActive(false)
+        })
     }
 
 
