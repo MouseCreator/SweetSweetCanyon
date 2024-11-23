@@ -44,8 +44,8 @@ public class TransactionService {
         return desiredAmount <= availableNumber;
     }
     public void validateEnoughItems(Long shopId, List<TransactionItem> items) {
-        if (items.isEmpty()) {
-            throw new ItemInvalidStateException("Cannot perform a transaction: no items selected");
+        if (items == null || items.isEmpty()) {
+            throw new ItemBadRequestException("Cannot perform a transaction: no items selected");
         }
         List<ProductFormSpecific> specifics = new ArrayList<>();
 

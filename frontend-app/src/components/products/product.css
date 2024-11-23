@@ -151,6 +151,10 @@ input[type=number] {
     font-size: 18px;
     font-weight: bold;
 }
+.total-text {
+    font-size: 32px;
+    font-weight: bold;
+}
 
 .selected-product-name {
     justify-content: center;

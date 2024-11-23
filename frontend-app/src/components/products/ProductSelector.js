@@ -212,7 +212,7 @@ function ProductSelector({confirmAction, theme, mode, errors, shopId, children, 
                             }
                         </div>
                     </div>
-                    <p className={"mx-2 selected-on-text"}>Total: {
+                    <p className={"mx-2 total-text"}>Total: {
                         formatPrice(
                         calculatePrice(selectedProducts, getPrice)
                         )}</p>

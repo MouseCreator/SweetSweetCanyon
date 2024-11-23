@@ -1,7 +1,6 @@
 import { ST } from "./secret"
-import axios from "axios";
 
-import {doDelete, doGet, doPost, doPut, onError} from "./connectCommons";
+import {doDelete, doGet, doPost, doPut} from "./connectCommons";
 export async function getAllProducts() {
     return doGet(`${ST.HOST_URL}/products`);
 }
@@ -28,17 +27,6 @@ export async function updateProduct(product) {
         pictureUrl: product.pictureUrl
     }
     return doPut(`${ST.HOST_URL}/products`, requestBody);
-}
-export async function getProductsByName(name) {
-    return axios.get(`${ST.HOST_URL}/products/search`, {
-        params: {
-            name: name
-        }
-        })
-        .then(response => {
-            return response.data;
-        })
-        .catch(error => { return onError(error) });
 }
 
 export async function deleteProductById(id) {

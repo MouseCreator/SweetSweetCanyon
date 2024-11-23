@@ -58,7 +58,7 @@ public class LossService {
     }
     @Transactional
     public List<Loss> loseEveryProductWithId(Long productId, UserDetails userDetails) {
-        List<Stock> stocksByShop = getStocksByShop(productId);
+        List<Stock> stocksByShop = getStocksByProduct(productId);
         List<Shop> allShops = shopRepository.findAll();
         List<Loss> result = new ArrayList<>();
         for (Shop shop : allShops) {
@@ -93,9 +93,15 @@ public class LossService {
                 .get();
         Transaction savedTransaction = transactionService.saveTransaction(transaction);
         stockService.subtractAllFromStocks(shopId, items);
+        Long reasonId = lossCreateDTO.getReasonId();
+        LossReason reason = lossReasonRepository.findById(reasonId).orElseThrow(() -> new InternalNotFound("reason", reasonId));
+
+
         Loss loss = new Loss();
         loss.setTransaction(savedTransaction);
         loss.setComment(lossCreateDTO.getComment());
+
+        loss.setReason(reason);
         Loss saved = lossRepository.save(loss);
         return lossMapper.map(saved);
     }

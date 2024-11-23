@@ -12,9 +12,9 @@ export function SaleCheque({selectedProducts, isDelivery}) {
         <div className={"flex flex-col items-start"}>
             <div className={"cheque-table"}>
                 {
-                selectedProducts.map((sp) =>
+                selectedProducts.map((sp, index) =>
                     (
-                    <div className={"cheque-container"}>
+                    <div key={index} className={"cheque-container"}>
                         <div>{sp.product.name}</div>
                         <div>{formatPrice(getPrice(sp.product))}</div>
                         <div>{sp.amount}</div>

@@ -1,4 +1,4 @@
-import {doGet, transformEach, transformSingle} from "./connectCommons";
+import {doGet, transformEach, sortEach} from "./connectCommons";
 import {ST} from "./secret";
 
 function transformStock(stockFromServer) {
@@ -11,5 +11,6 @@ function transformStock(stockFromServer) {
 
 export async function getStocksByShopId(id) {
     const data = await doGet(`${ST.HOST_URL}/stocks`, { shop: id });
-    return transformEach(data, transformStock);
+    const transformed = transformEach(data, transformStock);
+    return sortEach(transformed, (a, b) => a.product.id - b.product.id)
 }

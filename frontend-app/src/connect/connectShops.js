@@ -1,4 +1,4 @@
-import {doDelete, doGet, doPost, doPut, transformSingle, transformEach} from "./connectCommons";
+import {doDelete, doGet, doPost, doPut, transformSingle, transformEach, sortEach} from "./connectCommons";
 import {ST} from './secret'
 
 function transformShop(shopFromServer) {
@@ -18,7 +18,8 @@ export async function getShopById(id) {
 }
 export async function getAllShops() {
     const data = await doGet(`${ST.HOST_URL}/shops`);
-    return transformEach(data, transformShop);
+    const transformed = transformEach(data, transformShop);
+    return sortEach(transformed, (a, b) => a.id - b.id)
 }
 
 export async function postShop(shop) {

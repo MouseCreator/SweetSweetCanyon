@@ -3,10 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import {useState} from "react";
 import MainLayout from "../../components/layout/Layout";
 import {OverlayBase} from "../../components/overlay/OverlayBase";
-import {SupplyOverlayContent} from "../../components/products/supply/SupplyOverlayContent";
 import "./../../static_controls/content.css"
 import LossReasonList from "../../components/products/loss/LossComponent";
 import {LossOverlayContent} from "../../components/products/loss/LossOverlayContent";
+import {postLoss} from "../../connect/connectTransactions";
 
 function LossPage() {
     const navigate = useNavigate();
@@ -49,7 +49,21 @@ function LossPage() {
         setProducts([]);
     }
     const overlayOnSubmit = () => {
-        navigate('/transactions/losses/1');
+        postLoss({items: products, reasonId: reasonId, comment: comment}).then((r)=>{
+            if (r.success) {
+                navigate(`/transactions/losses/${r.data.id}`);
+            } else {
+                if (r.error === 'FORM_ERROR') {
+                    setErrors(r.data)
+                } else {
+                    setErrors({primaryError: r.error, productSpecific: []})
+                }
+                setIsOverlayActive(false);
+            }
+        }).catch((r) => {
+            setErrors({primaryError: r.message, productSpecific: []})
+            setIsOverlayActive(false)
+        })
     }
 
 

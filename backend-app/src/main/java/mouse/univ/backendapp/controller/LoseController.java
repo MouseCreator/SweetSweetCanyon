@@ -8,6 +8,8 @@ import mouse.univ.backendapp.dto.user.UserDetails;
 import mouse.univ.backendapp.service.transaction.LossService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,8 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class LoseController {
 
     private final LossService lossService;
-
-    public ResponseEntity<ApiResponse<LossResponseDTO>> createLoss(LossCreateDTO lossCreateDTO) {
+    @PostMapping
+    public ResponseEntity<ApiResponse<LossResponseDTO>> createLoss(@RequestBody LossCreateDTO lossCreateDTO) {
         UserDetails userDetails = UserDetails.asCashier();
         LossResponseDTO response  = lossService.loseProducts(lossCreateDTO, userDetails);
         ApiResponse<LossResponseDTO> api = ApiResponse.ok(response);

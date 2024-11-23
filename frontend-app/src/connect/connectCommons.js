@@ -18,6 +18,13 @@ export function onError(error) {
     }
 }
 
+export function sortEach(response, comparator) {
+    if (response.data && Array.isArray(response.data)) {
+        response.data.sort(comparator);
+    }
+    return response;
+}
+
 export async function doPost(url, requestBody) {
     return axios.post(url, requestBody)
         .then(response => {

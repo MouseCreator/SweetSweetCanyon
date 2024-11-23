@@ -14,7 +14,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class GlobalExceptionHandler {
 
     private static final Logger logger = LogManager.getLogger(GlobalExceptionHandler.class);
-
+    @ExceptionHandler(ItemBadRequestException.class)
+    public ResponseEntity<ApiResponse<Object>> handleBadRequestException(ItemBadRequestException ex) {
+        ApiResponse<Object> apiResponse = new ApiResponse<>(false, ex.getMessage(), null);
+        logger.error(ex.getMessage(), ex);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiResponse);
+    }
     @ExceptionHandler(DataNotFoundException.class)
     public ResponseEntity<ApiResponse<Object>> handleEntityNotFoundException(DataNotFoundException ex) {
         ApiResponse<Object> apiResponse = new ApiResponse<>(false, ex.getMessage(), null);
