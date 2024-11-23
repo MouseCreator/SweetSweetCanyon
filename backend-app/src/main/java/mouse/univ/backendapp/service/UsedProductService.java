@@ -21,9 +21,9 @@ public class UsedProductService {
     private final UsedProductRepository usedProductRepository;
     private final ProductRepository productRepository;
     @Transactional
-    public UsedProduct useProduct(Product product, Long amount) {
+    protected UsedProduct useProduct(Product product, Long amount, boolean supply) {
         String name = product.getName();
-        BigDecimal price = product.getPrice();
+        BigDecimal price = supply ? product.getDeliveryPrice() : product.getPrice();
         UsedProduct usedProduct = new UsedProduct();
         usedProduct.setAmount(amount);
         usedProduct.setPrice(price);
@@ -31,17 +31,35 @@ public class UsedProductService {
         usedProduct.setName(name);
         return usedProductRepository.save(usedProduct);
     }
+
     @Transactional
-    public UsedProduct useItem(TransactionItem transactionItem) {
+    public UsedProduct loseProduct(Product product, Long amount) {
+        return useProduct(product, amount, false);
+    }
+    @Transactional
+    protected UsedProduct useItem(TransactionItem transactionItem, boolean supply) {
         Long productId = transactionItem.getProductId();
         Long amount = transactionItem.getAmount();
         Optional<Product> productOpt = productRepository.findById(productId);
         Product product = productOpt.orElseThrow(() -> new InternalNotFound("product", productId));
-        return useProduct(product, amount);
+        return useProduct(product, amount, supply);
     }
     @Transactional
-    public List<UsedProduct> useItems(Collection<TransactionItem> items) {
-        return items.stream().map(this::useItem).toList();
+    protected List<UsedProduct> useItems(Collection<TransactionItem> items, boolean supply) {
+        return items.stream().map(i->useItem(i, supply)).toList();
+    }
+
+    @Transactional
+    public List<UsedProduct> supplyItems(Collection<TransactionItem> items) {
+        return useItems(items, true);
+    }
+    @Transactional
+    public List<UsedProduct> loseItems(Collection<TransactionItem> items) {
+        return useItems(items, false);
+    }
+    @Transactional
+    public List<UsedProduct> saleItems(Collection<TransactionItem> items) {
+        return useItems(items, false);
     }
 
 }

@@ -14,6 +14,7 @@ import mouse.univ.backendapp.model.*;
 import mouse.univ.backendapp.repository.ShopRepository;
 import mouse.univ.backendapp.repository.SupplierRepository;
 import mouse.univ.backendapp.repository.SupplyRepository;
+import mouse.univ.backendapp.service.StockService;
 import mouse.univ.backendapp.service.UsedProductService;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +30,7 @@ public class SupplyService {
     private final SupplierRepository supplierRepository;
     private final ShopRepository shopRepository;
     private final TransactionService transactionService;
+    private final StockService stockService;
 
     @Transactional
     public SupplyResponseDTO supplyProducts(SupplyCreateDTO supplyCreateDTO, UserDetails userDetails) {
@@ -38,7 +40,7 @@ public class SupplyService {
         Long supplierId = supplyCreateDTO.getSupplierId();
         Optional<Supplier> supplierOpt = supplierRepository.findById(supplierId);
         Supplier supplier = supplierOpt.orElseThrow(()->new DataNotFoundException("Cannot find supplier with id " + supplierId));
-        List<UsedProduct> usedProducts = usedProductService.useItems(items);
+        List<UsedProduct> usedProducts = usedProductService.supplyItems(items);
 
         Shop shop = shopRepository.findById(shopId).orElseThrow(() -> new InternalNotFound("shop", shopId));
 
@@ -48,6 +50,7 @@ public class SupplyService {
                 .products(usedProducts)
                 .shop(shop)
                 .get();
+        stockService.addAllToStocks(shopId, items);
         Transaction savedTransaction = transactionService.saveTransaction(transaction);
         Supply supply = new Supply();
         supply.setTransaction(savedTransaction);

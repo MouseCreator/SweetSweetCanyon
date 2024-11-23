@@ -3,8 +3,10 @@ package mouse.univ.backendapp.service;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import mouse.univ.backendapp.dto.stock.StockResponseDTO;
+import mouse.univ.backendapp.dto.transaction.TransactionItem;
 import mouse.univ.backendapp.exception.DataNotFoundException;
 import mouse.univ.backendapp.exception.DeleteOrderException;
+import mouse.univ.backendapp.exception.ItemInvalidStateException;
 import mouse.univ.backendapp.exception.NoStockException;
 import mouse.univ.backendapp.mapper.StockMapper;
 import mouse.univ.backendapp.model.Product;
@@ -17,10 +19,7 @@ import mouse.univ.backendapp.repository.StockRepository;
 import org.springframework.stereotype.Service;
 
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
@@ -108,7 +107,45 @@ public class StockService {
         } else {
             allStocks = stockRepository.findAllByNameAndShop(name, shopId);
         }
-        Map<Long, Stock> map = new HashMap<>();
         return allStocks.stream().map(stockMapper::toResponse).toList();
     }
+
+    public List<Stock> findAllByShop(Shop shop) {
+        return stockRepository.findAllByShop(shop);
+    }
+
+    public List<Stock> findAllByProduct(Product product) {
+        return stockRepository.findAllByProduct(product);
+    }
+    @Transactional
+    public void addAllToStocks(Long shopId, Collection<TransactionItem> items) {
+        for (TransactionItem item : items) {
+            addToStocks(shopId, item.getProductId(), item.getAmount());
+        }
+    }
+    @Transactional
+    public void subtractAllFromStocks(Long shopId, Collection<TransactionItem> items) {
+        for (TransactionItem item : items) {
+            subtractFromStocks(shopId, item.getProductId(), item.getAmount());
+        }
+    }
+    @Transactional
+    public void addToStocks(Long shopId, Long productId, Long amount) {
+        modifyStocks(shopId, productId, amount);
+    }
+    @Transactional
+    public void subtractFromStocks(Long shopId, Long productId, Long amount) {
+        modifyStocks(shopId, productId, -amount);
+    }
+    @Transactional
+    protected void modifyStocks(Long shopId, Long productId, Long byAmount) {
+        StockKey stockKey = new StockKey(shopId, productId);
+        Stock stock = stockRepository.findById(stockKey).orElseThrow(()->new NoStockException(shopId, productId));
+        stock.setAmount(stock.getAmount()+byAmount);
+        if (stock.getAmount() < 0) {
+            throw new ItemInvalidStateException("Cannot save stock with negative amount");
+        }
+        stockRepository.save(stock);
+    }
+
 }

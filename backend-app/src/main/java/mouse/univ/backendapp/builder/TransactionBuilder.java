@@ -58,7 +58,8 @@ public class TransactionBuilder {
     private BigDecimal calculateSum(Collection<UsedProduct> products) {
         BigDecimal sum = new BigDecimal(0);
         for (UsedProduct usedProduct : products) {
-            BigDecimal price = usedProduct.getPrice();
+            BigDecimal price;
+            price = usedProduct.getPrice();
             Long amount = usedProduct.getAmount();
             BigDecimal factor = price.multiply(new BigDecimal(amount));
             sum = sum.add(factor);

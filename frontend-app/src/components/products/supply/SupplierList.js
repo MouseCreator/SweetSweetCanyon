@@ -1,24 +1,23 @@
 import React, {useEffect, useState} from "react";
 import "./supply.css"
 import "../../../static_controls/inputs.css"
+import {getAllSuppliers} from "../../../connect/connectStatics";
 function SupplierList({onSelectSupplier, onTypeName, supplierError, nameError}) {
     const [supplierId, setSupplierId] = useState(-1);
     const [name, setName] = useState('');
-    const suppliersList = [
-        {
-            id: 1,
-            title: 'Factory 1'
-        },
-        {
-            id: 2,
-            title: 'Factory 2'
-        }
-    ]
+
+    const [suppliersList, setSuppliersList] = useState([])
     useEffect(()=> {
-        if (suppliersList.length===1) {
-            onSelectSupplier(suppliersList[0].id)
-        }
-    })
+        getAllSuppliers().then((list)=> {
+            if (list.success) {
+                const t = list.data
+                setSuppliersList(t);
+                if (t.length === 1) {
+                    onSelectSupplier(t[0].id)
+                }
+            }
+        }).catch((e)=>(console.log(e.message)))
+    }, [onSelectSupplier])
     const m_onSupplierChange = (sup) => {
         onSelectSupplier(sup);
         setSupplierId(sup)

@@ -3,14 +3,18 @@ package mouse.univ.backendapp.service.transaction;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import mouse.univ.backendapp.builder.TransactionBuilder;
+import mouse.univ.backendapp.dto.loss.LossCreateDTO;
+import mouse.univ.backendapp.dto.loss.LossResponseDTO;
+import mouse.univ.backendapp.dto.transaction.TransactionItem;
 import mouse.univ.backendapp.dto.user.UserDetails;
 import mouse.univ.backendapp.exception.InternalNotFound;
+import mouse.univ.backendapp.mapper.LossMapper;
 import mouse.univ.backendapp.model.*;
 import mouse.univ.backendapp.repository.*;
+import mouse.univ.backendapp.service.StockService;
 import mouse.univ.backendapp.service.UsedProductService;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -20,11 +24,13 @@ import java.util.Optional;
 public class LossService {
 
     private final UsedProductService usedProductService;
-    private final StockRepository stockRepository;
+    private final StockService stockService;
     private final ShopRepository shopRepository;
     private final ProductRepository productRepository;
     private final LossReasonRepository lossReasonRepository;
     private final LossRepository lossRepository;
+    private final TransactionService transactionService;
+    private final LossMapper lossMapper;
     @Transactional
     public Optional<Loss> loseEverythingInShop(Long shopId, UserDetails userDetails) {
         List<Stock> stocksByShop = getStocksByShop(shopId);
@@ -44,11 +50,11 @@ public class LossService {
 
     private List<Stock> getStocksByShop(Long shopId) {
         Shop shop = shopRepository.findById(shopId).orElseThrow(() -> new InternalNotFound("shop", shopId));
-        return stockRepository.findAllByShop(shop);
+        return stockService.findAllByShop(shop);
     }
     private List<Stock> getStocksByProduct(Long productId) {
         Product product = productRepository.findById(productId).orElseThrow(() -> new InternalNotFound("product", productId));
-        return stockRepository.findAllByProduct(product);
+        return stockService.findAllByProduct(product);
     }
     @Transactional
     public List<Loss> loseEveryProductWithId(Long productId, UserDetails userDetails) {
@@ -71,12 +77,34 @@ public class LossService {
         return result;
 
     }
+    @Transactional
+    public LossResponseDTO loseProducts(LossCreateDTO lossCreateDTO, UserDetails userDetails) {
+        Long shopId = userDetails.getAssociatedShopId();
+        List<TransactionItem> items = lossCreateDTO.getItems();
+        transactionService.validateEnoughItems(shopId, items);
+        List<UsedProduct> usedProducts = usedProductService.loseItems(items);
+        Shop shop = shopRepository.findById(shopId).orElseThrow(() -> new InternalNotFound("shop", shopId));
+        TransactionBuilder builder = new TransactionBuilder();
+
+        Transaction transaction = builder.loss()
+                .username(userDetails.getName())
+                .products(usedProducts)
+                .shop(shop)
+                .get();
+        Transaction savedTransaction = transactionService.saveTransaction(transaction);
+        stockService.subtractAllFromStocks(shopId, items);
+        Loss loss = new Loss();
+        loss.setTransaction(savedTransaction);
+        loss.setComment(lossCreateDTO.getComment());
+        Loss saved = lossRepository.save(loss);
+        return lossMapper.map(saved);
+    }
 
     private Transaction transactionFromStocks(String userName, List<Stock> stocksByShop, Shop shop) {
         TransactionBuilder builder = new TransactionBuilder();
         List<UsedProduct> usedProducts = new ArrayList<>();
         for (Stock stock : stocksByShop) {
-            UsedProduct usedProduct = usedProductService.useProduct(stock.getProduct(), stock.getAmount());
+            UsedProduct usedProduct = usedProductService.loseProduct(stock.getProduct(), stock.getAmount());
             usedProducts.add(usedProduct);
         }
         return builder.loss().username(userName).products(usedProducts).shop(shop).get();

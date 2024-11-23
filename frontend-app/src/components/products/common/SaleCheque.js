@@ -16,7 +16,7 @@ export function SaleCheque({selectedProducts, isDelivery}) {
                     (
                     <div className={"cheque-container"}>
                         <div>{sp.product.name}</div>
-                        <div>{formatPrice(sp.product.price)}</div>
+                        <div>{formatPrice(getPrice(sp.product))}</div>
                         <div>{sp.amount}</div>
                     </div>
                     )

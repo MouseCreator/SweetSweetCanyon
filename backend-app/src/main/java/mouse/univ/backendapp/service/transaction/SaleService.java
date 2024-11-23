@@ -15,6 +15,7 @@ import mouse.univ.backendapp.model.Transaction;
 import mouse.univ.backendapp.model.UsedProduct;
 import mouse.univ.backendapp.repository.SaleRepository;
 import mouse.univ.backendapp.repository.ShopRepository;
+import mouse.univ.backendapp.service.StockService;
 import mouse.univ.backendapp.service.UsedProductService;
 import org.springframework.stereotype.Service;
 
@@ -29,12 +30,13 @@ public class SaleService {
     private final UsedProductService usedProductService;
     private final SaleMapper saleMapper;
     private final ShopRepository shopRepository;
+    private final StockService stockService;
     @Transactional
     public SaleResponseDTO saleProducts(SaleCreateDTO saleCreateDTO, UserDetails userDetails) {
         Long shopId = userDetails.getAssociatedShopId();
         List<TransactionItem> items = saleCreateDTO.getItems();
         transactionService.validateEnoughItems(shopId, items);
-        List<UsedProduct> usedProducts = usedProductService.useItems(items);
+        List<UsedProduct> usedProducts = usedProductService.saleItems(items);
         Shop shop = shopRepository.findById(shopId).orElseThrow(() -> new InternalNotFound("shop", shopId));
         TransactionBuilder builder = new TransactionBuilder();
 
@@ -43,6 +45,7 @@ public class SaleService {
                 .products(usedProducts)
                 .shop(shop)
                 .get();
+        stockService.subtractAllFromStocks(shopId, items);
         Transaction savedTransaction = transactionService.saveTransaction(transaction);
         Sale sale = new Sale();
         sale.setTransaction(savedTransaction);
