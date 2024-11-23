@@ -8,10 +8,7 @@ import mouse.univ.backendapp.dto.user.UserDetails;
 import mouse.univ.backendapp.service.transaction.LossService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,5 +22,12 @@ public class LoseController {
         LossResponseDTO response  = lossService.loseProducts(lossCreateDTO, userDetails);
         ApiResponse<LossResponseDTO> api = ApiResponse.ok(response);
         return ResponseEntity.status(HttpStatus.CREATED).body(api);
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<LossResponseDTO>>
+    getSupplyById(@PathVariable("id") Long id) {
+        LossResponseDTO supply = lossService.getLossById(id);
+        ApiResponse<LossResponseDTO> apiResponse = ApiResponse.ok(supply);
+        return ResponseEntity.status(HttpStatus.OK).body(apiResponse);
     }
 }

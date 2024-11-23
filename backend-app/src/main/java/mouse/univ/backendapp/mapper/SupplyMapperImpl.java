@@ -1,5 +1,6 @@
 package mouse.univ.backendapp.mapper;
 
+import mouse.univ.backendapp.dto.shop.ShopResponseDTO;
 import mouse.univ.backendapp.dto.suppliers.SuppliersResponseDTO;
 import mouse.univ.backendapp.dto.supply.SupplyResponseDTO;
 import mouse.univ.backendapp.dto.used.UsedProductResponseDTO;
@@ -14,9 +15,11 @@ public class SupplyMapperImpl implements SupplyMapper {
 
     private final SuppliersMapper suppliersMapper;
     private final UsedProductMapper usedProductMapper;
-    public SupplyMapperImpl(SuppliersMapper suppliersMapper, UsedProductMapper usedProductMapper) {
+    private final ShopMapper shopMapper;
+    public SupplyMapperImpl(SuppliersMapper suppliersMapper, UsedProductMapper usedProductMapper, ShopMapper shopMapper) {
         this.suppliersMapper = suppliersMapper;
         this.usedProductMapper = usedProductMapper;
+        this.shopMapper = shopMapper;
     }
 
     public SupplyResponseDTO toResponse(Supply supply) {
@@ -37,7 +40,8 @@ public class SupplyMapperImpl implements SupplyMapper {
         supplyResponseDTO.setSupplier(supplier);
         supplyResponseDTO.setSupplierName(supply.getSupplierName());
         supplyResponseDTO.setUsername(transaction.getUsername());
-
+        ShopResponseDTO shop = shopMapper.toResponseDTO(transaction.getShop());
+        supplyResponseDTO.setShop(shop);
         return supplyResponseDTO;
     }
 }

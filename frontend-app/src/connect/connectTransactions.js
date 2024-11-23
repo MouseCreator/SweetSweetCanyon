@@ -4,10 +4,14 @@ function transformSale(sfs) {
     return {
         id: sfs.id,
         type: sfs.type,
-        date: sfs.date,
+        date: new Date(sfs.date),
         products: sfs.products,
         cashier: sfs.username,
-        price: sfs.price
+        price: sfs.price,
+        shop: {
+            id: sfs.shop.id,
+            name: sfs.shop.name
+        }
     }
 }
 
@@ -15,7 +19,7 @@ function transformSupply(sfs) {
     return {
         id: sfs.id,
         type: sfs.type,
-        date: sfs.date,
+        date: new Date(sfs.date),
         products: sfs.products,
         cashier: sfs.username,
         price: sfs.price,
@@ -23,6 +27,10 @@ function transformSupply(sfs) {
         supplier: {
             id: sfs.supplier.id,
             title: sfs.supplier.name
+        },
+        shop: {
+            id: sfs.shop.id,
+            name: sfs.shop.name
         }
     }
 }
@@ -31,7 +39,7 @@ function transformLoss(sfs) {
     return {
         id: sfs.id,
         type: sfs.type,
-        date: sfs.date,
+        date: new Date(sfs.date),
         products: sfs.products,
         cashier: sfs.username,
         price: sfs.price,
@@ -39,6 +47,10 @@ function transformLoss(sfs) {
         reason: {
             id: sfs.reason.id,
             title: sfs.reason.title
+        },
+        shop: {
+            id: sfs.shop.id,
+            name: sfs.shop.name
         }
     }
 }
@@ -97,15 +109,25 @@ function transformTransaction(tfs) {
 }
 export async function getTransactionList(params) {
     const request = toRequestParams(params)
-    console.log('request')
-    console.log(request)
     const data = await doGet(`${ST.HOST_URL}/transactions/search`, request)
-    const transformed = transformEach(data, transformTransaction)
-    console.log('response')
-    console.log(transformed)
-    return transformed
+    return transformEach(data, transformTransaction)
 }
 export async function getTransactionPages(params) {
     const request = toRequestParams(params)
     return await doGet(`${ST.HOST_URL}/transactions/pages`, request)
+}
+
+export async function getSaleById(id) {
+    const data = await doGet(`${ST.HOST_URL}/sale/${id}`)
+    return transformSingle(data, transformSale)
+}
+export async function getSupplyById(id) {
+    const data = await doGet(`${ST.HOST_URL}/supply/${id}`)
+    const get = transformSingle(data, transformSupply)
+    console.log(get)
+    return get
+}
+export async function getLossById(id) {
+    const data = await doGet(`${ST.HOST_URL}/loss/${id}`)
+    return transformSingle(data, transformLoss)
 }

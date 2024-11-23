@@ -8,10 +8,7 @@ import mouse.univ.backendapp.dto.user.UserDetails;
 import mouse.univ.backendapp.service.transaction.SupplyService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,5 +22,13 @@ public class SupplyController {
         SupplyResponseDTO supply = supplyService.supplyProducts(supplyCreateDTO, userDetails);
         ApiResponse<SupplyResponseDTO> apiResponse = ApiResponse.ok(supply);
         return ResponseEntity.status(HttpStatus.CREATED).body(apiResponse);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<SupplyResponseDTO>>
+    getSupplyById(@PathVariable("id") Long id) {
+        SupplyResponseDTO supply = supplyService.getSupplyById(id);
+        ApiResponse<SupplyResponseDTO> apiResponse = ApiResponse.ok(supply);
+        return ResponseEntity.status(HttpStatus.OK).body(apiResponse);
     }
 }

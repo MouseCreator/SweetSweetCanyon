@@ -2,6 +2,7 @@ package mouse.univ.backendapp.mapper;
 
 import mouse.univ.backendapp.dto.loss.LossReasonResponseDTO;
 import mouse.univ.backendapp.dto.loss.LossResponseDTO;
+import mouse.univ.backendapp.dto.shop.ShopResponseDTO;
 import mouse.univ.backendapp.dto.used.UsedProductResponseDTO;
 import mouse.univ.backendapp.model.Loss;
 import mouse.univ.backendapp.model.Transaction;
@@ -13,10 +14,12 @@ import java.util.List;
 public class LossMapperImpl implements LossMapper {
     private final LossReasonMapper lossReasonMapper;
     private final UsedProductMapper usedProductMapper;
+    private final ShopMapper shopMapper;
 
-    public LossMapperImpl(LossReasonMapper lossReasonMapper, UsedProductMapper usedProductMapper) {
+    public LossMapperImpl(LossReasonMapper lossReasonMapper, UsedProductMapper usedProductMapper, ShopMapper shopMapper) {
         this.lossReasonMapper = lossReasonMapper;
         this.usedProductMapper = usedProductMapper;
+        this.shopMapper = shopMapper;
     }
 
     @Override
@@ -37,7 +40,9 @@ public class LossMapperImpl implements LossMapper {
                 .stream()
                 .map(usedProductMapper::fromProduct)
                 .toList();
-        lossResponseDTO.setUsedProducts(list);
+        lossResponseDTO.setProducts(list);
+        ShopResponseDTO shop = shopMapper.toResponseDTO(transaction.getShop());
+        lossResponseDTO.setShop(shop);
 
         return lossResponseDTO;
     }

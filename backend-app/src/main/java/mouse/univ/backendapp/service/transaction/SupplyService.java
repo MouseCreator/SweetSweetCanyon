@@ -64,4 +64,10 @@ public class SupplyService {
     public Supply save(Supply supply) {
         return supplyRepository.save(supply);
     }
+
+    public SupplyResponseDTO getSupplyById(Long id) {
+        Optional<Supply> supplyById = supplyRepository.findById(id);
+        Supply supply = supplyById.orElseThrow(() -> new DataNotFoundException("Cannot find supply №" + id));
+        return supplyMapper.toResponse(supply);
+    }
 }

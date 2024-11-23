@@ -7,6 +7,7 @@ import mouse.univ.backendapp.dto.sale.SaleCreateDTO;
 import mouse.univ.backendapp.dto.sale.SaleResponseDTO;
 import mouse.univ.backendapp.dto.transaction.TransactionItem;
 import mouse.univ.backendapp.dto.user.UserDetails;
+import mouse.univ.backendapp.exception.DataNotFoundException;
 import mouse.univ.backendapp.exception.InternalNotFound;
 import mouse.univ.backendapp.mapper.SaleMapper;
 import mouse.univ.backendapp.model.Sale;
@@ -55,6 +56,11 @@ public class SaleService {
     @Transactional
     public Sale save(Sale sale) {
         return saleRepository.save(sale);
+    }
+
+    public SaleResponseDTO getSaleById(Long id) {
+        Sale sale = saleRepository.findById(id).orElseThrow(() -> new DataNotFoundException("Cannot find sale with id " + id));
+        return saleMapper.toResponse(sale);
     }
 
 

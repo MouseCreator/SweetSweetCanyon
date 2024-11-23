@@ -1,6 +1,7 @@
 package mouse.univ.backendapp.dto.sale;
 
 import lombok.Data;
+import mouse.univ.backendapp.dto.shop.ShopResponseDTO;
 import mouse.univ.backendapp.dto.used.UsedProductResponseDTO;
 
 import java.math.BigDecimal;
@@ -15,4 +16,5 @@ public class SaleResponseDTO {
     private List<UsedProductResponseDTO> products;
     private String username;
     private BigDecimal price;
+    private ShopResponseDTO shop;
 }

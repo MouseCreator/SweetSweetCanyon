@@ -2,6 +2,7 @@ package mouse.univ.backendapp.mapper;
 
 import lombok.AllArgsConstructor;
 import mouse.univ.backendapp.dto.sale.SaleResponseDTO;
+import mouse.univ.backendapp.dto.shop.ShopResponseDTO;
 import mouse.univ.backendapp.dto.used.UsedProductResponseDTO;
 import mouse.univ.backendapp.model.Sale;
 import mouse.univ.backendapp.model.Transaction;
@@ -13,7 +14,8 @@ import java.util.List;
 @AllArgsConstructor
 public class SaleMapperImpl implements SaleMapper {
 
-    private UsedProductMapper usedProductMapper;
+    private final UsedProductMapper usedProductMapper;
+    private final ShopMapper shopMapper;
     @Override
     public SaleResponseDTO toResponse(Sale sale) {
         SaleResponseDTO saleResponseDTO = new SaleResponseDTO();
@@ -27,6 +29,8 @@ public class SaleMapperImpl implements SaleMapper {
         saleResponseDTO.setProducts(list);
         saleResponseDTO.setUsername(transaction.getUsername());
         saleResponseDTO.setPrice(transaction.getPrice());
+        ShopResponseDTO shop = shopMapper.toResponseDTO(transaction.getShop());
+        saleResponseDTO.setShop(shop);
         return saleResponseDTO;
     }
 }

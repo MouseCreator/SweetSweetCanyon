@@ -7,6 +7,7 @@ import mouse.univ.backendapp.dto.loss.LossCreateDTO;
 import mouse.univ.backendapp.dto.loss.LossResponseDTO;
 import mouse.univ.backendapp.dto.transaction.TransactionItem;
 import mouse.univ.backendapp.dto.user.UserDetails;
+import mouse.univ.backendapp.exception.DataNotFoundException;
 import mouse.univ.backendapp.exception.InternalNotFound;
 import mouse.univ.backendapp.mapper.LossMapper;
 import mouse.univ.backendapp.model.*;
@@ -114,5 +115,11 @@ public class LossService {
             usedProducts.add(usedProduct);
         }
         return builder.loss().username(userName).products(usedProducts).shop(shop).get();
+    }
+
+    public LossResponseDTO getLossById(Long id) {
+        Optional<Loss> byId = lossRepository.findById(id);
+        Loss loss = byId.orElseThrow(() -> new DataNotFoundException("Cannot find loss №" + byId));
+        return lossMapper.map(loss);
     }
 }
