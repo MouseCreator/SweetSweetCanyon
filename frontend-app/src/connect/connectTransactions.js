@@ -1,4 +1,4 @@
-import {doPost, transformSingle} from "./connectCommons";
+import {doGet, doPost, transformEach, transformSingle} from "./connectCommons";
 import {ST} from "./secret";
 function transformSale(sfs) {
     return {
@@ -75,4 +75,37 @@ export async function postLoss(loss) {
     }
     const data = await doPost(`${ST.HOST_URL}/loss`, body);
     return transformSingle(data, transformLoss);
+}
+export function toRequestParams(params) {
+    return {
+        type: params.type || "all",
+        shopId: params.shopId === "all" || !params.shopId ? null : Number.parseInt(params.shopId),
+        sort: params.sort,
+        itemsPerPage: 20,
+        currentPage: params.page
+    }
+}
+
+function transformTransaction(tfs) {
+    return {
+        id: tfs.id,
+        date: new Date(tfs.date),
+        type: tfs.type,
+        price: tfs.price,
+        shop: tfs.shop
+    }
+}
+export async function getTransactionList(params) {
+    const request = toRequestParams(params)
+    console.log('request')
+    console.log(request)
+    const data = await doGet(`${ST.HOST_URL}/transactions/search`, request)
+    const transformed = transformEach(data, transformTransaction)
+    console.log('response')
+    console.log(transformed)
+    return transformed
+}
+export async function getTransactionPages(params) {
+    const request = toRequestParams(params)
+    return await doGet(`${ST.HOST_URL}/transactions/pages`, request)
 }

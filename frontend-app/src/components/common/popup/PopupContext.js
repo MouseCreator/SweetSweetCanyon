@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, {createContext, useCallback, useContext, useState} from "react";
 import {Popup} from "./PopupComponent";
 // Create Context
 const PopupContext = createContext();
@@ -12,14 +12,14 @@ export const usePopup = () => {
 export const PopupProvider = ({ children }) => {
     const [popupData, setPopupData] = useState({ text: "", color: "", active: false });
 
-    const invokePopup = (text, color='black') => {
+    const invokePopup = useCallback((text, color='black') => {
         setPopupData({ text, color, active: true });
         setTimeout(() => {
             setPopupData((prev) => ({ ...prev, active: false }));
         }, 2000);
-    };
+    }, []);
 
-    const invokePopupTimeout = (text, color, atomic, timeout) => {
+    const invokePopupTimeout = useCallback((text, color, atomic, timeout) => {
         setTimeout(() => {
             if (!atomic.value) {
                 return;
@@ -29,7 +29,7 @@ export const PopupProvider = ({ children }) => {
                 setPopupData((prev) => ({ ...prev, active: false }));
             }, 2000);
         }, timeout);
-    };
+    }, [])
 
     return (
         <PopupContext.Provider value={{ invokePopup, invokePopupTimeout }}>

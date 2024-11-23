@@ -1,81 +1,60 @@
 import {TransactionsControl} from "./TransactionsControl";
 import {TransactionPageControl} from "./TransactionPageControl";
-import {useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import {useSearchParams} from "react-router-dom";
 import {TransactionItem} from "./TransactionItem";
+import {getAllShops} from "../../connect/connectShops";
+import {getTransactionList, getTransactionPages} from "../../connect/connectTransactions";
+import {usePopup} from "../common/popup/PopupContext";
 
-const MOCK_TRANSACTIONS = [
-    {
-        id: 1,
-        type: 'sale',
-        date: new Date(),
-        products: [ {id: 1, name: 'A', amount: 2, price: 20} ],
-        price: 11,
-        shop: {
-            id: 1,
-            name: 'Shop'
-        },
-        cashier: 'Mouse'
-    },
-    {
-        id: 2,
-        type: 'supply',
-        date: new Date(),
-        products: [ {id: 1, name: 'A', amount: 2, price: 20} ],
-        price: 44,
-        shop: {
-            id: 1,
-            name: 'Shop'
-        },
-        cashier: 'Mouse',
-        supplier: {
-            id: 1,
-            title: 'Factory 1',
-        },
-        supplierName: 'George',
-    },
-    {
-        id: 3,
-        type: 'loss',
-        date: new Date(),
-        products: [ {id: 1, name: 'A', amount: 2, price: 20} ],
-        price: 55,
-        shop: {
-            id: 1,
-            name: 'Shop'
-        },
-        cashier: 'Mouse',
-        reason: {
-            id: 1,
-            title: 'Other'
-        },
-        comment: 'Lost'
-    }
-]
-const MOCK_SHOPS = [
-    {
-        id: 1,
-        name: 'Shop 1'
-    },
-    {
-        id: 2,
-        name: 'Shop 2'
-    }
-]
 
 function TransactionsList() {
     const [searchParams, setSearchParams] = useSearchParams();
     const defParams = {
         shopId: searchParams.get('shop') || 'all',
-        type: searchParams.get('type') || "sale",
+        type: searchParams.get('type') || "all",
         sort: searchParams.get('sort') || "recent"
     }
-    const [transactions, setTransactions] = useState(MOCK_TRANSACTIONS);
-    const [shops, setShops] = useState(MOCK_SHOPS);
+    const [transactions, setTransactions] = useState([]);
+    const [shops, setShops] = useState([]);
     const [page, setPage] = useState(searchParams.get('page') || 0)
     const [params, setParams] = useState(defParams);
-    const [numPages, setNumPages] = useState(10);
+    const [numPages, setNumPages] = useState(0);
 
+    const { invokePopup } = usePopup()
+    const callback = useCallback((t, a)=>invokePopup(t,a), [invokePopup])
+
+    const updatePages = useCallback(() => {
+        const withParams = {
+            ...params,
+            page: page
+        }
+
+        getTransactionList(withParams).then((resp)=>{
+            if (resp.success) {
+                setTransactions(resp.data)
+            } else {
+                callback(resp.error, 'red')
+            }
+        }).catch((err)=>callback(err.message, 'red'))
+        getTransactionPages(withParams).then((resp)=>{
+            if (resp.success) {
+                setNumPages(resp.data.numberPages)
+            } else {
+                callback(resp.error, 'red')
+            }
+        }).catch((err)=>callback(err.message, 'red'))
+    }, [callback, params, page])
+    useEffect(()=> {
+        getAllShops().then((resp)=>{
+            if (resp.success) {
+                setShops(resp.data)
+            } else {
+                callback(resp.error, 'red')
+            }
+        }).catch(()=>callback('Cannot load shops!', 'red'))
+        updatePages();
+    }, [callback, updatePages, params])
     const updateParams = (newParams) => {
         setSearchParams(
             {
@@ -85,6 +64,7 @@ function TransactionsList() {
                 page: page
             });
         setParams(newParams)
+        updatePages();
     }
     const updatePage = (newPage) => {
         setSearchParams(
@@ -92,6 +72,7 @@ function TransactionsList() {
                 page: newPage
             });
         setPage(newPage)
+        updatePages();
     }
     return (
         <main>
@@ -100,7 +81,7 @@ function TransactionsList() {
             <TransactionsControl controlParams={params} updateControlParams={updateParams} shops={shops} />
             <h2 className={"tr-text-pink"}>Transactions:</h2>
             <div className={"tr-grid"}>
-                { transactions.map((t) => (<TransactionItem key={t.id} itemData={t} />)) }
+                { transactions.map((t,index) => (<TransactionItem key={index} itemData={t} />)) }
             </div>
             <TransactionPageControl page={page} onPageChange={updatePage} numPages={numPages} />
         </main>

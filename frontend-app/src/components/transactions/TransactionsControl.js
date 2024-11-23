@@ -24,6 +24,7 @@ export function TransactionsControl({controlParams, updateControlParams, shops})
                     className={`gen-input`}
                     value={controlParams.type}
                     onChange={(e) => selectType(e.target.value)}>
+                    <option value={"all"}>All</option>
                     <option value={"sale"}>Sale</option>
                     <option value={"loss"}>Loss</option>
                     <option value={"supply"}>Supply</option>
