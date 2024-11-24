@@ -20,6 +20,9 @@ export function TransactionItem({itemData}) {
             case "supply":
                 navigateTo = `/transactions/supplies/${id}`
                 break;
+            case "move":
+                navigateTo = `/transactions/moves/${id}`
+                break;
             default:
                 break;
         }

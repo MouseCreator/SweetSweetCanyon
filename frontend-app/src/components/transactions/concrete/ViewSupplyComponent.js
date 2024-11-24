@@ -1,7 +1,10 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import "../transactions.css"
 import {ViewCommons} from "./ViewCommons";
 import {useNavigate} from "react-router-dom";
+import {getLossById, getSupplyById} from "../../../connect/connectTransactions";
+import {GlobalLoading} from "../../common/loading/GlobalLoading";
+import {GlobalError} from "../../common/errors/GlobalError";
 const MOCK_SUPPLY = {
     id: 2,
         type: 'supply',
@@ -23,8 +26,27 @@ const MOCK_SUPPLY = {
 export function ViewSupplyComponent({itemId}) {
     const [item, setItem] = useState(MOCK_SUPPLY)
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState(null)
     const toTransactions = () => {
         navigate("/transactions");
+    }
+    useEffect(()=> {
+        getSupplyById(itemId).then((t)=>{
+                if (t.success) {
+                    setItem(t.data)
+                } else {
+                    setError(t.error)
+                }
+                setLoading(false)
+            }
+        ).catch(()=>setError('Connection error'))
+    }, [itemId])
+    if (loading) {
+        return <GlobalLoading />
+    }
+    if (error) {
+        return <GlobalError text={error} />
     }
     return (
         <div className={"trc-page"}>

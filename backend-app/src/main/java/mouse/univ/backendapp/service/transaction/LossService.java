@@ -81,6 +81,11 @@ public class LossService {
     @Transactional
     public LossResponseDTO loseProducts(LossCreateDTO lossCreateDTO, UserDetails userDetails) {
         Long shopId = userDetails.getAssociatedShopId();
+        String name = userDetails.getName();
+        return doLoss(shopId, name, lossCreateDTO);
+    }
+    @Transactional
+    protected LossResponseDTO doLoss(Long shopId, String name, LossCreateDTO lossCreateDTO) {
         List<TransactionItem> items = lossCreateDTO.getItems();
         transactionService.validateEnoughItems(shopId, items);
         List<UsedProduct> usedProducts = usedProductService.loseItems(items);
@@ -88,7 +93,7 @@ public class LossService {
         TransactionBuilder builder = new TransactionBuilder();
 
         Transaction transaction = builder.loss()
-                .username(userDetails.getName())
+                .username(name)
                 .products(usedProducts)
                 .shop(shop)
                 .get();
@@ -121,5 +126,9 @@ public class LossService {
         Optional<Loss> byId = lossRepository.findById(id);
         Loss loss = byId.orElseThrow(() -> new DataNotFoundException("Cannot find loss №" + byId));
         return lossMapper.map(loss);
+    }
+    @Transactional
+    public LossResponseDTO loseProduct(Long shopId, String name, LossCreateDTO lossCreateDTO) {
+        return doLoss(shopId, name, lossCreateDTO);
     }
 }

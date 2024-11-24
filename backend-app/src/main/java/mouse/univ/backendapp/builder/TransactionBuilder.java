@@ -76,4 +76,9 @@ public class TransactionBuilder {
         transaction.setUsername(cashier);
         return this;
     }
+
+    public TransactionBuilder movement() {
+        transaction.setType("move");
+        return this;
+    }
 }

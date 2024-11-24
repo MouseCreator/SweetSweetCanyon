@@ -1,30 +1,36 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import "../transactions.css"
 import {ViewCommons} from "./ViewCommons";
 import {useNavigate} from "react-router-dom";
-const MOCK_LOSS = {
-    id: 3,
-    type: 'loss',
-    date: new Date(),
-    products: [ {id: 1, name: 'Tasty cookies in colors rgb', amount: 2, price: 20}, {id: 2, name: 'Other', amount: 5, price: 20} ],
-    price: 55,
-    shop: {
-        id: 1,
-        name: 'Shop'
-    },
-    cashier: 'Mouse',
-    reason: {
-        id: 1,
-        title: 'Other'
-    },
-    comment: 'Lost'
-};
+import {GlobalLoading} from "../../common/loading/GlobalLoading";
+import {GlobalError} from "../../common/errors/GlobalError";
+import {getLossById} from "../../../connect/connectTransactions";
+
 
 export function ViewLossComponent({itemId}) {
-    const [item, setItem] = useState(MOCK_LOSS)
+    const [item, setItem] = useState(null)
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState(null)
     const navigate = useNavigate();
+    useEffect(()=> {
+        getLossById(itemId).then((t)=>{
+            if (t.success) {
+                setItem(t.data)
+            } else {
+                setError(t.error)
+            }
+            setLoading(false)
+            }
+        ).catch(()=>setError('Connection error'))
+    }, [itemId])
     const toTransactions = () => {
         navigate("/transactions");
+    }
+    if (loading) {
+        return <GlobalLoading />
+    }
+    if (error) {
+        return <GlobalError text={error} />
     }
     return (
         <div className={"trc-page"}>

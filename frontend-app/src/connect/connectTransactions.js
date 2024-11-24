@@ -54,6 +54,24 @@ function transformLoss(sfs) {
         }
     }
 }
+function transformMove(sfs) {
+    return {
+        id: sfs.id,
+        type: sfs.type,
+        date: new Date(sfs.date),
+        products: sfs.products,
+        cashier: sfs.username,
+        price: sfs.price,
+        toShop: {
+            id: sfs.toShop.id,
+            name: sfs.toShop.name
+        },
+        shop: {
+            id: sfs.shop.id,
+            name: sfs.shop.name
+        }
+    }
+}
 export async function postSale(sale) {
     const items = sale.map((pr)=> ({ productId: pr.product.id, amount: pr.amount} ))
     const body = {
@@ -120,6 +138,10 @@ export async function getTransactionPages(params) {
 export async function getSaleById(id) {
     const data = await doGet(`${ST.HOST_URL}/sale/${id}`)
     return transformSingle(data, transformSale)
+}
+export async function getMoveById(id) {
+    const data = await doGet(`${ST.HOST_URL}/move/${id}`)
+    return transformSingle(data, transformMove)
 }
 export async function getSupplyById(id) {
     const data = await doGet(`${ST.HOST_URL}/supply/${id}`)

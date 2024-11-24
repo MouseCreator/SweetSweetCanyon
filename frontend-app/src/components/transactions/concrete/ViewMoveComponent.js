@@ -1,20 +1,18 @@
 import {useEffect, useState} from "react";
-import "../transactions.css"
-import {ViewCommons} from "./ViewCommons";
 import {useNavigate} from "react-router-dom";
-import {getSaleById} from "../../../connect/connectTransactions";
+import {getMoveById} from "../../../connect/connectTransactions";
 import {GlobalLoading} from "../../common/loading/GlobalLoading";
 import {GlobalError} from "../../common/errors/GlobalError";
+import {ViewCommons} from "./ViewCommons";
 
-
-export function ViewSaleComponent({itemId}) {
+export function ViewMoveComponent({itemId}) {
     const [item, setItem] = useState(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
     const navigate = useNavigate();
 
     useEffect(()=> {
-        getSaleById(itemId).then((t)=>{
+        getMoveById(itemId).then((t)=>{
                 if (t.success) {
                     setItem(t.data)
                 } else {
@@ -38,11 +36,12 @@ export function ViewSaleComponent({itemId}) {
             <div className={"trc-wrapper"}>
                 <p className={"location-hint"}>
                     <span className={"location-link"} onClick={toTransactions}>Transactions</span>/
-                    <span>Sales</span>/
+                    <span>Movements</span>/
                     <span>{item.id}</span>
                 </p>
-                <h2 className={"trc-title"}>Sale №{item.id}</h2>
+                <h2 className={"trc-title"}>Movement №{item.id}</h2>
                 <ViewCommons item={item} />
+                <p> <span className={"trc-head"}>To shop: </span>{item.toShop.name}</p>
                 <div className={"trc-back-wrapper"}>
                     <button className={"gen-button trc-back"} onClick={toTransactions}>Back</button>
                 </div>

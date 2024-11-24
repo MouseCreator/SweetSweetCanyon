@@ -25,6 +25,7 @@ import TSalePage from "./pages/transactions/TSalePage";
 import TLossPage from "./pages/transactions/TLossPage";
 import {MainPage} from "./pages/main/MainPage";
 import {ReportsPage} from "./pages/reports/ReportsPage";
+import TMovePage from "./pages/transactions/TMovePage";
 
 function App() {
   return (
@@ -58,6 +59,7 @@ function App() {
           <Route path="/transactions/supplies/:id" element={<TSupplyPage />} />
           <Route path="/transactions/sales/:id" element={<TSalePage />} />
           <Route path="/transactions/losses/:id" element={<TLossPage />} />
+          <Route path="/transactions/moves/:id" element={<TMovePage />} />
           <Route path="/" element={<MainPage />} />
           <Route path="/reports" element={<ReportsPage />} />
 

@@ -2,23 +2,20 @@ import React, {useEffect, useState} from "react";
 import "./loss.css"
 import "../../../static_controls/inputs.css"
 import {sortReasons} from "../../../utils/data";
+import {getAllLossReasons} from "../../../connect/connectStatics";
 function LossReasonList({onSelectReason, onTypeComment, reasonError, commentError}) {
     const [supplierId, setSupplierId] = useState(-1);
     const [name, setName] = useState('');
-    const reasonList = [
-        {
-            id: 1,
-            title: 'Other'
-        },
-        {
-            id: 2,
-            title: 'Out of date'
-        },
-        {
-            id: 3,
-            title: 'Damaged'
-        }
-    ]
+    const [reasonList, setReasonList] = useState([])
+    useEffect(() => {
+         getAllLossReasons().then((r)=>{
+            if (r.success) {
+                setReasonList(r.data)
+            } else {
+                console.log(r.error)
+            }
+        })
+    })
     const sortedReasons = sortReasons(reasonList);
     useEffect(()=> {
         if (reasonList.length===1) {

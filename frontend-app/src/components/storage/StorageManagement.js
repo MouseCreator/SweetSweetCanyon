@@ -1,107 +1,56 @@
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import {StorageComponent} from "./StorageComponent";
 import {sortReasons} from "../../utils/data";
 import {useNavigate} from "react-router-dom";
 import {StorageMenu} from "./StorageMenu";
+import {getStocksByShopId} from "../../connect/connectStocks";
+import {getAllShops} from "../../connect/connectShops";
+import {getAllLossReasons} from "../../connect/connectStatics";
+import {GlobalLoading} from "../common/loading/GlobalLoading";
+import {GlobalError} from "../common/errors/GlobalError";
 
-const MOCK_STOCKS = [
-    {
-        product: {
-            id: 1,
-            name: 'cookie',
-            price: 10,
-            pictureUrl: 'https://assets.bonappetit.com/photos/5ca534485e96521ff23b382b/1:1/w_2700,h_2700,c_limit/chocolate-chip-cookie.jpg'
-        },
-        remaining: 10
-    },
-    {
-        product: {
-            id: 2,
-            name: 'cake',
-            price: 20,
-            pictureUrl: 'https://static01.nyt.com/images/2023/10/27/multimedia/27cakerex-plzm/27cakerex-plzm-threeByTwoMediumAt2X.jpg'
-        },remaining: 10
-    },
-    {
-        product: {
-            id: 3,
-            name: 'tasty marshmallow colors',
-            price: 30,
-            pictureUrl: 'https://static.toiimg.com/thumb/52762770.cms?imgsize=65333&width=800&height=800'
-        },
-        remaining: 10
-    },
-    {
-        product: {
-            id: 4,
-            name: 'muffins',
-            price: 25,
-            pictureUrl: 'https://www.allrecipes.com/thmb/RdyL1EgIB0Qq_fr5HjdsAmcpMlU=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/228553-moist-chocolate-muffins-DDMFS-4x3-a9f73a46938547c99d921613dc167741.jpg'
-        },
-        remaining: 0
-    },
-    {
-        product: {
-            id: 5,
-            name: 'mint candies',
-            price: 10,
-            pictureUrl: 'https://5.imimg.com/data5/LL/LL/GLADMIN-/mint-candy-250x250.jpg'
-        },
-        remaining: 20
-    },
-    {
-        product: {
-            id: 6,
-            name: 'Product with no image',
-            price: 10,
-            pictureUrl: null
-        },
-        remaining: 10
-    }
-]
-
-const MOCK_SHOPS = [
-    {
-        id: 1,
-        name: 'Shop 1',
-        address: 'Sweet street'
-    },
-    {
-        id: 2,
-        name: 'Shop 2',
-        address: 'Cookie Ave'
-    },
-    {
-        id: 3,
-        name: 'Shop 3',
-        address: 'Cake Alley'
-    }
-]
-
-const LOSS_REASONS = [
-    {
-        id: 1,
-        title: 'Other'
-    },
-    {
-        id: 2,
-        title: 'Out of date'
-    },
-    {
-        id: 3,
-        title: 'Damaged'
-    }
-]
 export function StorageManagement({shopId}) {
-    const [remainingProducts, setRemainingProducts] = useState(MOCK_STOCKS)
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState('')
+    const [remainingProducts, setRemainingProducts] = useState([])
     const [elements, setElements] = useState([])
-    const [shops, setShops] = useState(MOCK_SHOPS);
-    const [reasons, setReasons] = useState(LOSS_REASONS);
+    const [shops, setShops] = useState([]);
+    const [reasons, setReasons] = useState([]);
     const navigate = useNavigate();
-    useEffect(() => {
+    const [myShop, setMyShop] = useState(null)
+    async function effect(shopId) {
+        const newStocks = await getStocksByShopId(shopId);
+        const newShops = await getAllShops()
+        const newReasons = await getAllLossReasons()
+        console.log(newReasons)
+        let errBuilder = ''
+        if (newStocks.success) {
+            setRemainingProducts(newStocks.data);
+        } else {
+            errBuilder += 'Cannot load stocks for this shop'
+        }
         const idToFilter = Number(shopId);
-        const filteredShops = MOCK_SHOPS.filter((shop) => shop.id !== idToFilter);
-        setShops(filteredShops);
+        if (newStocks.success) {
+            const filteredShops = newShops.data.filter((shop) => shop.id !== idToFilter);
+            setShops(filteredShops);
+        } else {
+            errBuilder += 'Cannot load shop list'
+        }
+        if (newReasons.success) {
+            setReasons(newReasons.data)
+        } else {
+            errBuilder += 'Cannot load reasons'
+        }
+        const my = newShops.data.find((s)=>s.id===shopNum)
+        setMyShop(my);
+        setLoading(false)
+        setError(errBuilder)
+    }
+
+    const callback = useCallback((shopId)=>
+        effect(shopId), [effect])
+    useEffect(() => {
+        callback(shopId).catch(error => { setError('Connection error'); console.log(error.message) })
     }, [shopId]);
     const sortedReasons = sortReasons(reasons);
 
@@ -134,15 +83,20 @@ export function StorageManagement({shopId}) {
     }
     const [index, setIndex] = useState(0);
     const shopNum = Number(shopId);
-    const myShop = MOCK_SHOPS.find((s)=>s.id===shopNum)
+    if (loading) {
+        return <GlobalLoading />
+    }
+    if (error !== '') {
+        return <GlobalError text={error} />
+    }
     return (
         <div className={"w-full"}>
             <p className={"location-hint"}>
             <span className={"location-link"} onClick={()=>{navigate('/shops')}}>Shops</span>/
-            <span className={"location-link"} onClick={()=>{navigate(`/shops/${shopId}`)}}>{myShop.name}</span>/Manage
+            <span className={"location-link"} onClick={()=>{navigate(`/shops/${shopId}`)}}>{myShop?.name ?? ''}</span>/Manage
             </p>
             {
-                myShop === undefined ? (<p>Shop not found!</p>) :
+                myShop == null ? (<p>Shop not found!</p>) :
                 <div className={"w-full flex items-start"}>
                     <div className={"store-content"}>
                     {

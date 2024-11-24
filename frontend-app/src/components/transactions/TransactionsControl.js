@@ -28,6 +28,7 @@ export function TransactionsControl({controlParams, updateControlParams, shops})
                     <option value={"sale"}>Sale</option>
                     <option value={"loss"}>Loss</option>
                     <option value={"supply"}>Supply</option>
+                    <option value={"move"}>Movement</option>
                 </select>
             </div>
             <div className={"tr-control-item"}>

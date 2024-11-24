@@ -6,14 +6,8 @@ import mouse.univ.backendapp.dto.page.PageResponseDTO;
 import mouse.univ.backendapp.dto.transaction.TransactionRequestDTO;
 import mouse.univ.backendapp.dto.transaction.TransactionShortResponseDTO;
 import mouse.univ.backendapp.mapper.TransactionMapper;
-import mouse.univ.backendapp.model.Loss;
-import mouse.univ.backendapp.model.Sale;
-import mouse.univ.backendapp.model.Supply;
-import mouse.univ.backendapp.model.Transaction;
-import mouse.univ.backendapp.repository.LossRepository;
-import mouse.univ.backendapp.repository.SaleRepository;
-import mouse.univ.backendapp.repository.SupplyRepository;
-import mouse.univ.backendapp.repository.TransactionRepository;
+import mouse.univ.backendapp.model.*;
+import mouse.univ.backendapp.repository.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -32,6 +26,7 @@ public class TransactionSearchService {
     private final SupplyRepository supplyRepository;
     private final SaleRepository saleRepository;
     private final TransactionMapper transactionMapper;
+    private final MovementRepository movementRepository;
 
     public PageResponseDTO countPages(TransactionRequestDTO requestDTO) {
         String type = getType(requestDTO);
@@ -121,6 +116,10 @@ public class TransactionSearchService {
                 case "loss" -> {
                     Loss loss = lossRepository.findByTransaction(id).orElseThrow();
                     itemId = loss.getId();
+                }
+                case "move" -> {
+                    Movement movement = movementRepository.findByTransaction(id).orElseThrow();
+                    itemId = movement.getId();
                 }
             }
             TransactionShortResponseDTO resp = transactionMapper.response(itemId, transaction);
