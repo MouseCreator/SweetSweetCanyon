@@ -18,6 +18,7 @@ import mouse.univ.backendapp.service.StockService;
 import mouse.univ.backendapp.service.UsedProductService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,9 +38,7 @@ public class SupplyService {
         Long shopId = userDetails.getAssociatedShopId();
         List<TransactionItem> items = supplyCreateDTO.getItems();
         String name = supplyCreateDTO.getSupplierName();
-        Long supplierId = supplyCreateDTO.getSupplierId();
-        Optional<Supplier> supplierOpt = supplierRepository.findById(supplierId);
-        Supplier supplier = supplierOpt.orElseThrow(()->new DataNotFoundException("Cannot find supplier with id " + supplierId));
+        Supplier supplier = getSupplier(supplyCreateDTO);
         List<UsedProduct> usedProducts = usedProductService.supplyItems(items);
 
         Shop shop = shopRepository.findById(shopId).orElseThrow(() -> new InternalNotFound("shop", shopId));
@@ -52,12 +51,47 @@ public class SupplyService {
                 .get();
         stockService.addAllToStocks(shopId, items);
         Transaction savedTransaction = transactionService.saveTransaction(transaction);
+        Supply supply = createSupply(savedTransaction, supplier, name);
+        Supply saved = save(supply);
+        return supplyMapper.toResponse(saved);
+    }
+
+    @Transactional
+    public SupplyResponseDTO supplyAtTime(SupplyCreateDTO supplyCreateDTO, UserDetails userDetails, LocalDateTime time) {
+        Long shopId = userDetails.getAssociatedShopId();
+        List<TransactionItem> items = supplyCreateDTO.getItems();
+        String name = supplyCreateDTO.getSupplierName();
+        Supplier supplier = getSupplier(supplyCreateDTO);
+        List<UsedProduct> usedProducts = usedProductService.supplyItems(items);
+
+        Shop shop = shopRepository.findById(shopId).orElseThrow(() -> new InternalNotFound("shop", shopId));
+
+        TransactionBuilder builder = new TransactionBuilder();
+        Transaction transaction = builder.supply()
+                .username(userDetails.getName())
+                .products(usedProducts)
+                .shop(shop)
+                .get(time);
+        stockService.addAllToStocks(shopId, items);
+        Transaction savedTransaction = transactionService.saveTransaction(transaction);
+        Supply supply = createSupply(savedTransaction, supplier, name);
+        Supply saved = save(supply);
+        return supplyMapper.toResponse(saved);
+    }
+
+    private Supplier getSupplier(SupplyCreateDTO supplyCreateDTO) {
+        Long supplierId = supplyCreateDTO.getSupplierId();
+        Optional<Supplier> supplierOpt = supplierRepository.findById(supplierId);
+        Supplier supplier = supplierOpt.orElseThrow(()->new DataNotFoundException("Cannot find supplier with id " + supplierId));
+        return supplier;
+    }
+
+    private Supply createSupply(Transaction savedTransaction, Supplier supplier, String name) {
         Supply supply = new Supply();
         supply.setTransaction(savedTransaction);
         supply.setSupplier(supplier);
         supply.setSupplierName(name);
-        Supply saved = save(supply);
-        return supplyMapper.toResponse(saved);
+        return supply;
     }
 
     @Transactional

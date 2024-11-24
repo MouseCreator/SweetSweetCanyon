@@ -16,6 +16,7 @@ import mouse.univ.backendapp.service.StockService;
 import mouse.univ.backendapp.service.UsedProductService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -82,10 +83,10 @@ public class LossService {
     public LossResponseDTO loseProducts(LossCreateDTO lossCreateDTO, UserDetails userDetails) {
         Long shopId = userDetails.getAssociatedShopId();
         String name = userDetails.getName();
-        return doLoss(shopId, name, lossCreateDTO);
+        return doLoss(shopId, name, lossCreateDTO, null);
     }
     @Transactional
-    protected LossResponseDTO doLoss(Long shopId, String name, LossCreateDTO lossCreateDTO) {
+    protected LossResponseDTO doLoss(Long shopId, String name, LossCreateDTO lossCreateDTO, LocalDateTime time) {
         List<TransactionItem> items = lossCreateDTO.getItems();
         transactionService.validateEnoughItems(shopId, items);
         List<UsedProduct> usedProducts = usedProductService.loseItems(items);
@@ -96,7 +97,7 @@ public class LossService {
                 .username(name)
                 .products(usedProducts)
                 .shop(shop)
-                .get();
+                .get(time);
         Transaction savedTransaction = transactionService.saveTransaction(transaction);
         stockService.subtractAllFromStocks(shopId, items);
         Long reasonId = lossCreateDTO.getReasonId();
@@ -129,6 +130,10 @@ public class LossService {
     }
     @Transactional
     public LossResponseDTO loseProduct(Long shopId, String name, LossCreateDTO lossCreateDTO) {
-        return doLoss(shopId, name, lossCreateDTO);
+        return doLoss(shopId, name, lossCreateDTO, null);
+    }
+    @Transactional
+    public LossResponseDTO loseAtTime(LossCreateDTO lossCreateDTO, UserDetails userDetails, LocalDateTime time) {
+        return doLoss(userDetails.getAssociatedShopId(),userDetails.getName(), lossCreateDTO, time);
     }
 }

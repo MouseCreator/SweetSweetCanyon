@@ -20,6 +20,7 @@ import mouse.univ.backendapp.service.StockService;
 import mouse.univ.backendapp.service.UsedProductService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -63,5 +64,25 @@ public class SaleService {
         return saleMapper.toResponse(sale);
     }
 
+    @Transactional
+    public SaleResponseDTO saleAtTime(SaleCreateDTO saleCreateDTO, UserDetails userDetails, LocalDateTime time) {
+        Long shopId = userDetails.getAssociatedShopId();
+        List<TransactionItem> items = saleCreateDTO.getItems();
+        transactionService.validateEnoughItems(shopId, items);
+        List<UsedProduct> usedProducts = usedProductService.saleItems(items);
+        Shop shop = shopRepository.findById(shopId).orElseThrow(() -> new InternalNotFound("shop", shopId));
+        TransactionBuilder builder = new TransactionBuilder();
 
+        Transaction transaction = builder.sale()
+                .username(userDetails.getName())
+                .products(usedProducts)
+                .shop(shop)
+                .get(time);
+        stockService.subtractAllFromStocks(shopId, items);
+        Transaction savedTransaction = transactionService.saveTransaction(transaction);
+        Sale sale = new Sale();
+        sale.setTransaction(savedTransaction);
+        Sale saved = save(sale);
+        return saleMapper.toResponse(saved);
+    }
 }

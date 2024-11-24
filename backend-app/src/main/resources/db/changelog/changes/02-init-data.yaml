@@ -385,7 +385,7 @@ databaseChangeLog:
       - addForeignKeyConstraint:
           constraintName: transaction_products_p_fk
           baseTableName: transaction_products
-          baseColumnNames: transaction_id
+          baseColumnNames: product_id
           referencedTableName: used_products
           referencedColumnNames: id
           onDelete: CASCADE

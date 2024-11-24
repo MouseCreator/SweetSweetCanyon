@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Objects;
 
 public class TransactionBuilder {
 
@@ -22,7 +23,12 @@ public class TransactionBuilder {
 
     public Transaction get() {
         LocalDateTime now = LocalDateTime.now();
+        transaction.setDate(now);
+        validateTransaction();
+        return transaction;
+    }
 
+    private void validateTransaction() {
         if (transaction.getType()==null) {
             throw new BuilderException("Transaction has no type");
         }
@@ -32,10 +38,8 @@ public class TransactionBuilder {
         if (transaction.getShop() == null) {
             throw new BuilderException("Transaction has no shop");
         }
-
-        transaction.setDate(now);
-        return transaction;
     }
+
     private TransactionBuilder type(String type) {
         transaction.setType(type);
         return this;
@@ -80,5 +84,11 @@ public class TransactionBuilder {
     public TransactionBuilder movement() {
         transaction.setType("move");
         return this;
+    }
+
+    public Transaction get(LocalDateTime dateTime) {
+        transaction.setDate(Objects.requireNonNullElseGet(dateTime, LocalDateTime::now));
+        validateTransaction();
+        return transaction;
     }
 }
