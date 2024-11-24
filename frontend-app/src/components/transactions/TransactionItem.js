@@ -33,6 +33,7 @@ export function TransactionItem({itemData}) {
         type === "sale" ? `Sale №${id}` :
         type === "loss" ? `Loss №${id}` :
         type === "supply" ? `Supply №${id}` :
+        type === "move" ? `Movement №${id}` :
         `Transaction ${type} ${id}`
     return (
         <div className={"transaction-item-wrap"} onClick={handleClick}>

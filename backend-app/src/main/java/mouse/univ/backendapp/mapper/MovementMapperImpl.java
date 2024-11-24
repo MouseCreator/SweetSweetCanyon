@@ -18,7 +18,7 @@ public class MovementMapperImpl implements MovementMapper {
     @Override
     public MovementResponseDTO toResponse(Movement movement) {
         MovementResponseDTO movementResponseDTO = new MovementResponseDTO();
-        Transaction transaction = new Transaction();
+        Transaction transaction = movement.getTransaction();
         movementResponseDTO.setId(movement.getId());
         movementResponseDTO.setCashier(transaction.getUsername());
         Shop fromShop = transaction.getShop();

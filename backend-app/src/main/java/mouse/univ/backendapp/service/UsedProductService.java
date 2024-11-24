@@ -61,5 +61,8 @@ public class UsedProductService {
     public List<UsedProduct> saleItems(Collection<TransactionItem> items) {
         return useItems(items, false);
     }
-
+    @Transactional
+    public List<UsedProduct> moveItems(List<TransactionItem> items) {
+        return useItems(items, false);
+    }
 }

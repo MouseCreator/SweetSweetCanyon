@@ -8,6 +8,8 @@ import {getAllShops} from "../../connect/connectShops";
 import {getAllLossReasons} from "../../connect/connectStatics";
 import {GlobalLoading} from "../common/loading/GlobalLoading";
 import {GlobalError} from "../common/errors/GlobalError";
+import {postManage} from "../../connect/connectManage";
+import {usePopup} from "../common/popup/PopupContext";
 
 export function StorageManagement({shopId}) {
     const [loading, setLoading] = useState(false)
@@ -18,11 +20,11 @@ export function StorageManagement({shopId}) {
     const [reasons, setReasons] = useState([]);
     const navigate = useNavigate();
     const [myShop, setMyShop] = useState(null)
-    async function effect(shopId) {
+    const { invokePopup } = usePopup()
+    const callback = useCallback( async (shopId) => {
         const newStocks = await getStocksByShopId(shopId);
         const newShops = await getAllShops()
         const newReasons = await getAllLossReasons()
-        console.log(newReasons)
         let errBuilder = ''
         if (newStocks.success) {
             setRemainingProducts(newStocks.data);
@@ -41,17 +43,16 @@ export function StorageManagement({shopId}) {
         } else {
             errBuilder += 'Cannot load reasons'
         }
+        const shopNum = Number(shopId);
         const my = newShops.data.find((s)=>s.id===shopNum)
         setMyShop(my);
         setLoading(false)
         setError(errBuilder)
-    }
-
-    const callback = useCallback((shopId)=>
-        effect(shopId), [effect])
+        }
+    , [])
     useEffect(() => {
         callback(shopId).catch(error => { setError('Connection error'); console.log(error.message) })
-    }, [shopId]);
+    }, [shopId, callback]);
     const sortedReasons = sortReasons(reasons);
 
     const validateElements = () => {
@@ -59,13 +60,13 @@ export function StorageManagement({shopId}) {
             if (e.amount < 1) {
                 return true;
             }
-            if (e.type !== "movement" || e.type !== "loss") {
+            if (e.type !== "movement" && e.type !== "loss") {
                 return true;
             }
             if (e.type === "movement" && e.shopId < 0) {
                 return true;
             }
-            if (e.type === "loss" && e.reasonId < 0) {
+            if (e.type === "loss" && Number.parseInt(e.reasonId) < 0) {
                 return true;
             }
             return false;
@@ -76,13 +77,23 @@ export function StorageManagement({shopId}) {
         if (!validateElements()) {
             return;
         }
-        navigate('/shops/1');
+        postManage(shopId, elements).then(
+            (s)=> {
+                if (s.success) {
+                    invokePopup('Changes saved!', 'green')
+                    navigate('/shops/1');
+                } else {
+                    invokePopup(s.error ?? 'Connection Error!', 'red')
+                }
+            }
+        ).catch(()=>invokePopup('Error!', 'red'))
+
     }
     const onBack = () => {
         navigate('/shops/1');
     }
     const [index, setIndex] = useState(0);
-    const shopNum = Number(shopId);
+
     if (loading) {
         return <GlobalLoading />
     }
@@ -93,15 +104,16 @@ export function StorageManagement({shopId}) {
         <div className={"w-full"}>
             <p className={"location-hint"}>
             <span className={"location-link"} onClick={()=>{navigate('/shops')}}>Shops</span>/
-            <span className={"location-link"} onClick={()=>{navigate(`/shops/${shopId}`)}}>{myShop?.name ?? ''}</span>/Manage
+            <span className={"location-link"} onClick={()=>{navigate(`/shops/${shopId}`)}}>{myShop?.name ?? '---'}</span>/Manage
             </p>
             {
                 myShop == null ? (<p>Shop not found!</p>) :
                 <div className={"w-full flex items-start"}>
                     <div className={"store-content"}>
                     {
-                        remainingProducts.map((pr) => (
-                            <StorageComponent remainingProduct={pr}
+                        remainingProducts.map((pr, i) => (
+                            <StorageComponent key={i}
+                                              remainingProduct={pr}
                                               elements={elements}
                                               setElements={setElements}
                                               shops={shops}

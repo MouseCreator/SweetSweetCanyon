@@ -61,7 +61,10 @@ function StorageRightLoss({init, comment, reasons, onSelect, onComment}) {
                     ))
                 }
             </select>
-            <input type={"text"} className={"gen-input"} placeholder={"Comment"} value={comment} onChange={onComment} />
+            <input type={"text"} className={"gen-input"}
+                   placeholder={"Comment"}
+                   value={comment}
+                   onChange={(e)=>onComment(e.target.value)} />
         </div>
     )
 }
@@ -73,7 +76,6 @@ function StorageRightWrap({element, onUpdate, product, onProductChange, onRemove
 
     const [errorAmount, setErrorAmount] = useState(false);
     const onAmountChange = (amount) => {
-        console.log(`amount=${amount}`)
         if (amount === 0) {
             setErrorAmount(true);
         }
@@ -87,8 +89,6 @@ function StorageRightWrap({element, onUpdate, product, onProductChange, onRemove
             if (product.remaining < delta) {
                 delta = product.remaining
                 amount = parseInt(element.amount) + product.remaining
-                console.log(`amount=${amount}`)
-                console.log(`delta=${delta}`)
             }
         }
         product.remaining -= delta
@@ -172,8 +172,6 @@ function StorageRight({elements, updateElements, product, updateProduct, shops, 
         return e1.index === e2.index;
     }
     const onUpdateElement = (newElement) => {
-        console.log(newElement);
-        console.log(elements);
         const target = elements.find((e)=>elEq(e,newElement))
         if (target === undefined) {
             return;

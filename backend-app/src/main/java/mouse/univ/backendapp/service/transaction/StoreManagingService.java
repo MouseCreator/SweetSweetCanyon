@@ -31,7 +31,7 @@ public class StoreManagingService {
             if ("move".equals(item.getType())) {
                 onMove(shopId, userDetails, item);
                 count++;
-            } else if ("lose".equals(item.getType())) {
+            } else if ("loss".equals(item.getType())) {
                 onLose(shopId, userDetails, item);
                 count++;
             } else {

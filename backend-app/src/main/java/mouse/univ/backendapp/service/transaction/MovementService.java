@@ -33,7 +33,7 @@ public class MovementService {
     }
 
     public MovementResponseDTO getMovementById(Long id) {
-        Movement movement = movementRepository.findByTransaction(id)
+        Movement movement = movementRepository.findById(id)
                 .orElseThrow(() -> new DataNotFoundException("Cannot find movement with id: " + id));
         return movementMapper.toResponse(movement);
     }
@@ -41,10 +41,10 @@ public class MovementService {
     protected MovementResponseDTO doMovement(Long fromShop, String name, MovementCreateDTO createDTO) {
         List<TransactionItem> items = createDTO.getItems();
         transactionService.validateEnoughItems(fromShop, items);
-        List<UsedProduct> usedProducts = usedProductService.loseItems(items);
+        List<UsedProduct> usedProducts = usedProductService.moveItems(items);
         Long toShop = createDTO.getToShop();
         Shop shop = shopRepository.findById(fromShop).orElseThrow(() -> new InternalNotFound("shop", fromShop));
-        Shop to = shopRepository.findById(fromShop).orElseThrow(() -> new InternalNotFound("shop", toShop));
+        Shop to = shopRepository.findById(toShop).orElseThrow(() -> new InternalNotFound("shop", toShop));
         TransactionBuilder builder = new TransactionBuilder();
 
         Transaction transaction = builder.movement()
