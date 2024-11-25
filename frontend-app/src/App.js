@@ -26,6 +26,7 @@ import TLossPage from "./pages/transactions/TLossPage";
 import {MainPage} from "./pages/main/MainPage";
 import {ReportsPage} from "./pages/reports/ReportsPage";
 import TMovePage from "./pages/transactions/TMovePage";
+import Register from "./pages/auth/Register";
 
 function App() {
   return (
@@ -62,6 +63,7 @@ function App() {
           <Route path="/transactions/moves/:id" element={<TMovePage />} />
           <Route path="/" element={<MainPage />} />
           <Route path="/reports" element={<ReportsPage />} />
+          <Route path="/register" element={<Register />} />
 
         </Routes>
       </Router>
