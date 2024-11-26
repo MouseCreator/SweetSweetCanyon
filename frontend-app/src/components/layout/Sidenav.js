@@ -1,16 +1,9 @@
 import {Link} from "react-router-dom";
 import "./layout.css"
 import {LogoImage} from "../../static_controls/Images";
-import {getUserRole} from "../auth/connect/authUtils";
-import {useRoleAware} from "../auth/authContext";
-import {useEffect, useState} from "react";
+import {useHighLevel} from "../auth/context/HighLevelAuthContext";
 export function Sidenav({open, toggleOpen}) {
-    const [role, setRole] = useState('none')
-    const aware = useRoleAware()
-    useEffect(()=> {
-        getUserRole(aware).then((r)=> setRole(r))
-    },
-[aware])
+    const { role } = useHighLevel()
 
 
     return (

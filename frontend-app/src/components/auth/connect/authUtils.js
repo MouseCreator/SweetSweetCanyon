@@ -23,9 +23,7 @@ function mapRole(role) {
     }
     return roleId
 }
-export const getUserRole = async (roleAware) => {
-    const accessToken = roleAware.withToken()
-    const userId = roleAware.withSub()
+export const getUserRole = async (accessToken, userId) => {
     if (!accessToken) {
         console.log('no token')
         return []
@@ -47,8 +45,7 @@ export const getUserRole = async (roleAware) => {
     }
 };
 
-export const assignUserRole = async (roleAware, role) => {
-    const accessToken = roleAware.withToken()
+export const assignUserRole = async (accessToken, userId, role) => {
     if (!accessToken) {
         console.log('no token')
         return []
@@ -59,7 +56,7 @@ export const assignUserRole = async (roleAware, role) => {
     }
 
     const roleId = mapRole(role)
-    const prevRole = await getUserRole(roleAware)
+    const prevRole = await getUserRole(accessToken, userId)
     console.log(`prev: ${prevRole}` )
     console.log(roleId)
     const prevRoleId = mapRole(prevRole)
@@ -97,10 +94,8 @@ export const assignUserRole = async (roleAware, role) => {
     }
 };
 
-export const removeUserRole = async (roleAware, role) => {
+export const removeUserRole = async (accessToken, userId, role) => {
     const domain = AUTH.REACT_APP_AUTH0_DOMAIN;
-    const accessToken = roleAware.withToken()
-    const userId = roleAware.withSub()
     const roleId = mapRole(role)
     try {
         const response = await axios.delete(

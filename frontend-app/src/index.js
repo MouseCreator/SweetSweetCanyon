@@ -6,7 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import {PopupProvider} from "./components/common/popup/PopupContext";
 import {AUTH} from "./components/auth/auth.secret";
 import {Auth0Provider} from "@auth0/auth0-react";
-import {RoleAwareProvider} from "./components/auth/authContext";
+import {MainContext} from "./components/auth/context/HighLevelAuthContext";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -25,11 +25,10 @@ root.render(
                   audience: audience,
                   scope: 'openid profile email',
               }}
-
           >
-              <RoleAwareProvider>
+              <MainContext>
                     <App />
-              </RoleAwareProvider>
+              </MainContext>
           </Auth0Provider>
       </PopupProvider>
   </React.StrictMode>

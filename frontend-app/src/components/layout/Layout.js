@@ -2,6 +2,7 @@ import "./layout.css"
 import {Sidenav} from "./Sidenav";
 import {SideContext} from "./SidenavContext";
 import {useState} from "react";
+import {useHighLevel} from "../auth/context/HighLevelAuthContext";
 export default function MainLayout({ children }) {
     const [open, setOpen] = useState(true);
     const toggleOpen = () => {

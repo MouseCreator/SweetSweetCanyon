@@ -18,5 +18,17 @@
 }
 
 .auth-err-page {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
 
+.auth-err-message {
+    color: #fe2eb8;
+    font-weight: bold;
+    text-align: center;
+    font-size: 48px;
 }

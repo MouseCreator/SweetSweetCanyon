@@ -12,7 +12,6 @@ function SalePage() {
     const [products, setProducts] = useState([])
     const [errors, setErrors] = useState(null)
 
-
     const confirmAction = (selectedProducts) => {
         setProducts(selectedProducts);
         setIsOverlayActive(true);
@@ -39,8 +38,6 @@ function SalePage() {
         })
 
     }
-
-
     return (
         <MainLayout>
             <ProductSelector confirmAction={confirmAction} theme={"green"} mode={"sale"} errors={errors} shopId={4} />
