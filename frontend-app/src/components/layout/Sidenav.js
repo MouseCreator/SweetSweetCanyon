@@ -1,13 +1,17 @@
 import {Link} from "react-router-dom";
 import "./layout.css"
 import {LogoImage} from "../../static_controls/Images";
-import {getUserRole} from "../auth/authUtils";
+import {getUserRole} from "../auth/connect/authUtils";
 import {useRoleAware} from "../auth/authContext";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 export function Sidenav({open, toggleOpen}) {
     const [role, setRole] = useState('none')
     const aware = useRoleAware()
-    getUserRole(aware).then((r)=>setRole(r))
+    useEffect(()=> {
+        getUserRole(aware).then((r)=> setRole(r))
+    },
+[aware])
+
 
     return (
         <div className={`sidenav ${open ? 'open' : 'closed'}`}>
@@ -42,9 +46,9 @@ export function Sidenav({open, toggleOpen}) {
                         <div>
                             <p className={"nav-category"}>Cashier's cabinet</p>
                             <ul className={"nav-category-space"}>
-                                <li><Link to={"/"} className={"nav-link-module"}>🛍️ Sales</Link></li>
-                                <li><Link to={"/"} className={"nav-link-module"}>🚚 Deliveries</Link></li>
-                                <li><Link to={"/"} className={"nav-link-module"}>🔻 Losses</Link></li>
+                                <li><Link to={"/sale"} className={"nav-link-module"}>🛍️ Sales</Link></li>
+                                <li><Link to={"/supply"} className={"nav-link-module"}>🚚 Deliveries</Link></li>
+                                <li><Link to={"/loss"} className={"nav-link-module"}>🔻 Losses</Link></li>
                             </ul>
                         </div>
                     ) : role === "admin" ? (

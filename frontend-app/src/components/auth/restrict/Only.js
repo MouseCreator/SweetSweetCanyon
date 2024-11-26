@@ -1,6 +1,6 @@
 import {useRoleAware} from "../authContext";
 import {useEffect, useState} from "react";
-import {getUserRole} from "../authUtils";
+import {getUserRole} from "../connect/authUtils";
 import {RestrictedPage} from "./RestrictedPage";
 
 export function OnlyFor({role, showError= true, children}) {

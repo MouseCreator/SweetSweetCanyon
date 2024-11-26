@@ -1,6 +1,6 @@
 import axios from "axios";
-import {AUTH} from "./auth.secret";
-import {ST} from "../../connect/secret";
+import {AUTH} from "../auth.secret";
+import {ST} from "../../../connect/secret";
 function remapRole(t) {
     if (t === AUTH.ADMIN) {
         return 'admin'
