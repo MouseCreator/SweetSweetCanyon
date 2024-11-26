@@ -3,6 +3,7 @@ package mouse.univ.backendapp.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 @Data
 @Entity
@@ -11,7 +12,7 @@ public class MonthlyIndicator {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private LocalDateTime date;
+    private LocalDate date;
     private String type;
     @ManyToOne
     @JoinColumn(name = "indicator_id")

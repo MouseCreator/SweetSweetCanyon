@@ -31,10 +31,13 @@ public class AuthController {
     @GetMapping("/roles")
     public ResponseEntity<ApiResponse<String>> getUserRoles(HttpServletRequest request) {
         UserDetails userDetails = UD.get(request);
+        String roles;
         if (!userDetails.isExists()) {
-            throw new NotAuthenticatedException("User is not authenticated");
+            roles = "none";
         }
-        String roles = roleManager.fetch(userDetails.getSubs());
+        else {
+            roles = roleManager.fetch(userDetails.getSubs());
+        }
         ApiResponse<String> apiResponse = ApiResponse.ok(roles);
         return ResponseEntity.status(HttpStatus.OK).body(apiResponse);
     }

@@ -65,13 +65,10 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: phone
-                  type: VARCHAR(8192)
+                  type: VARCHAR(255)
               - column:
                   name: email
-                  type: VARCHAR(255)
-                  constraints:
-                    nullable: false
-                    unique: true
+                  type: VARCHAR(1023)
               - column:
                   name: shop_id
                   type: BIGINT

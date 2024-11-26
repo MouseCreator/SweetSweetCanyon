@@ -54,7 +54,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: date
-                  type: Timestamp
+                  type: DATE
                   constraints:
                     nullable: false
               - column:
@@ -79,7 +79,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: date
-                  type: Timestamp
+                  type: DATE
                   constraints:
                     nullable: false
               - column:

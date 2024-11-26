@@ -5,7 +5,7 @@ import {useHighLevel} from "../auth/context/HighLevelAuthContext";
 import {useAuth0} from "@auth0/auth0-react";
 export function Sidenav({open, toggleOpen}) {
     const { role } = useHighLevel()
-    const { loginWithRedirect, logout } = useAuth0()
+    const { loginWithRedirect, logout, isAuthenticated } = useAuth0()
 
     return (
         <div className={`sidenav ${open ? 'open' : 'closed'}`}>
@@ -16,7 +16,7 @@ export function Sidenav({open, toggleOpen}) {
             <div className={"nav-list-contents nav-link-wrap"}>
                 <div className={"nav-category-space nav-link-wrap"}>
                     <Link to={"/"} className={"nav-link-module"}>🏠 Main page</Link>
-                    {(role === "cashier" || role === "admin") &&
+                    {(isAuthenticated) &&
                         (
                             <div><Link to={"/"} className={"nav-link-module"}>👥 Profile</Link></div>
                         )
@@ -59,7 +59,7 @@ export function Sidenav({open, toggleOpen}) {
                     )
                 }
                 {
-                    role === "none" ?
+                    !isAuthenticated ?
                         (
                             <div>
                                 <button onClick={()=>loginWithRedirect()} className={"nav-link-module"}>👉 Log in</button>

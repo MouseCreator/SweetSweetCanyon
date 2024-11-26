@@ -15,13 +15,13 @@ const OnRegisterCall = () => {
     const sendRegistrationData = async () => {
       try {
         const token = await getAccessTokenSilently();
+        console.log(user)
         const response = await axios.post(
           ST.HOST_URL + "/auth/register",
           {
             email: user.email,
             name: user.name,
             sub: user.sub,
-
           },
           {
             headers: {

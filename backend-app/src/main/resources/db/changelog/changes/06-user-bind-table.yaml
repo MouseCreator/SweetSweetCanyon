@@ -8,7 +8,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: sub
-                  type: VARCHAR(512)
+                  type: VARCHAR(511)
                   constraints:
                     primaryKey: true
                     nullable: false
