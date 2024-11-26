@@ -94,23 +94,3 @@ export const assignUserRole = async (accessToken, userId, role) => {
         console.error("Error assigning roles:", error.response?.data || error.message);
     }
 };
-
-export const removeUserRole = async (accessToken, userId, role) => {
-    const domain = AUTH.REACT_APP_AUTH0_DOMAIN;
-    const roleId = mapRole(role)
-    try {
-        const response = await axios.delete(
-            `https://${domain}/api/v2/users/${userId}/roles`,
-            {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                    "Content-Type": "application/json",
-                },
-                data: { roles: [roleId] },
-            }
-        );
-        console.log("Roles removed successfully:", response.data);
-    } catch (error) {
-        console.error("Error removing roles:", error.response?.data || error.message);
-    }
-};

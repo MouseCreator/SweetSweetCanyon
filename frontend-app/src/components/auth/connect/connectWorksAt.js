@@ -9,12 +9,12 @@ export async function getWorksAt(accessToken, userId) {
         return null
     }
 
-    const response = await axios.get(`${ST.HOST_URL}/auth/roles`, {
+    const response = await axios.get(`${ST.HOST_URL}/works/shop`, {
         headers: {
             Authorization: `Bearer ${accessToken}`,
         },
     });
-    const dat =response.data
+    const dat = response.data
     if (!dat.success) {
         return null
     }

@@ -1,8 +1,19 @@
 import axios from "axios";
-import {ST} from "./secret";
 export const isNetworkError = (error) => {
     return !error.response && Boolean(error.request);
 };
+
+export const getAuth = (accessToken) => {
+    if (!accessToken) {
+        return {}
+    }
+    return {
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+        }
+    }
+}
 export function onError(error) {
     if (isNetworkError(error)) {
         return {
@@ -25,31 +36,40 @@ export function sortEach(response, comparator) {
     return response;
 }
 
-export async function doPost(url, requestBody) {
-    return axios.post(url, requestBody)
+export async function doPost(url, requestBody, accessToken=null) {
+    const auth = getAuth(accessToken)
+    return axios.post(url, requestBody, auth)
         .then(response => {
             return response.data;
         })
         .catch(error => { return onError(error) });
 }
-export async function doPut(url, requestBody) {
-    return axios.put(url, requestBody)
+export async function doPut(url, requestBody, accessToken=null) {
+    const auth = getAuth(accessToken)
+    return axios.put(url, requestBody, auth)
         .then(response => {
             return response.data;
         })
         .catch(error => { return onError(error) });
 }
-export async function doGet(url, params={}) {
+export async function doGet(url, params={}, accessToken=null) {
+
+    const headers = accessToken == null ? {} : {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+    }
     return axios.get(url, {
-        params: params
+        params: params,
+        headers: headers
     })
         .then(response => {
             return response.data;
         })
         .catch(error => { return onError(error) });
 }
-export async function doDelete(url) {
-    return axios.delete(url)
+export async function doDelete(url, accessToken = null) {
+    const auth = getAuth(accessToken)
+    return axios.delete(url, auth)
         .then(response => {
             return response.data;
         })

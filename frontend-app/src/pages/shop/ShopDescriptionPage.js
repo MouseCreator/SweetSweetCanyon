@@ -6,6 +6,10 @@ import {useHighLevel} from "../../components/auth/context/HighLevelAuthContext";
 const ShopsPage = () => {
     const { id } = useParams();
     const { role, shop } = useHighLevel()
+
+    console.log(`Shop: ${shop}`)
+    console.log(id)
+
     return (
         <MainLayout>
             <div className={""}>

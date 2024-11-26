@@ -28,6 +28,7 @@ import {ReportsPage} from "./pages/reports/ReportsPage";
 import TMovePage from "./pages/transactions/TMovePage";
 import Register from "./pages/auth/Register";
 import {RedirectRegister} from "./components/auth/Redirect";
+import {ProfilePage} from "./pages/profile/ProfilePage";
 
 function App() {
   return (
@@ -65,6 +66,7 @@ function App() {
           <Route path="/" element={<MainPage />} />
           <Route path="/reports" element={<ReportsPage />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/profile" element={<ProfilePage />} />
           <Route path="/auth/redirect/register" element={<RedirectRegister />} />
 
         </Routes>

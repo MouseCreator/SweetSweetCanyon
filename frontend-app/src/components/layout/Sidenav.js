@@ -18,7 +18,7 @@ export function Sidenav({open, toggleOpen}) {
                     <Link to={"/"} className={"nav-link-module"}>🏠 Main page</Link>
                     {(isAuthenticated) &&
                         (
-                            <div><Link to={"/"} className={"nav-link-module"}>👥 Profile</Link></div>
+                            <div><Link to={"/profile"} className={"nav-link-module"}>👥 Profile</Link></div>
                         )
                     }
                 </div>

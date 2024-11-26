@@ -39,4 +39,8 @@ public class UserDetails {
         userDetails.setAssociatedShopId(null);
         return userDetails;
     }
+
+    public boolean empty() {
+        return !isExists();
+    }
 }

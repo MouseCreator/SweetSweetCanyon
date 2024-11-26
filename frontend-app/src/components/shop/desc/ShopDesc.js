@@ -15,6 +15,8 @@ export function ShopDesc({shopId, role, userShop}) {
     const [overlayActive, setOverlayActive] = useState(false)
     const navigate = useNavigate()
 
+    const ush = userShop === null ? null : `${userShop}`
+
     useEffect(()=> {
         getShopById(shopId).then((r)=>{
             if (!r.success) {
@@ -101,7 +103,7 @@ export function ShopDesc({shopId, role, userShop}) {
                                                 <button onClick={deletePressed} className={"gen-button red"}>Delete shop</button>
                                             </div>
                                         }
-                                        { role==='cashier' && userShop === shopId &&
+                                        { role==='cashier' && ush === shopId &&
                                             <div className={"cmn-buttons"}>
                                                 <button onClick={stocksPressed} className={"gen-button green"}>View stocks</button>
                                                 <button onClick={managePressed} className={"gen-button pink"}>Manage shop</button>

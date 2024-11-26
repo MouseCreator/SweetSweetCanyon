@@ -1,5 +1,5 @@
 import {useAuth0} from "@auth0/auth0-react";
-import {createContext, useContext, useEffect, useState} from "react";
+import {createContext, useCallback, useContext, useEffect, useState} from "react";
 import {QueryClient, QueryClientProvider, useQuery} from 'react-query';
 import {getUserRole} from "../connect/authUtils";
 import {getWorksAt} from "../connect/connectWorksAt";
@@ -11,8 +11,12 @@ const HighLevelAuthContext = createContext(null);
 export function HighLevelAuthProvider({ children }) {
     const [ contentLoads, setContentLoads ] = useState(true);
     const [ error, setError ] = useState(null)
+    const [shop, setShop] = useState(null)
+    const [role, setRole] = useState('none')
+
     const { isLoading: authLoading, getAccessTokenSilently, user } = useAuth0();
     const subject = user?.sub;
+
 
     const { data: token, error: tokenError, isLoading: tokenLoading } = useQuery(
         'token',
@@ -20,15 +24,21 @@ export function HighLevelAuthProvider({ children }) {
         { enabled: !!user }
     );
 
-    const { data: role, error: roleError, isLoading: roleLoading } = useQuery(
+    const { error: roleError, isLoading: roleLoading } = useQuery(
         ['role', token, subject],
-        async () => await getUserRole(token, subject),
+        async () => {
+            const d = await getUserRole(token, subject)
+            setRole(d)
+        },
         { enabled: !!token && !!subject }
     );
 
-    const { data: shop, error: shopError, isLoading: shopLoading } = useQuery(
+    const { error: shopError, isLoading: shopLoading } = useQuery(
         ['shop', token, subject],
-        async () => await getWorksAt(token, subject),
+        async () => {
+            const d = await getWorksAt(token, subject)
+            setShop(d)
+        },
         { enabled: !!token && !!subject }
     );
 
@@ -43,7 +53,7 @@ export function HighLevelAuthProvider({ children }) {
         setError(allErrors.length ? allErrors.map(e => e.message || e).join(' | ') : null);
     }, [tokenError, roleError, shopError]);
     return (
-        <HighLevelAuthContext.Provider value={{ contentLoads, role: role || 'none', shop: shop || null, error, subject, token }}>
+        <HighLevelAuthContext.Provider value={{ contentLoads, role: role, shop: shop, error, subject, token, setShop, setRole  }}>
             {children}
         </HighLevelAuthContext.Provider>
     );
