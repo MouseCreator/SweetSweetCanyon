@@ -1,7 +1,14 @@
 import {Link} from "react-router-dom";
 import "./layout.css"
 import {LogoImage} from "../../static_controls/Images";
-export function Sidenav({open, toggleOpen, role}) {
+import {getUserRole} from "../auth/authUtils";
+import {useRoleAware} from "../auth/authContext";
+import {useState} from "react";
+export function Sidenav({open, toggleOpen}) {
+    const [role, setRole] = useState('none')
+    const aware = useRoleAware()
+    getUserRole(aware).then((r)=>setRole(r))
+
     return (
         <div className={`sidenav ${open ? 'open' : 'closed'}`}>
             <button className="toggle-btn" onClick={toggleOpen}>
@@ -54,7 +61,7 @@ export function Sidenav({open, toggleOpen, role}) {
                     )
                 }
                 {
-                    role === "" ?
+                    role === "none" ?
                         (
                             <div>
                                 <Link to={"/"} className={"nav-link-module"}>👉 Log in</Link>

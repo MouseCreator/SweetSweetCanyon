@@ -9,7 +9,7 @@ export default function MainLayout({ children }) {
     }
     return (
         <SideContext.Provider value={open}>
-            <Sidenav open={open} toggleOpen={toggleOpen} role={"admin"} />
+            <Sidenav open={open} toggleOpen={toggleOpen} />
             <main className={`main-content ${open ? 'open' : 'collapsed'}`}>
                 <div className={'main-tab'}>
                     {children}

@@ -23,7 +23,7 @@ function mapRole(role) {
     }
     return roleId
 }
-export const getUserRoles = async (roleAware) => {
+export const getUserRole = async (roleAware) => {
     const accessToken = roleAware.withToken()
     const userId = roleAware.withSub()
     if (!accessToken) {
@@ -59,7 +59,7 @@ export const assignUserRole = async (roleAware, role) => {
     }
 
     const roleId = mapRole(role)
-    const prevRole = await getUserRoles(roleAware)
+    const prevRole = await getUserRole(roleAware)
     console.log(`prev: ${prevRole}` )
     console.log(roleId)
     const prevRoleId = mapRole(prevRole)
