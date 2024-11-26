@@ -8,7 +8,7 @@ import "./shop-desc.css"
 import DeleteShopOverlay from "../overlay/DeleteShopOverlay";
 import {deleteShopById, getShopById} from "../../../connect/connectShops";
 import {usePopup} from "../../common/popup/PopupContext";
-export function ShopDesc({shopId, role}) {
+export function ShopDesc({shopId, role, userShop}) {
     const [shopById, setShopById] = useState(null)
     const [loadingState, setLoadingState] = useState(true);
     const [error, setError] = useState('')
@@ -101,7 +101,7 @@ export function ShopDesc({shopId, role}) {
                                                 <button onClick={deletePressed} className={"gen-button red"}>Delete shop</button>
                                             </div>
                                         }
-                                        { role==='cashier' &&
+                                        { role==='cashier' && userShop === shopId &&
                                             <div className={"cmn-buttons"}>
                                                 <button onClick={stocksPressed} className={"gen-button green"}>View stocks</button>
                                                 <button onClick={managePressed} className={"gen-button pink"}>Manage shop</button>

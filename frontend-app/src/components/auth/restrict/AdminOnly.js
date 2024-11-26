@@ -1,6 +1,8 @@
 
 import {OnlyFor} from "./Only";
+import {useHighLevel} from "../context/HighLevelAuthContext";
 
 export function AdminOnly({children}, showError= true) {
-    return (<OnlyFor role={'admin'} showError={showError} children={children} />)
+    const { role } = useHighLevel();
+    return (<OnlyFor allowed={role} showError={showError} children={children} />)
 }

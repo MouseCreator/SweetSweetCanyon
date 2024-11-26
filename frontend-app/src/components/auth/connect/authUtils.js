@@ -8,7 +8,7 @@ function remapRole(t) {
     else if (t === AUTH.CASHIER) {
         return 'cashier'
     } else {
-        return AUTH.NONE
+        return 'none'
     }
 }
 function mapRole(role) {
@@ -26,11 +26,11 @@ function mapRole(role) {
 export const getUserRole = async (accessToken, userId) => {
     if (!accessToken) {
         console.log('no token')
-        return []
+        return 'none'
     }
     if (!userId) {
         console.log('no id')
-        return []
+        return 'none'
     }
     try {
         const response = await axios.get(`${ST.HOST_URL}/auth/roles`, {
@@ -42,6 +42,7 @@ export const getUserRole = async (accessToken, userId) => {
         return obj.map(t=>remapRole(t.id))[0]
     } catch (error) {
         console.error("Error fetching user roles:", error.response?.data || error.message);
+        return 'none'
     }
 };
 

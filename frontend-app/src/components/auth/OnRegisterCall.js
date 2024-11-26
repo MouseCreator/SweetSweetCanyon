@@ -42,10 +42,23 @@ const OnRegisterCall = () => {
     return <div className={"auth-screen"}>Loading...</div>
   }
   if (error) {
-    return <div className={"auth-screen"}>Error: {error.message}</div>
+    return (<div className={"auth-screen"}>
+      <div className={"auth-content"}>
+      <div className={"auth-text"}>Error: {error.message}</div>
+      <Link to={"/"} className={"gen-button"}>Back</Link>
+      </div>
+    </div>)
   }
   if (!isAuthenticated) {
-    return <div className={"auth-screen"}>User is not authenticated</div>
+    return (<div className={"auth-screen"}>
+      <div className={"auth-content"}>
+        <p className={"auth-text"}>
+          You've just logged out.
+        </p>
+        <Link to={"/"} className={"gen-button"}>Back</Link>
+      </div>
+
+    </div>)
   }
   return (<div className={"auth-screen"}>
           <div className={"auth-content"}>

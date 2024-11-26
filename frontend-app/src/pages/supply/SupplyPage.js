@@ -7,6 +7,7 @@ import {OverlayBase} from "../../components/overlay/OverlayBase";
 import {SupplyOverlayContent} from "../../components/products/supply/SupplyOverlayContent";
 import "./../../static_controls/content.css"
 import {postSupply} from "../../connect/connectTransactions";
+import {CashierOnly} from "../../components/auth/restrict/CashierOnly";
 
 function SupplyPage() {
     const navigate = useNavigate();
@@ -68,15 +69,17 @@ function SupplyPage() {
 
     return (
         <MainLayout>
-            <div className={"static-content"}>
-                <ProductSelector confirmAction={confirmAction} theme={"blue"} mode={"supply"} errors={errors} shopId={4} isDelivery={true}>
-                    <SupplierList onSelectSupplier={setSupplierId} onTypeName={setSupplierName}
-                    supplierError={supplierError} nameError={nameError} />
-                </ProductSelector>
-                <OverlayBase isActive={isOverlayActive} onClose={overlayOnCancel} >
-                    <SupplyOverlayContent selectedProducts={products} onPay={overlayOnPay} onCancel={overlayOnCancel} />
-                </OverlayBase>
-            </div>
+            <CashierOnly>
+                <div className={"static-content"}>
+                    <ProductSelector confirmAction={confirmAction} theme={"blue"} mode={"supply"} errors={errors} shopId={4} isDelivery={true}>
+                        <SupplierList onSelectSupplier={setSupplierId} onTypeName={setSupplierName}
+                        supplierError={supplierError} nameError={nameError} />
+                    </ProductSelector>
+                    <OverlayBase isActive={isOverlayActive} onClose={overlayOnCancel} >
+                        <SupplyOverlayContent selectedProducts={products} onPay={overlayOnPay} onCancel={overlayOnCancel} />
+                    </OverlayBase>
+                </div>
+            </CashierOnly>
         </MainLayout>
     )
 }

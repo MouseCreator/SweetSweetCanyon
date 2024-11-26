@@ -87,6 +87,7 @@
 }
 .nav-link-module {
     display: block;
+    text-align: left;
     width: 90%;
     border-radius: 5px;
 }

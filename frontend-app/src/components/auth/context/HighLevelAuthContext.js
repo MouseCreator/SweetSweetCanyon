@@ -20,18 +20,16 @@ export function HighLevelAuthProvider({ children }) {
         { enabled: !!user }
     );
 
-    // Fetch role
     const { data: role, error: roleError, isLoading: roleLoading } = useQuery(
         ['role', token, subject],
         async () => await getUserRole(token, subject),
-        { enabled: !!token && !!subject } // Only fetch when dependencies are ready
+        { enabled: !!token && !!subject }
     );
 
-    // Fetch shop
     const { data: shop, error: shopError, isLoading: shopLoading } = useQuery(
         ['shop', token, subject],
         async () => await getWorksAt(token, subject),
-        { enabled: !!token && !!subject } // Only fetch when dependencies are ready
+        { enabled: !!token && !!subject }
     );
 
     useEffect(() => {
@@ -45,7 +43,7 @@ export function HighLevelAuthProvider({ children }) {
         setError(allErrors.length ? allErrors.map(e => e.message || e).join(' | ') : null);
     }, [tokenError, roleError, shopError]);
     return (
-        <HighLevelAuthContext.Provider value={{ contentLoads, role, shop, error, subject, token }}>
+        <HighLevelAuthContext.Provider value={{ contentLoads, role: role || 'none', shop: shop || null, error, subject, token }}>
             {children}
         </HighLevelAuthContext.Provider>
     );

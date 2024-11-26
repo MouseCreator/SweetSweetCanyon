@@ -2,9 +2,10 @@ import {Link} from "react-router-dom";
 import "./layout.css"
 import {LogoImage} from "../../static_controls/Images";
 import {useHighLevel} from "../auth/context/HighLevelAuthContext";
+import {useAuth0} from "@auth0/auth0-react";
 export function Sidenav({open, toggleOpen}) {
     const { role } = useHighLevel()
-
+    const { loginWithRedirect, logout } = useAuth0()
 
     return (
         <div className={`sidenav ${open ? 'open' : 'closed'}`}>
@@ -61,11 +62,11 @@ export function Sidenav({open, toggleOpen}) {
                     role === "none" ?
                         (
                             <div>
-                                <Link to={"/"} className={"nav-link-module"}>👉 Log in</Link>
+                                <button onClick={()=>loginWithRedirect()} className={"nav-link-module"}>👉 Log in</button>
                             </div>
                         ) : (
                             <div>
-                                <Link to={"/"} className={"nav-link-module"}>❌ Log out</Link>
+                                <button onClick={()=>logout()} className={"nav-link-module"}>❌ Log out</button>
                             </div>
                         )
                 }
