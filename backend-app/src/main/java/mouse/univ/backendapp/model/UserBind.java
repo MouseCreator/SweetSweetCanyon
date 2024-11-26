@@ -5,12 +5,11 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name="admins")
-public class Admin {
+@Table(name="user_bind")
+public class UserBind {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @OneToOne
+    private String sub;
     @JoinColumn(name = "user_id")
+    @ManyToOne
     private User user;
 }

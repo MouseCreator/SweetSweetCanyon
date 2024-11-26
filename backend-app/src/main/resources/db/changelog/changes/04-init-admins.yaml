@@ -3,26 +3,10 @@ databaseChangeLog:
       id: 5
       author: Mykhailo Tyshchenko
       changes:
-      - createTable:
-          tableName: admins
-          columns:
-            - column:
-                name: id
-                type: BIGINT
-                autoIncrement: true
-                constraints:
-                  primaryKey: true
-                  nullable: false
-            - column:
-                name: user_id
-                type: BIGINT
-                constraints:
-                  nullable: false
-                  unique: true
-      - addForeignKeyConstraint:
-          constraintName: adminsUsers_fk
-          baseTableName: admins
-          baseColumnNames: user_id
-          referencedTableName: users
-          referencedColumnNames: id
-          onDelete: CASCADE
+          - addForeignKeyConstraint:
+                constraintName: userContacts_2_fk
+                baseTableName: contacts
+                baseColumnNames: id
+                referencedTableName: users
+                referencedColumnNames: id
+                onDelete: CASCADE

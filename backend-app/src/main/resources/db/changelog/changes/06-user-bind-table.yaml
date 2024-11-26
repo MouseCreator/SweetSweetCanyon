@@ -1,0 +1,26 @@
+databaseChangeLog:
+  - changeSet:
+      id: 6
+      author: Mykhailo Tyshchenko
+      changes:
+        - createTable:
+            tableName: user_bind
+            columns:
+              - column:
+                  name: sub
+                  type: VARCHAR(512)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            constraintName: user_bind_fk
+            baseTableName: user_bind
+            baseColumnNames: user_id
+            referencedTableName: users
+            referencedColumnNames: id
+            onDelete: CASCADE

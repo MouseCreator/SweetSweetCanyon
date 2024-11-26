@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 5
+      id: 5a
       author: Mykhailo Tyshchenko
       changes:
         - createTable:

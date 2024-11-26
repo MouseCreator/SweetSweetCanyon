@@ -64,62 +64,25 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: user_id
-                  type: BIGINT
-                  constraints:
-                    unique: true
-                    nullable: false
-              - column:
                   name: phone
                   type: VARCHAR(8192)
-                  constraints:
-                    nullable: false
               - column:
                   name: email
                   type: VARCHAR(255)
                   constraints:
                     nullable: false
                     unique: true
-        - createTable:
-            tableName: cashiers
-            columns:
-              - column:
-                  name: id
-                  type: BIGINT
-                  autoIncrement: true
-                  constraints:
-                    primaryKey: true
-                    nullable: false
               - column:
                   name: shop_id
                   type: BIGINT
-              - column:
-                  name: user_id
-                  type: BIGINT
-                  constraints:
-                    nullable: false
-                    unique: true
+
         - addForeignKeyConstraint:
-              constraintName: userContacts_fk
-              baseTableName: contacts
-              baseColumnNames: user_id
-              referencedTableName: users
-              referencedColumnNames: id
-              onDelete: CASCADE
-        - addForeignKeyConstraint:
-            constraintName: cashiersShops_fk
-            baseTableName: cashiers
+            constraintName: contactShops_fk
+            baseTableName: contacts
             baseColumnNames: shop_id
             referencedTableName: shops
             referencedColumnNames: id
             onDelete: SET NULL
-        - addForeignKeyConstraint:
-            constraintName: cashiersUsers_fk
-            baseTableName: cashiers
-            baseColumnNames: user_id
-            referencedTableName: users
-            referencedColumnNames: id
-            onDelete: CASCADE
   - changeSet:
       id: 4
       author: Mykhailo Tyshchenko

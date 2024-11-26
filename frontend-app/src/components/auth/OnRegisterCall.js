@@ -2,7 +2,8 @@ import React, { useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
 import {ST} from "../../connect/secret";
-
+import "./auth.css"
+import {Link} from "react-router-dom";
 const OnRegisterCall = () => {
   const { getAccessTokenSilently,
     user,
@@ -38,15 +39,26 @@ const OnRegisterCall = () => {
     sendRegistrationData();
   }, [getAccessTokenSilently, user]);
   if (isLoading) {
-    return <div>Loading...</div>
+    return <div className={"auth-screen"}>Loading...</div>
   }
   if (error) {
-    return <div>Error: {error.message}</div>
+    return <div className={"auth-screen"}>Error: {error.message}</div>
   }
   if (!isAuthenticated) {
-    return <div>User is not authenticated</div>
+    return <div className={"auth-screen"}>User is not authenticated</div>
   }
-  return <div>Registration Complete. Welcome, {user?.name}!</div>;
+  return (<div className={"auth-screen"}>
+          <div className={"auth-content"}>
+            <p className={"auth-text"}>
+                Registration Complete.
+            </p>
+            <p className={"auth-text"}>
+              Welcome, { user?.name}!
+            </p>
+            <Link to={"/"} className={"gen-button green"}>Yay!</Link>
+          </div>
+
+        </div>)
 };
 
 export default OnRegisterCall;

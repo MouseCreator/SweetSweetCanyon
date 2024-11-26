@@ -9,3 +9,5 @@ databaseChangeLog:
       file: db/changelog/changes/04-init-admins.yaml
   - include:
       file: db/changelog/changes/05-init-stocks.yaml
+  - include:
+      file: db/changelog/changes/06-user-bind-table.yaml

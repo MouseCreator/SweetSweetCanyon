@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import {PopupProvider} from "./components/common/popup/PopupContext";
 import {AUTH} from "./components/auth/auth.secret";
 import {Auth0Provider} from "@auth0/auth0-react";
+import {RoleAwareProvider} from "./components/auth/authContext";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -26,7 +27,9 @@ root.render(
               }}
 
           >
-            <App />
+              <RoleAwareProvider>
+                    <App />
+              </RoleAwareProvider>
           </Auth0Provider>
       </PopupProvider>
   </React.StrictMode>
