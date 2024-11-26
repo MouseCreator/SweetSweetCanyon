@@ -1,7 +1,11 @@
-import {Link} from "react-router-dom";
+import {LoginButton} from "../../components/auth/LoginButton";
+import {LogoutButton} from "../../components/auth/LogoutButton";
 
-export default function () {
+export default function RegisterPage() {
     return (
-        <Link to={"/oauth2/authorization/okta"}>Register</Link>
+        <main>
+            <LoginButton />
+            <LogoutButton />
+        </main>
     )
 }

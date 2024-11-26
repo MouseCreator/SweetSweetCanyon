@@ -27,3 +27,5 @@ yarn-error.log*
 
 #secret
 secret.js
+auth.secret.js
+.env
