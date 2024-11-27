@@ -76,17 +76,11 @@ public class IndicatorService {
         }
     }
 
-    public void getAllDaily(LocalDate start, LocalDate end) {
+    public void getAllDaily(LocalDate start, LocalDate end, Long shopId, String type) {
     }
-    public void getByShopDaily(Long shopId, LocalDate start, LocalDate end) {
+    public void getAllMonthly(LocalDate start, LocalDate end, Long shopId, String type) {
     }
-    public void getAllMonthly(LocalDate start, LocalDate end) {
-    }
-    public void getByShopMonthly(Long shopId, LocalDate start, LocalDate end) {
-    }
-    public void getAllStatic(LocalDate start, LocalDate end) {
-    }
-    public void getByShopStatic(Long shopId, LocalDate start, LocalDate end) {
+    public void getAllStatic(LocalDate start, LocalDate end, Long shopId, String type) {
     }
     @Transactional
     protected void createAllForDate(LocalDate localDate) {
