@@ -3,6 +3,7 @@ package mouse.univ.backendapp.service.history;
 import lombok.AllArgsConstructor;
 import mouse.univ.backendapp.service.fill.DataReadService;
 import mouse.univ.backendapp.service.fill.JSONService;
+import mouse.univ.backendapp.service.indicator.IndicatorService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -14,6 +15,7 @@ public class HistoryFillerService {
 
     private final DataReadService dataReadService;
     private final HistoryGenerator historyGenerator;
+    private final IndicatorService indicatorService;
     public void fillHistory() {
         HistoryDTO historyDTO = dataReadService.readHistory("src/main/resources/fill/history.json");
         HistoryParams params = toParams(historyDTO);
