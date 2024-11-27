@@ -7,7 +7,9 @@ import java.time.LocalDate;
 
 @Data
 public class DateIndicatorDTO {
-    private LocalDate localDate;
+    private LocalDate date;
     private Long value;
     private BigDecimal price;
+    private boolean isTotal;
+    private String shopName;
 }

@@ -2,6 +2,7 @@ package mouse.univ.backendapp.service.indicator;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import mouse.univ.backendapp.dto.indicator.DateIndicatorDTO;
 import mouse.univ.backendapp.model.*;
 import mouse.univ.backendapp.repository.*;
 import org.springframework.stereotype.Service;
@@ -76,12 +77,45 @@ public class IndicatorService {
         }
     }
 
-    public void getAllDaily(LocalDate start, LocalDate end, Long shopId, String type) {
+    public List<DateIndicatorDTO> getAllDaily(LocalDate start, LocalDate end, Long shopId, String type) {
+        List<DailyIndicator> dailyIndicators;
+        if (shopId == null) {
+            dailyIndicators = dailyIndicatorRepository.findBetweenGlobalAndType(start, end, type);
+        } else {
+            dailyIndicators = dailyIndicatorRepository.findBetweenShopAndType(start, end, type, shopId);
+        }
+        return toResponseList(dailyIndicators);
     }
+
     public void getAllMonthly(LocalDate start, LocalDate end, Long shopId, String type) {
     }
     public void getAllStatic(LocalDate start, LocalDate end, Long shopId, String type) {
+        IndSums indSums = new IndSums();
     }
+
+    private List<DateIndicatorDTO> toResponseList(List<DailyIndicator> dailyIndicators) {
+        return dailyIndicators.stream().map(this::toResponse).toList();
+    }
+
+    private DateIndicatorDTO toResponse(DailyIndicator di) {
+        DateIndicatorDTO dto = new DateIndicatorDTO();
+        LocalDate date = di.getDate();
+        dto.setDate(date);
+        ProductIndicator pi = di.getProductIndicator();
+        dto.setPrice(pi.getPrice());
+        dto.setTotal(pi.getIsTotal());
+        dto.setValue(pi.getValue());
+        dto.setPrice(pi.getPrice());
+        dto.setShopName(shopName(pi));
+        return dto;
+    }
+
+    private String shopName(ProductIndicator pi) {
+        Shop shop = pi.getShop();
+        return shop == null ? "" : shop.getName();
+    }
+
+
     @Transactional
     protected void createAllForDate(LocalDate localDate) {
         for (IndType type : Indications.all()) {
