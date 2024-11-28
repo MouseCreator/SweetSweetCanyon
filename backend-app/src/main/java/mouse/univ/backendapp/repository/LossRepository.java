@@ -14,7 +14,7 @@ public interface LossRepository extends JpaRepository<Loss, Long> {
     @Query("select s from Loss s where s.transaction.id = :id")
     Optional<Loss> findByTransaction(@Param("id") Long id);
     @Query("select s from Loss s where s.transaction.date >= :begins and s.transaction.date <= :ends")
-    List<Loss> findAllByDateRange(LocalDateTime begin, LocalDateTime end);
+    List<Loss> findAllByDateRange(LocalDateTime begins, LocalDateTime ends);
 
     @Query("select s " +
             "from Loss s " +

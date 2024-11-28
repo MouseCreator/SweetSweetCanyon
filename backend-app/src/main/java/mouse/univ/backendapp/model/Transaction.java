@@ -15,6 +15,7 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String type;
+    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime date;
     private BigDecimal price;
     private String username;

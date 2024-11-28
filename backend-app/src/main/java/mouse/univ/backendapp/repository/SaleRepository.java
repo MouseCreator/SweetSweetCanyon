@@ -15,7 +15,7 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
     @Query("select s from Sale s where s.transaction.id = :id")
     Optional<Sale> findByTransaction(@Param("id") Long id);
     @Query("select s from Sale s where s.transaction.date >= :begins and s.transaction.date <= :ends")
-    List<Sale> findAllByDateRange(LocalDateTime begin, LocalDateTime end);
+    List<Sale> findAllByDateRange(LocalDateTime begins, LocalDateTime ends);
 
     @Query("select s " +
             "from Sale s " +

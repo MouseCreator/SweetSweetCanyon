@@ -11,5 +11,5 @@ public class DateIndicatorDTO {
     private Long value;
     private BigDecimal price;
     private boolean isTotal;
-    private String shopName;
+    private Long shopId;
 }

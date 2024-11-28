@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import mouse.univ.backendapp.dto.indicator.DateIndicatorDTO;
 import mouse.univ.backendapp.dto.indicator.StaticIndicatorDTO;
 import mouse.univ.backendapp.model.*;
+import mouse.univ.backendapp.model.prototype.CommonIndicator;
 import mouse.univ.backendapp.repository.*;
 import org.springframework.stereotype.Service;
 
@@ -145,6 +146,9 @@ public class IndicatorService {
     }
 
     private String getShopName(Long shopId) {
+        if (shopId == null) {
+            return null;
+        }
         return shopRepository.findById(shopId).orElseThrow().getName();
     }
 
@@ -178,15 +182,11 @@ public class IndicatorService {
         dto.setTotal(pi.getIsTotal());
         dto.setValue(pi.getValue());
         dto.setPrice(pi.getPrice());
-        dto.setShopName(shopName(pi));
+        if (pi.getShop() != null) {
+            dto.setShopId(pi.getShop().getId());
+        }
         return dto;
     }
-
-    private String shopName(ProductIndicator pi) {
-        Shop shop = pi.getShop();
-        return shop == null ? "" : shop.getName();
-    }
-
 
     @Transactional
     protected void createAllForDate(LocalDate localDate) {
@@ -316,17 +316,12 @@ public class IndicatorService {
             sumItems = 0L;
             sumPrice = BigDecimal.ZERO;
         }
-
-        public void addCount(int size) {
-            sumItems += size;
-        }
         public void addCount(long size) {
             sumItems += size;
         }
         public void addPrice(BigDecimal delta) {
             sumPrice = sumPrice.add(delta);
         }
-
         public void subtractPrice(BigDecimal price) {
             sumPrice = sumPrice.subtract(price);
         }
@@ -359,7 +354,7 @@ public class IndicatorService {
         List<Supply> supplies = supplyRepository.findAllByDateRangeAndShop(begin, end, shop.getId());
         List<Sale> sales = saleRepository.findAllByDateRangeAndShop(begin, end, shop.getId());
         IndSums indSums = calculateRevenue(sales, supplies);
-        toDailyIndicator(indSums, date, "revenue");
+        toDailyIndicatorShop(shop, indSums, date, "revenue");
     }
     @Transactional
     protected void createLossShop(Shop shop, LocalDate date) {
@@ -459,17 +454,21 @@ public class IndicatorService {
 
     private void addToSums(Transaction transaction, IndSums indSums) {
         List<UsedProduct> products = transaction.getUsedProductList();
-        int size = products.size();
-        indSums.addCount(size);
         for (UsedProduct product : products) {
-            indSums.addPrice(product.getPrice());
+            Long lAmount = product.getAmount();
+            BigDecimal amount = BigDecimal.valueOf(lAmount);
+            indSums.addPrice(product.getPrice().multiply(amount));
+            indSums.addCount(lAmount);
         }
     }
 
     private void subtractFromSums(Transaction transaction, IndSums indSums) {
         List<UsedProduct> products = transaction.getUsedProductList();
         for (UsedProduct product : products) {
-            indSums.subtractPrice(product.getPrice());
+            Long amount = product.getAmount();
+            BigDecimal bAmount = BigDecimal.valueOf(amount);
+            BigDecimal toSubtract = product.getPrice().multiply(bAmount);
+            indSums.subtractPrice(toSubtract);
         }
     }
 

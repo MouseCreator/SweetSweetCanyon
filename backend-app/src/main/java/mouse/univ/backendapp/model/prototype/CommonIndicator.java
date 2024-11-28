@@ -1,4 +1,6 @@
-package mouse.univ.backendapp.model;
+package mouse.univ.backendapp.model.prototype;
+
+import mouse.univ.backendapp.model.ProductIndicator;
 
 import java.time.LocalDate;
 

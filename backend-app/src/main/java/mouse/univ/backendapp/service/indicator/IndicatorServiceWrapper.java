@@ -36,6 +36,7 @@ public class IndicatorServiceWrapper {
         }
         responseDTO.setDetailsList(detailsList);
         responseDTO.setStaticList(staticList);
+        responseDTO.setRequestType(indicatorRequestDTO.getType());
         return responseDTO;
     }
 

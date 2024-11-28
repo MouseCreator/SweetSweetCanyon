@@ -2,11 +2,12 @@ package mouse.univ.backendapp.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import mouse.univ.backendapp.model.prototype.TransactionHolder;
 
 @Data
 @Entity
 @Table(name = "supplies")
-public class Supply {
+public class Supply implements TransactionHolder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

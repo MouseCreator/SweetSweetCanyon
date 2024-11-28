@@ -13,7 +13,7 @@ public interface SupplyRepository extends JpaRepository<Supply, Long> {
     @Query("select s from Supply s where s.transaction.id = :id")
     Optional<Supply> findByTransaction(@Param("id") Long id);
     @Query("select s from Supply s where s.transaction.date >= :begins and s.transaction.date <= :ends")
-    List<Supply> findAllByDateRange(LocalDateTime begins, LocalDateTime ends);
+    List<Supply> findAllByDateRange(@Param("begins") LocalDateTime begins, @Param("ends") LocalDateTime ends);
 
     @Query("select s " +
             "from Supply s " +
