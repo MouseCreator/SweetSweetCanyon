@@ -7,6 +7,7 @@ import {getUserInfo, updateUserInfo} from "../../connect/connectUser";
 import {useNavigate} from "react-router-dom";
 import {GlobalLoading} from "../common/loading/GlobalLoading";
 import {usePopup} from "../common/popup/PopupContext";
+import {useAuth0} from "@auth0/auth0-react";
 
 export function ProfileComponent() {
     const [initialData, setInitialData] = useState(null)
@@ -15,14 +16,15 @@ export function ProfileComponent() {
     const { token, subject, role, setShop, setRole } = useHighLevel()
     const [loading, setLoading] = useState(true)
     const { invokePopup } = usePopup()
+    const { loginWithRedirect } = useAuth0()
     useEffect(()=> {
         getAllShops().then((s)=>setShopList(s.data))
         getUserInfo(token).then((i)=>{
             let t = i.data
             t.role = role
             setInitialData(t);
-            setLoading(false) })
-    }, [token, role])
+            setLoading(false) }).catch(()=>loginWithRedirect())
+    }, [token, role, loginWithRedirect])
     const onSubmit = (formData) => {
 
         assignUserRole(token, subject, formData.role)

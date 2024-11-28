@@ -17,6 +17,8 @@
     font-weight: bold;
 }
 
+
+
 .gen-button:hover {
     background: #676767;
 }
@@ -40,5 +42,5 @@
     -khtml-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
-    user-select: none;
+     user-select: none;
 }

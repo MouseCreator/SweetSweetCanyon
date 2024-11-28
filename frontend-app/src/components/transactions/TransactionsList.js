@@ -11,7 +11,7 @@ import {usePopup} from "../common/popup/PopupContext";
 function TransactionsList() {
     const [searchParams, setSearchParams] = useSearchParams();
     const defParams = {
-        shopId: searchParams.get('shop') || 'all',
+        shop: searchParams.get('shop') || 'all',
         type: searchParams.get('type') || "all",
         sort: searchParams.get('sort') || "recent"
     }
@@ -47,6 +47,8 @@ function TransactionsList() {
             }
         }).catch((err)=>callback(err.message, 'red'))
     }, [callback, params, page])
+
+
     useEffect(()=> {
         getAllShops().then((resp)=>{
             if (resp.success) {
@@ -56,25 +58,33 @@ function TransactionsList() {
             }
         }).catch(()=>callback('Cannot load shops!', 'red'))
         updatePages();
-    }, [callback, updatePages, params])
+    }, [callback, updatePages])
     const updateParams = (newParams) => {
+        console.log(newParams)
         setSearchParams(
             {
                 shop: newParams.shop,
                 type: newParams.type,
                 sort: newParams.sort,
-                page: page
+                page: "0"
             });
-        setParams(newParams)
+        setParams({
+            shop: newParams.shop,
+            type: newParams.type,
+            sort: newParams.sort
+        })
+        setPage(0)
         updatePages();
     }
     const updatePage = (newPage) => {
         setSearchParams(
             {
+                shop: params.shop,
+                type: params.type,
+                sort: params.sort,
                 page: newPage
             });
         setPage(newPage)
-        updatePages();
     }
     return (
         <main>
@@ -82,7 +92,7 @@ function TransactionsList() {
             <h2 className={"tr-text-pink"}>Filters:</h2>
             <TransactionsControl controlParams={params} updateControlParams={updateParams} shops={shops} />
             <h2 className={"tr-text-pink"}>Transactions:</h2>
-            <p>Total transactions: {totalTransaction}</p>
+            <p className={"tr-text-side"}>Total transactions: {totalTransaction}</p>
             <div className={"tr-grid"}>
                 { transactions.map((t,index) => (<TransactionItem key={index} itemData={t} />)) }
             </div>

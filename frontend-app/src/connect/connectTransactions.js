@@ -109,7 +109,7 @@ export async function postLoss(loss, authToken) {
 export function toRequestParams(params) {
     return {
         type: params.type || "all",
-        shopId: params.shopId === "all" || !params.shopId ? null : Number.parseInt(params.shopId),
+        shop: params.shop === "all" ? null : Number.parseInt(params.shop),
         sort: params.sort,
         itemsPerPage: 20,
         currentPage: params.page
@@ -127,6 +127,7 @@ function transformTransaction(tfs) {
 }
 export async function getTransactionList(params) {
     const request = toRequestParams(params)
+    console.log(request)
     const data = await doGet(`${ST.HOST_URL}/transactions/search`, request)
     return transformEach(data, transformTransaction)
 }

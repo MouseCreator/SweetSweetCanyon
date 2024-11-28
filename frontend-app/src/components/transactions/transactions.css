@@ -19,6 +19,9 @@
     margin: 3px;
     cursor: pointer;
 }
+.tr-text-side {
+    margin-left: 8px;
+}
 .tr-title {
     font-weight: bold;
     font-size: 18px;

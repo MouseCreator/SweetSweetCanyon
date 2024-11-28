@@ -1,5 +1,7 @@
 import './transactions.css'
 import './../../static_controls/inputs.css'
+import {useParams} from "react-router-dom";
+import {useState} from "react";
 function TransactionPageBtn({number, selected, side, text, onClick}) {
     const color = selected ? 'selected' : side ? 'side' : 'defs'
     const clicked = () => {
@@ -38,8 +40,6 @@ function numbersWindow(windowLength, pageStr, numPages) {
 
     let startIndex = Math.max(0, page-before);
     let endIndex = Math.min(numPages-1, page+after);
-    console.log(`Start ${startIndex}`)
-    console.log(`End ${endIndex}`)
     for (let i = startIndex; i <= endIndex; i++) {
         arr.push(i);
     }
@@ -48,11 +48,29 @@ function numbersWindow(windowLength, pageStr, numPages) {
 export function TransactionPageControl({page, onPageChange, numPages}) {
     const window = 5;
     const windowArr = numbersWindow(window, page, numPages);
+    const [innerPage, setInnerPage] = useState("")
     const onButtonClicked = (n) => {
         if (n < 0 || n >= numPages) {
             return
         }
         onPageChange(n);
+    }
+    const onInputChange = (input) => {
+        if (input === "") {
+            setInnerPage(input)
+            return
+        }
+        if (input !== "") {
+            const n = Number.parseInt(input)
+            if (n < 1) {
+                return
+            }
+            if (n > numPages) {
+                return
+            }
+            onPageChange(Number.parseInt(input) - 1)
+            setInnerPage(input)
+        }
     }
     const pageR = parseInt(page)
     return (
@@ -64,6 +82,12 @@ export function TransactionPageControl({page, onPageChange, numPages}) {
             }
             <TransactionPageBtn number={page+1} text={"▶️"} selected={false} side={true} onClick={onButtonClicked} />
             <TransactionPageBtn number={numPages-1} text={"⏭️"} selected={false} side={true} onClick={onButtonClicked} />
+            <input className={'gen-input ml-8'}
+                   type={'number'}
+                   min={1}
+                   max={numPages}
+                   value={innerPage}
+                   onChange={(e)=>onInputChange(e.target.value)} />
         </div>
     )
 }
