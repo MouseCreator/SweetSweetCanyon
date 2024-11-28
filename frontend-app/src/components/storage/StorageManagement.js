@@ -10,6 +10,7 @@ import {GlobalLoading} from "../common/loading/GlobalLoading";
 import {GlobalError} from "../common/errors/GlobalError";
 import {postManage} from "../../connect/connectManage";
 import {usePopup} from "../common/popup/PopupContext";
+import {useHighLevel} from "../auth/context/HighLevelAuthContext";
 
 export function StorageManagement({shopId}) {
     const [loading, setLoading] = useState(false)
@@ -21,6 +22,7 @@ export function StorageManagement({shopId}) {
     const navigate = useNavigate();
     const [myShop, setMyShop] = useState(null)
     const { invokePopup } = usePopup()
+    const { token } = useHighLevel()
     const callback = useCallback( async (shopId) => {
         const newStocks = await getStocksByShopId(shopId);
         const newShops = await getAllShops()
@@ -77,7 +79,7 @@ export function StorageManagement({shopId}) {
         if (!validateElements()) {
             return;
         }
-        postManage(shopId, elements).then(
+        postManage(shopId, elements, token).then(
             (s)=> {
                 if (s.success) {
                     invokePopup('Changes saved!', 'green')

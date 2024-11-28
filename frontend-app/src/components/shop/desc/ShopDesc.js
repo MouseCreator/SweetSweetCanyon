@@ -8,13 +8,14 @@ import "./shop-desc.css"
 import DeleteShopOverlay from "../overlay/DeleteShopOverlay";
 import {deleteShopById, getShopById} from "../../../connect/connectShops";
 import {usePopup} from "../../common/popup/PopupContext";
+import {useHighLevel} from "../../auth/context/HighLevelAuthContext";
 export function ShopDesc({shopId, role, userShop}) {
     const [shopById, setShopById] = useState(null)
     const [loadingState, setLoadingState] = useState(true);
     const [error, setError] = useState('')
     const [overlayActive, setOverlayActive] = useState(false)
     const navigate = useNavigate()
-
+    const { token } = useHighLevel()
     const ush = userShop === null ? null : `${userShop}`
 
     useEffect(()=> {
@@ -32,7 +33,7 @@ export function ShopDesc({shopId, role, userShop}) {
         setOverlayActive(false);
     }
     const onDelete = () => {
-        deleteShopById(shopId).then((r) => {
+        deleteShopById(shopId, token).then((r) => {
             if (r.success) {
                 navigate('/products/');
                 invokePopup('Shop is deleted successfully', 'green')

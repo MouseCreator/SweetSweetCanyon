@@ -3,14 +3,16 @@ import ShopForm from "../../components/shop/form/ShopForm";
 import {useNavigate} from "react-router-dom";
 import {postShop} from "../../connect/connectShops";
 import {usePopup} from "../../components/common/popup/PopupContext";
+import {useHighLevel} from "../../components/auth/context/HighLevelAuthContext";
 
 
 const ShopCreatePage = () => {
 
     const navigate = useNavigate();
     const { invokePopup, invokePopupTimeout } = usePopup();
+    const { token } = useHighLevel()
     const handleSave = (form_output) => {
-        postShop(form_output).then(
+        postShop(form_output, token).then(
             (resp) => {
                 if (resp.success) {
                     const atomic = {value: true};

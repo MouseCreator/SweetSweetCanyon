@@ -24,12 +24,14 @@ public class AuthFilter extends OncePerRequestFilter {
     private static final String AUTHORIZATION_HEADER = "Authorization";
     private static final String TOKEN_PREFIX = "Bearer ";
     private UserBindService userBindService;
-    private final JWTVerifier verifier;
+    private JWTVerifier verifier;
 
     public AuthFilter() {
         String secret = System.getenv("HMAC_SECRET");
-        Algorithm algorithm = Algorithm.HMAC256(secret);
-        verifier = JWT.require(algorithm).build();
+        if (secret != null) {
+            Algorithm algorithm = Algorithm.HMAC256(secret);
+            verifier = JWT.require(algorithm).build();
+        }
     }
     @Autowired
     public void setUserBindService(UserBindService userBindService) {

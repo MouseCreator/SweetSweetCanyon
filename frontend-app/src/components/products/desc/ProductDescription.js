@@ -10,6 +10,7 @@ import "../../common/desc/common-info.css"
 import {deleteProductById, getProductById} from "../../../connect/connectProducts";
 import {GlobalErrorPage} from "../../common/errors/GlobalErrorPage";
 import {usePopup} from "../../common/popup/PopupContext";
+import {useHighLevel} from "../../auth/context/HighLevelAuthContext";
 export function ProductDescription({productId, role}) {
     const [productById, setProductById] = useState(null)
     const [overlayActive, setOverlayActive] = useState(false)
@@ -18,6 +19,7 @@ export function ProductDescription({productId, role}) {
     const isAdmin = role === "admin"
     const [error, setError] = useState("");
     const { invokePopup } = usePopup();
+    const { token } = useHighLevel()
     useEffect(()=> {
         getProductById(productId).then(
             (product) => {
@@ -33,8 +35,9 @@ export function ProductDescription({productId, role}) {
     const onClose = () => {
         setOverlayActive(false);
     }
+
     const onDelete = () => {
-        deleteProductById(productId).then(
+        deleteProductById(productId, token).then(
             (p)=>{
                 if (p.success) {
                     navigate('/products/');

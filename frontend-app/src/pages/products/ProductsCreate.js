@@ -5,16 +5,19 @@ import MainLayout from "../../components/layout/Layout";
 import {postProduct} from "../../connect/connectProducts";
 import {useState} from "react";
 import {ErrorOverlay} from "../../components/common/errors/ErrorOverlay";
-import {PopupProvider, usePopup} from "../../components/common/popup/PopupContext";
+import {usePopup} from "../../components/common/popup/PopupContext";
+import {useHighLevel} from "../../components/auth/context/HighLevelAuthContext";
 
 const ProductCreate = () => {
     const navigate = useNavigate();
     const [error, setError] = useState(null);
     const { invokePopup, invokePopupTimeout } = usePopup();
+
+    const { token } = useHighLevel()
     const handleSave = async (form_output) => {
         let atomic = { value: true };
         invokePopupTimeout('Create request sent!', 'green', atomic, 200);
-        const response = await postProduct(form_output);
+        const response = await postProduct(form_output, token);
         atomic.value = false;
         if (response.success) {
             invokePopup('Product created!', 'green');

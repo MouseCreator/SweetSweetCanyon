@@ -7,7 +7,7 @@ export async function getAllProducts() {
 export async function getProductById(id) {
     return doGet(`${ST.HOST_URL}/products/${id}`)
 }
-export async function postProduct(product) {
+export async function postProduct(product, authToken) {
     const requestBody = {
         name: product.name,
         description: product.description,
@@ -15,9 +15,9 @@ export async function postProduct(product) {
         deliveryPrice: product.deliveryPrice,
         pictureUrl: product.pictureUrl
     }
-    return doPost(`${ST.HOST_URL}/products`, requestBody);
+    return doPost(`${ST.HOST_URL}/products`, requestBody, authToken);
 }
-export async function updateProduct(product) {
+export async function updateProduct(product, authToken) {
     const requestBody = {
         id: product.id,
         name: product.name,
@@ -26,9 +26,9 @@ export async function updateProduct(product) {
         deliveryPrice: product.deliveryPrice,
         pictureUrl: product.pictureUrl
     }
-    return doPut(`${ST.HOST_URL}/products`, requestBody);
+    return doPut(`${ST.HOST_URL}/products`, requestBody, authToken);
 }
 
-export async function deleteProductById(id) {
-    return doDelete(`${ST.HOST_URL}/products/${id}`);
+export async function deleteProductById(id, authToken) {
+    return doDelete(`${ST.HOST_URL}/products/${id}`,  authToken);
 }

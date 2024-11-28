@@ -5,13 +5,14 @@ import {OverlayBase} from "../../components/overlay/OverlayBase";
 import {SaleOverlayContent} from "../../components/products/sale/SaleOverlayContent";
 import {useState} from "react";
 import {postSale} from "../../connect/connectTransactions";
+import {useHighLevel} from "../../components/auth/context/HighLevelAuthContext";
 
 function SalePage() {
     const navigate = useNavigate();
     const [isOverlayActive, setIsOverlayActive] = useState(false);
     const [products, setProducts] = useState([])
     const [errors, setErrors] = useState(null)
-
+    const { token } = useHighLevel()
     const confirmAction = (selectedProducts) => {
         setProducts(selectedProducts);
         setIsOverlayActive(true);
@@ -21,7 +22,7 @@ function SalePage() {
         setProducts([]);
     }
     const overlayOnPay = () => {
-        postSale(products).then((r)=>{
+        postSale(products, token).then((r)=>{
             if (r.success) {
                 navigate(`/transactions/sales/${r.data.id}`);
             } else {

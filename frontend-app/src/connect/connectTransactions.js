@@ -72,16 +72,16 @@ function transformMove(sfs) {
         }
     }
 }
-export async function postSale(sale) {
+export async function postSale(sale, authToken) {
     const items = sale.map((pr)=> ({ productId: pr.product.id, amount: pr.amount} ))
     const body = {
         items: items
     }
-    const data = await doPost(`${ST.HOST_URL}/sale`, body);
+    const data = await doPost(`${ST.HOST_URL}/sale`, body, authToken);
     return transformSingle(data, transformSale);
 }
 
-export async function postSupply(supply) {
+export async function postSupply(supply, authToken) {
     const supplierId = supply.supplierId
     const supplierName = supply.supplierName
     const items = supply.items.map((pr)=> ({ productId: pr.product.id, amount: pr.amount} ))
@@ -90,11 +90,11 @@ export async function postSupply(supply) {
         supplierId: supplierId,
         supplierName: supplierName
     }
-    const data = await doPost(`${ST.HOST_URL}/supply`, body);
+    const data = await doPost(`${ST.HOST_URL}/supply`, body, authToken);
     return transformSingle(data, transformSupply);
 }
 
-export async function postLoss(loss) {
+export async function postLoss(loss, authToken) {
     const comment = loss.comment
     const reasonId = loss.reasonId
     const items = loss.items.map((pr)=> ({ productId: pr.product.id, amount: pr.amount} ))
@@ -103,7 +103,7 @@ export async function postLoss(loss) {
         comment: comment,
         items: items
     }
-    const data = await doPost(`${ST.HOST_URL}/loss`, body);
+    const data = await doPost(`${ST.HOST_URL}/loss`, body, authToken);
     return transformSingle(data, transformLoss);
 }
 export function toRequestParams(params) {

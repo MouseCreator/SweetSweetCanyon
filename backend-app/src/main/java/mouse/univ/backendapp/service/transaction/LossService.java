@@ -33,6 +33,7 @@ public class LossService {
     private final LossRepository lossRepository;
     private final TransactionService transactionService;
     private final LossMapper lossMapper;
+    private final TransactionRepository transactionRepository;
     @Transactional
     public Optional<Loss> loseEverythingInShop(Long shopId, UserDetails userDetails) {
         List<Stock> stocksByShop = getStocksByShop(shopId);
@@ -41,11 +42,12 @@ public class LossService {
         if (transaction.isEmpty()) {
             return Optional.empty();
         }
+        Transaction savedTransaction = transactionRepository.save(transaction);
         Loss loss = new Loss();
         LossReason reason = lossReasonRepository.findByTitle("Closing shop").orElseThrow(InternalNotFound::new);
         loss.setReason(reason);
         loss.setComment(null);
-        loss.setTransaction(transaction);
+        loss.setTransaction(savedTransaction);
 
         return Optional.of(lossRepository.save(loss));
     }
@@ -63,16 +65,19 @@ public class LossService {
         List<Stock> stocksByShop = getStocksByProduct(productId);
         List<Shop> allShops = shopRepository.findAll();
         List<Loss> result = new ArrayList<>();
+        LossReason lossReason = lossReasonRepository.findByTitle("Removing product").orElseThrow();
         for (Shop shop : allShops) {
             Transaction transaction = transactionFromStocks(userDetails.getName(), stocksByShop, shop);
             if (transaction.isEmpty()) {
                 continue;
             }
+            Transaction savedTransaction = transactionRepository.save(transaction);
             Loss loss = new Loss();
             LossReason reason = lossReasonRepository.findByTitle("Removing product").orElseThrow(InternalNotFound::new);
             loss.setReason(reason);
             loss.setComment(null);
-            loss.setTransaction(transaction);
+            loss.setReason(lossReason);
+            loss.setTransaction(savedTransaction);
             Loss saved = lossRepository.save(loss);
             result.add(saved);
         }

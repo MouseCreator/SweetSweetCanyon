@@ -1,7 +1,7 @@
 import { doPost} from "./connectCommons";
 import {ST} from "./secret";
 
-export async function postManage(shopId, items) {
+export async function postManage(shopId, items, authToken) {
     const list = items.map((t)=>{
         return {
             type:
@@ -20,5 +20,5 @@ export async function postManage(shopId, items) {
         shopId: shopId,
         items: list
     }
-    return await doPost(`${ST.HOST_URL}/manage`, body);
+    return await doPost(`${ST.HOST_URL}/manage`, body, authToken);
 }

@@ -20,7 +20,7 @@ class ShopServiceTest {
     @Autowired
     private ShopService shopService;
     @Test
-    void createProduct() {
+    void createShop() {
         ShopCreateDTO productCreateDTO = withShop();
         ShopResponseDTO newProduct = shopService.createShop(productCreateDTO);
         assertNotNull(newProduct);
@@ -30,32 +30,34 @@ class ShopServiceTest {
 
     private ShopCreateDTO withShop() {
         ShopCreateDTO shopCreateDTO = new ShopCreateDTO();
-        shopCreateDTO.setName("New Product");
-        shopCreateDTO.setDescription("New product's description");
+        shopCreateDTO.setName("New Shop");
+        shopCreateDTO.setDescription("New shop's description");
         shopCreateDTO.setPictureUrl("");
+        shopCreateDTO.setHours("9:00-23:00");
+        shopCreateDTO.setAddress("Sweet street");
         return shopCreateDTO;
     }
     @Test
-    void getProductById() {
-        ShopCreateDTO productCreateDTO = withShop();
-        ShopResponseDTO newProduct = shopService.createShop(productCreateDTO);
-        ShopResponseDTO productById = shopService.findShopById(newProduct.getId());
-        assertEquals(productById.getId(), newProduct.getId());
+    void getShopsById() {
+        ShopCreateDTO createDTO = withShop();
+        ShopResponseDTO shop = shopService.createShop(createDTO);
+        ShopResponseDTO byId = shopService.findShopById(shop.getId());
+        assertEquals(byId.getId(), shop.getId());
     }
     @Test
-    void getAllProducts() {
-        ShopCreateDTO productCreateDTO = withShop();
-        ShopResponseDTO newProduct = shopService.createShop(productCreateDTO);
-        List<ShopResponseDTO> allProducts = shopService.getAllShops();
-        assertTrue(allProducts.contains(newProduct));
+    void getAllShops() {
+        ShopCreateDTO shop = withShop();
+        ShopResponseDTO newShop = shopService.createShop(shop);
+        List<ShopResponseDTO> all = shopService.getAllShops();
+        assertTrue(all.contains(newShop));
     }
 
     @Test
-    void deleteProductById() {
+    void deleteShopById() {
         ShopCreateDTO productCreateDTO = withShop();
-        ShopResponseDTO newProduct = shopService.createShop(productCreateDTO);
-        shopService.deleteShopById(newProduct.getId(), UserDetails.asAdmin());
+        ShopResponseDTO newShop = shopService.createShop(productCreateDTO);
+        shopService.deleteShopById(newShop.getId(), UserDetails.asAdmin());
         List<ShopResponseDTO> allProducts = shopService.getAllShops();
-        assertFalse(allProducts.contains(newProduct));
+        assertFalse(allProducts.contains(newShop));
     }
 }

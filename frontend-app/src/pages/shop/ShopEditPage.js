@@ -5,6 +5,7 @@ import {usePopup} from "../../components/common/popup/PopupContext";
 import {getShopById, updateShop} from "../../connect/connectShops";
 import {useEffect, useState} from "react";
 import {GlobalErrorPage} from "../../components/common/errors/GlobalErrorPage";
+import {useHighLevel} from "../../components/auth/context/HighLevelAuthContext";
 
 const ShopEditPage = () => {
 
@@ -12,6 +13,7 @@ const ShopEditPage = () => {
     const navigate = useNavigate();
     const { invokePopup, invokePopupTimeout } = usePopup();
     const [globalError, setGlobalError] = useState('Pending...');
+    const { token } = useHighLevel()
     const initialShop = {
         id: id,
         name: '',
@@ -33,7 +35,7 @@ const ShopEditPage = () => {
     }, [id])
     const handleSave = (form_output) => {
         const newShop = {...form_output, id: id}
-        updateShop(newShop).then(
+        updateShop(newShop, token).then(
             (resp) => {
                 if (resp.success) {
                     const atomic = {value: true};

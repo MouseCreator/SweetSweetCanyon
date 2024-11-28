@@ -7,6 +7,7 @@ import "./../../static_controls/content.css"
 import LossReasonList from "../../components/products/loss/LossComponent";
 import {LossOverlayContent} from "../../components/products/loss/LossOverlayContent";
 import {postLoss} from "../../connect/connectTransactions";
+import {useHighLevel} from "../../components/auth/context/HighLevelAuthContext";
 
 function LossPage() {
     const navigate = useNavigate();
@@ -20,6 +21,7 @@ function LossPage() {
     const [comment, setComment] = useState('');
     const [commentError, setCommentError] = useState(false);
 
+    const { token } = useHighLevel()
     const validateData = () => {
         let success = true;
         if (reasonId < 0) {
@@ -49,7 +51,7 @@ function LossPage() {
         setProducts([]);
     }
     const overlayOnSubmit = () => {
-        postLoss({items: products, reasonId: reasonId, comment: comment}).then((r)=>{
+        postLoss({items: products, reasonId: reasonId, comment: comment}, token).then((r)=>{
             if (r.success) {
                 navigate(`/transactions/losses/${r.data.id}`);
             } else {

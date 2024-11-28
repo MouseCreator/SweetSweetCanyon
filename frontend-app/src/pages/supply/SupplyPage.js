@@ -8,6 +8,7 @@ import {SupplyOverlayContent} from "../../components/products/supply/SupplyOverl
 import "./../../static_controls/content.css"
 import {postSupply} from "../../connect/connectTransactions";
 import {CashierOnly} from "../../components/auth/restrict/CashierOnly";
+import {useHighLevel} from "../../components/auth/context/HighLevelAuthContext";
 
 function SupplyPage() {
     const navigate = useNavigate();
@@ -20,6 +21,7 @@ function SupplyPage() {
     const [supplierError, setSupplierError] = useState(false);
     const [nameError, setNameError] = useState(false);
 
+    const { token } = useHighLevel()
     const validateData = () => {
         let success = true;
         if (supplierId < 0) {
@@ -49,7 +51,7 @@ function SupplyPage() {
         setProducts([]);
     }
     const overlayOnPay = () => {
-        postSupply({items: products, supplierId: supplierId, supplierName: supplierName}).then((r)=>{
+        postSupply({items: products, supplierId: supplierId, supplierName: supplierName}, token).then((r)=>{
             if (r.success) {
                 navigate(`/transactions/supplies/${r.data.id}`);
             } else {

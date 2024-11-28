@@ -6,8 +6,8 @@ import {useEffect, useState} from "react";
 import {ErrorOverlay} from "../../components/common/errors/ErrorOverlay";
 import {usePopup} from "../../components/common/popup/PopupContext";
 import {getProductById, updateProduct} from "../../connect/connectProducts";
-import {GlobalError} from "../../components/common/errors/GlobalError";
 import {GlobalErrorPage} from "../../components/common/errors/GlobalErrorPage";
+import {useHighLevel} from "../../components/auth/context/HighLevelAuthContext";
 
 const ProductCreate = () => {
     const navigate = useNavigate();
@@ -17,11 +17,13 @@ const ProductCreate = () => {
     const {id} = useParams();
     const { invokePopup, invokePopupTimeout } = usePopup();
     const [initialProduct, setInitialProduct] = useState(null);
+
+    const { token } = useHighLevel()
     const handleSave = async (form_output) => {
         let atomic = { value: true };
         invokePopupTimeout('Edit request sent!', 'green', atomic, 200);
         const updatedProduct = {...form_output, id: id}
-        const response = await updateProduct(updatedProduct);
+        const response = await updateProduct(updatedProduct, token);
         atomic.value = false;
         if (response.success) {
             invokePopup('Product updated!', 'green');

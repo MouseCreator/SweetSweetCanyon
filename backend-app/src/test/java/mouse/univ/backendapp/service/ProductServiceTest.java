@@ -31,7 +31,8 @@ class ProductServiceTest {
     private ProductCreateDTO withProduct() {
         ProductCreateDTO productCreateDTO = new ProductCreateDTO();
         productCreateDTO.setName("New Product");
-        productCreateDTO.setPrice(BigDecimal.TWO);
+        productCreateDTO.setPrice(new BigDecimal("12.00"));
+        productCreateDTO.setDeliveryPrice(new BigDecimal("9.00"));
         productCreateDTO.setDescription("New product's description");
         productCreateDTO.setPictureUrl("");
         return productCreateDTO;

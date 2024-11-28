@@ -135,8 +135,6 @@ databaseChangeLog:
               - column:
                   name: shop_id
                   type: BIGINT
-                  constraints:
-                    nullable: false
               - column:
                   name: price
                   type: DECIMAL(10,2)
@@ -328,7 +326,7 @@ databaseChangeLog:
             constraintName: losses_reasons_fk
             baseTableName: losses
             baseColumnNames: reason_id
-            referencedTableName: transactions
+            referencedTableName: loss_reasons
             referencedColumnNames: id
             onDelete: SET NULL
   - changeSet:

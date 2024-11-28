@@ -22,7 +22,7 @@ export async function getAllShops() {
     return sortEach(transformed, (a, b) => a.id - b.id)
 }
 
-export async function postShop(shop) {
+export async function postShop(shop, authToken) {
     const requestBody = {
         name: shop.name,
         description: shop.description,
@@ -30,10 +30,10 @@ export async function postShop(shop) {
         hours: shop.workingHours,
         pictureUrl: shop.pictureUrl
     }
-    const data = await doPost(`${ST.HOST_URL}/shops`, requestBody);
+    const data = await doPost(`${ST.HOST_URL}/shops`, requestBody, authToken);
     return transformSingle(data, transformShop);
 }
-export async function updateShop(shop) {
+export async function updateShop(shop, authToken) {
     const requestBody = {
         id: shop.id,
         name: shop.name,
@@ -42,9 +42,9 @@ export async function updateShop(shop) {
         hours: shop.workingHours,
         pictureUrl: shop.pictureUrl
     }
-    const data = await doPut(`${ST.HOST_URL}/shops`, requestBody);
+    const data = await doPut(`${ST.HOST_URL}/shops`, requestBody, authToken);
     return transformSingle(data, transformShop);
 }
-export async function deleteShopById(id) {
-    return await doDelete(`${ST.HOST_URL}/shops/${id}`);
+export async function deleteShopById(id, authToken) {
+    return await doDelete(`${ST.HOST_URL}/shops/${id}`, authToken);
 }
