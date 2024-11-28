@@ -27,7 +27,6 @@ public class ProductService {
     private final ProductMapper mapper;
     private final StockService stockService;
     private final LossService lossService;
-    private final UserDetailsService userDetailsService;
     @Transactional
     public ProductResponseDTO createProduct(ProductCreateDTO productCreateDTO) {
         Product product = mapper.fromCreateDTO(productCreateDTO);

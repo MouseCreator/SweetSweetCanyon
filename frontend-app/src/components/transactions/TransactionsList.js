@@ -20,6 +20,7 @@ function TransactionsList() {
     const [page, setPage] = useState(searchParams.get('page') || 0)
     const [params, setParams] = useState(defParams);
     const [numPages, setNumPages] = useState(0);
+    const [totalTransaction, setTotalTransactions] = useState(0);
 
     const { invokePopup } = usePopup()
     const callback = useCallback((t, a)=>invokePopup(t,a), [invokePopup])
@@ -40,6 +41,7 @@ function TransactionsList() {
         getTransactionPages(withParams).then((resp)=>{
             if (resp.success) {
                 setNumPages(resp.data.numberPages)
+                setTotalTransactions(resp.data.numberTransactions)
             } else {
                 callback(resp.error, 'red')
             }
@@ -80,6 +82,7 @@ function TransactionsList() {
             <h2 className={"tr-text-pink"}>Filters:</h2>
             <TransactionsControl controlParams={params} updateControlParams={updateParams} shops={shops} />
             <h2 className={"tr-text-pink"}>Transactions:</h2>
+            <p>Total transactions: {totalTransaction}</p>
             <div className={"tr-grid"}>
                 { transactions.map((t,index) => (<TransactionItem key={index} itemData={t} />)) }
             </div>
