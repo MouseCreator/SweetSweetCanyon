@@ -2,8 +2,7 @@ package mouse.univ.backendapp.service.history;
 
 import lombok.AllArgsConstructor;
 import mouse.univ.backendapp.service.fill.DataReadService;
-import mouse.univ.backendapp.service.fill.JSONService;
-import mouse.univ.backendapp.service.indicator.IndicatorService;
+import mouse.univ.backendapp.utils.DateUtils;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -15,7 +14,6 @@ public class HistoryFillerService {
 
     private final DataReadService dataReadService;
     private final HistoryGenerator historyGenerator;
-    private final IndicatorService indicatorService;
     public void fillHistory() {
         HistoryDTO historyDTO = dataReadService.readHistory("src/main/resources/fill/history.json");
         HistoryParams params = toParams(historyDTO);
@@ -27,8 +25,8 @@ public class HistoryFillerService {
         String startDate = historyDTO.getStartDate();
         String endDate = historyDTO.getEndDate();
 
-        LocalDateTime first = LocalDate.parse(startDate).atStartOfDay();
-        LocalDateTime end = LocalDate.parse(endDate).atStartOfDay();
+        LocalDateTime first = DateUtils.fromString(startDate).atStartOfDay();
+        LocalDateTime end = DateUtils.fromString(endDate).atStartOfDay();
         params.setFirstDay(first);
         params.setLastDay(end);
         params.setSupplyDaily(historyDTO.getSupplyDaily());

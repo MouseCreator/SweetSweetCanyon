@@ -3,6 +3,7 @@ package mouse.univ.backendapp.service.indicator;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import mouse.univ.backendapp.dto.indicator.DateIndicatorDTO;
+import mouse.univ.backendapp.dto.indicator.StaticIndicatorDTO;
 import mouse.univ.backendapp.model.*;
 import mouse.univ.backendapp.repository.*;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Service
@@ -79,25 +81,95 @@ public class IndicatorService {
 
     public List<DateIndicatorDTO> getAllDaily(LocalDate start, LocalDate end, Long shopId, String type) {
         List<DailyIndicator> dailyIndicators;
+        dailyIndicators = getDailyIndicators(start, end, shopId, type);
+        return toResponseList(dailyIndicators);
+    }
+
+    private List<DailyIndicator> getDailyIndicators(LocalDate start, LocalDate end, Long shopId, String type) {
+        List<DailyIndicator> dailyIndicators;
         if (shopId == null) {
             dailyIndicators = dailyIndicatorRepository.findBetweenGlobalAndType(start, end, type);
         } else {
             dailyIndicators = dailyIndicatorRepository.findBetweenShopAndType(start, end, type, shopId);
         }
-        return toResponseList(dailyIndicators);
+        return dailyIndicators;
     }
 
-    public void getAllMonthly(LocalDate start, LocalDate end, Long shopId, String type) {
-    }
-    public void getAllStatic(LocalDate start, LocalDate end, Long shopId, String type) {
+    public StaticIndicatorDTO getStaticResponse(LocalDate start, LocalDate end, Long shopId, String type) {
         IndSums indSums = new IndSums();
+        if (shouldUseDailyIndicatorsForReport(start, end)) {
+            List<DailyIndicator> dailyIndicators = getDailyIndicators(start, end, shopId, type);
+            sumOfIndicators(dailyIndicators, indSums);
+            return toStaticIndicator(shopId, indSums);
+        }
+        LocalDate afterStart;
+        if (start.getDayOfMonth() == 1) {
+            afterStart = start;
+        } else {
+            afterStart = lastDayOfMonth(start);
+        }
+        LocalDate beforeEnd = lastDayOfPreviousMonth(end);
+        List<DailyIndicator> firstMonth = List.of();
+        List<DailyIndicator> endMonth = List.of();
+        if (start != afterStart) {
+            firstMonth = getDailyIndicators(start, afterStart, shopId, type);
+        }
+        if (beforeEnd != end) {
+            endMonth = getDailyIndicators(beforeEnd, end, shopId, type);
+        }
+        List<MonthlyIndicator> monthlyIndicators = getMonthlyIndicators(afterStart, beforeEnd, shopId, type);
+        sumOfIndicators(firstMonth, indSums);
+        sumOfIndicators(monthlyIndicators, indSums);
+        sumOfIndicators(endMonth, indSums);
+        return toStaticIndicator(shopId, indSums);
     }
 
-    private List<DateIndicatorDTO> toResponseList(List<DailyIndicator> dailyIndicators) {
+
+    private StaticIndicatorDTO toStaticIndicator(Long shopId, IndSums indSums) {
+        StaticIndicatorDTO staticIndicatorDTO = new StaticIndicatorDTO();
+        staticIndicatorDTO.setPrice(indSums.sumPrice);
+        staticIndicatorDTO.setValue(indSums.sumItems);
+        staticIndicatorDTO.setTotal(shopId == null);
+        String shopName = getShopName(shopId);
+        staticIndicatorDTO.setShopName(shopName);
+        return staticIndicatorDTO;
+    }
+
+    private void sumOfIndicators(List<? extends CommonIndicator> indicators, IndSums indSums) {
+        for (CommonIndicator indicator : indicators) {
+            BigDecimal price = indicator.getProductIndicator().getPrice();
+            Long value = indicator.getProductIndicator().getValue();
+            indSums.addCount(value);
+            indSums.addPrice(price);
+        }
+    }
+
+    private String getShopName(Long shopId) {
+        return shopRepository.findById(shopId).orElseThrow().getName();
+    }
+
+    private List<MonthlyIndicator> getMonthlyIndicators(LocalDate firstInclusive, LocalDate lastInclusive, Long shopId, String type) {
+        LocalDate start = firstDayOfMonth(firstInclusive);
+        LocalDate end = lastDayOfMonth(lastInclusive);
+        List<MonthlyIndicator> mis;
+        if (shopId == null) {
+            mis = monthlyIndicatorRepository.findBetweenGlobalAndType(start, end, type);
+        } else {
+            mis = monthlyIndicatorRepository.findBetweenShopAndType(start, end, type, shopId);
+        }
+        return mis;
+    }
+
+
+    private boolean shouldUseDailyIndicatorsForReport(LocalDate start, LocalDate end) {
+        return ChronoUnit.DAYS.between(start, end) < 60;
+    }
+
+    private List<DateIndicatorDTO> toResponseList(List<? extends CommonIndicator> dailyIndicators) {
         return dailyIndicators.stream().map(this::toResponse).toList();
     }
 
-    private DateIndicatorDTO toResponse(DailyIndicator di) {
+    private DateIndicatorDTO toResponse(CommonIndicator di) {
         DateIndicatorDTO dto = new DateIndicatorDTO();
         LocalDate date = di.getDate();
         dto.setDate(date);
@@ -144,6 +216,13 @@ public class IndicatorService {
     }
     private static LocalDate firstDayOfNextMonth(LocalDate localDate) {
         return localDate.plusMonths(1).withDayOfMonth(1);
+    }
+    private static LocalDate lastDayOfMonth(LocalDate localDate) {
+        return firstDayOfNextMonth(localDate).minusDays(1);
+    }
+
+    private static LocalDate lastDayOfPreviousMonth(LocalDate localDate) {
+        return lastDayOfMonth(localDate.minusMonths(1));
     }
     @Transactional
     protected void createMonthlySupply(LocalDate localDate) {
@@ -239,6 +318,9 @@ public class IndicatorService {
         }
 
         public void addCount(int size) {
+            sumItems += size;
+        }
+        public void addCount(long size) {
             sumItems += size;
         }
         public void addPrice(BigDecimal delta) {

@@ -8,7 +8,7 @@ import java.time.LocalDate;
 @Data
 @Entity
 @Table(name = "daily_indicators")
-public class DailyIndicator {
+public class DailyIndicator implements CommonIndicator {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
