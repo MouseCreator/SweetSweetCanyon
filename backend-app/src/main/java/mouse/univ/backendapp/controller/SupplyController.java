@@ -2,6 +2,7 @@ package mouse.univ.backendapp.controller;
 
 import lombok.RequiredArgsConstructor;
 import mouse.univ.backendapp.api.ApiResponse;
+import mouse.univ.backendapp.auth.controller.UD;
 import mouse.univ.backendapp.dto.supply.SupplyCreateDTO;
 import mouse.univ.backendapp.dto.supply.SupplyResponseDTO;
 import mouse.univ.backendapp.dto.user.UserDetails;
@@ -17,8 +18,9 @@ public class SupplyController {
     private final SupplyService supplyService;
     @PostMapping
     public ResponseEntity<ApiResponse<SupplyResponseDTO>>
-    createSale(@RequestBody SupplyCreateDTO supplyCreateDTO) {
-        UserDetails userDetails = UserDetails.asCashier();
+    createSale(@RequestBody SupplyCreateDTO supplyCreateDTO,
+               @RequestAttribute("user") UserDetails userDetails) {
+        UD.validateCashier(userDetails);
         SupplyResponseDTO supply = supplyService.supplyProducts(supplyCreateDTO, userDetails);
         ApiResponse<SupplyResponseDTO> apiResponse = ApiResponse.ok(supply);
         return ResponseEntity.status(HttpStatus.CREATED).body(apiResponse);

@@ -13,7 +13,7 @@ public interface MonthlyIndicatorRepository extends JpaRepository<MonthlyIndicat
             "where mi.productIndicator.isTotal = true " +
             "and mi.date >= :start and mi.date <= :end and mi.type = :type")
     List<MonthlyIndicator> findBetweenGlobalAndType(LocalDate start, LocalDate end, String type);
-    @Query("select mi from DailyIndicator mi " +
+    @Query("select mi from MonthlyIndicator mi " +
             "where mi.date >= :start and mi.date <= :end and mi.type = :type and mi.productIndicator.shop.id = :shopId")
     List<MonthlyIndicator> findBetweenShopAndType(LocalDate start, LocalDate end, String type, Long shopId);
 }

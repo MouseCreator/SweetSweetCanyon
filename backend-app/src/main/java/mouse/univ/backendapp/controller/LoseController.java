@@ -2,6 +2,7 @@ package mouse.univ.backendapp.controller;
 
 import lombok.RequiredArgsConstructor;
 import mouse.univ.backendapp.api.ApiResponse;
+import mouse.univ.backendapp.auth.controller.UD;
 import mouse.univ.backendapp.dto.loss.LossCreateDTO;
 import mouse.univ.backendapp.dto.loss.LossResponseDTO;
 import mouse.univ.backendapp.dto.user.UserDetails;
@@ -17,8 +18,9 @@ public class LoseController {
 
     private final LossService lossService;
     @PostMapping
-    public ResponseEntity<ApiResponse<LossResponseDTO>> createLoss(@RequestBody LossCreateDTO lossCreateDTO) {
-        UserDetails userDetails = UserDetails.asCashier();
+    public ResponseEntity<ApiResponse<LossResponseDTO>> createLoss(@RequestBody LossCreateDTO lossCreateDTO,
+                                                                   @RequestAttribute("user") UserDetails userDetails) {
+        UD.validateCashier(userDetails);
         LossResponseDTO response  = lossService.loseProducts(lossCreateDTO, userDetails);
         ApiResponse<LossResponseDTO> api = ApiResponse.ok(response);
         return ResponseEntity.status(HttpStatus.CREATED).body(api);

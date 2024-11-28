@@ -2,6 +2,7 @@ package mouse.univ.backendapp.controller;
 
 import lombok.RequiredArgsConstructor;
 import mouse.univ.backendapp.api.ApiResponse;
+import mouse.univ.backendapp.auth.controller.UD;
 import mouse.univ.backendapp.dto.product.ProductCreateDTO;
 import mouse.univ.backendapp.dto.product.ProductResponseDTO;
 import mouse.univ.backendapp.dto.product.ProductUpdateDTO;
@@ -20,14 +21,18 @@ public class ProductController {
     private final ProductService productService;
 
     @PostMapping
-    public ResponseEntity<ApiResponse<ProductResponseDTO>> postProduct(@RequestBody ProductCreateDTO productCreateDTO) {
+    public ResponseEntity<ApiResponse<ProductResponseDTO>> postProduct(@RequestBody ProductCreateDTO productCreateDTO,
+                                                                       @RequestAttribute("user") UserDetails userDetails) {
+        UD.validateAdmin(userDetails);
         ProductResponseDTO result = productService.createProduct(productCreateDTO);
         ApiResponse<ProductResponseDTO> apiResponse = ApiResponse.ok(result);
         return ResponseEntity.status(HttpStatus.CREATED).body(apiResponse);
     }
 
     @PutMapping
-    public ResponseEntity<ApiResponse<ProductResponseDTO>> updateProduct(@RequestBody ProductUpdateDTO updateDTO) {
+    public ResponseEntity<ApiResponse<ProductResponseDTO>> updateProduct(@RequestBody ProductUpdateDTO updateDTO,
+                                                                         @RequestAttribute("user") UserDetails userDetails) {
+        UD.validateAdmin(userDetails);
         ProductResponseDTO result = productService.updateProduct(updateDTO);
         ApiResponse<ProductResponseDTO> apiResponse = ApiResponse.ok(result);
         return ResponseEntity.status(HttpStatus.OK).body(apiResponse);
@@ -47,8 +52,8 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse<Object>> deleteProductById(@PathVariable Long id) {
-        UserDetails userDetails = UserDetails.asAdmin();
+    public ResponseEntity<ApiResponse<Object>> deleteProductById(@PathVariable Long id, @RequestAttribute("user") UserDetails userDetails ) {
+        UD.validateAdmin(userDetails);
         productService.deleteProductById(id, userDetails);
         ApiResponse<Object> apiResponse = ApiResponse.ok(null);
         return ResponseEntity.status(HttpStatus.OK).body(apiResponse);

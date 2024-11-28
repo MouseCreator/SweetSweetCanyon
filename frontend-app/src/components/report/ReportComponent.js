@@ -1,27 +1,8 @@
 import {useState} from "react";
 import {ReportsControl} from "./ReportsControl";
 import {ReportsTable} from "./ReportsTable";
-const MOCK_DATA = {
-    requestType: "revenue",
-    total: {
-        name: "Total",
-        value: -400,
-        price: -40000
-    },
-    shops: [
-        {
-            name: "Shop 1",
-            value: 8000,
-            price: 800000
-        },
-        {
-            name: "Shop 2",
-            value: -8400,
-            price: 840000
-        }
-    ]
+import {getReport} from "../../connect/connectReport";
 
-}
 const DEFAULT_REPORT_PROPS = {
     type: '',
     startDate: null,
@@ -29,7 +10,7 @@ const DEFAULT_REPORT_PROPS = {
 }
 export function ReportComponent() {
 
-    const [reportData, setReportData] = useState(MOCK_DATA);
+    const [reportData, setReportData] = useState(null);
     const [reportProperties, setReportProperties] = useState(DEFAULT_REPORT_PROPS);
     const [errors, setErrors] = useState(new Set());
 
@@ -37,6 +18,7 @@ export function ReportComponent() {
         console.log(prop)
         setReportProperties(prop);
     }
+
     const validate = function(properties) {
         const start = properties.startDate;
         const type = properties.type;
@@ -66,8 +48,35 @@ export function ReportComponent() {
         setErrors(newErrors)
         return newErrors.size===0;
     }
+    function formatDate(date) {
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
+
+        return `${day}.${month}.${year}`;
+    }
     const createReport = () => {
         validate(reportProperties);
+        const request = {
+            startDate: formatDate(reportProperties.startDate),
+            endDate: formatDate(reportProperties.endDate),
+            type: reportProperties.type,
+        }
+        getReport(request).then((r) => {
+            if (r.success) {
+                console.log('report')
+                console.log(r.data)
+                setReportData(r.data)
+            } else {
+                const err = new Set()
+                err.add('Server error: ' + r.error)
+                setErrors(err)
+            }
+        }).catch((e)=>{
+            const err = new Set()
+            err.add(`Server error: ${e}`)
+            setErrors(err)
+        })
     }
     return (
         <main>

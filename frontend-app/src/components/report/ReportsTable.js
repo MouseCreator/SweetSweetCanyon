@@ -20,6 +20,7 @@
  */
 
 import {formatPrice} from "../../utils/date";
+import CustomizableGraph from "./ReportChart";
 
 function ReportStatement({highlight, data}) {
     return (
@@ -42,6 +43,7 @@ export function ReportsTable({displayData}) {
             )
             :
             (
+                <div>
             <div className={"trc-table"}>
                 <div className={"trc-row"}>
                     <div className={`trc-td htop`}>Shop</div>
@@ -54,7 +56,9 @@ export function ReportsTable({displayData}) {
                     ))
                 }
                 <ReportStatement highlight={true} data={displayData.total} />
-            </div>
+                </div>
+                    <CustomizableGraph data={displayData.graph} color="pink" numDivisions={15} />
+                </div>
             )
         }
         </div>

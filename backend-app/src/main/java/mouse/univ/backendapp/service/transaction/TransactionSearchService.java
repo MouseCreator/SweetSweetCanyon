@@ -43,7 +43,7 @@ public class TransactionSearchService {
             numberItems = transactionRepository.countAllByShopAndType(shopId.get(), type);
         }
         Integer numberPages = (numberItems + itemsPerPage - 1) / itemsPerPage;
-        return new PageResponseDTO(numberPages);
+        return new PageResponseDTO(numberItems, numberPages);
     }
     private Integer getItemsPerPage(TransactionRequestDTO requestDTO) {
         return requestDTO.getItemsPerPage();

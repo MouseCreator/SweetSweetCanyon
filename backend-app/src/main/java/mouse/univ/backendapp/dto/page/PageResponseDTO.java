@@ -8,5 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PageResponseDTO {
+    private Integer numberTransactions;
     private Integer numberPages;
 }

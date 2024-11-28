@@ -26,6 +26,12 @@ public class GlobalExceptionHandler {
         logger.error(ex.getMessage(), ex);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(apiResponse);
     }
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<ApiResponse<Object>> handleEntityNotFoundException(ForbiddenException ex) {
+        ApiResponse<Object> apiResponse = new ApiResponse<>(false, ex.getMessage(), null);
+        logger.error(ex.getMessage(), ex);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(apiResponse);
+    }
     @ExceptionHandler(PermissionException.class)
     public ResponseEntity<ApiResponse<Object>> handlePermissionException(PermissionException ex) {
         ApiResponse<Object> apiResponse = new ApiResponse<>(false, ex.getMessage(), null);

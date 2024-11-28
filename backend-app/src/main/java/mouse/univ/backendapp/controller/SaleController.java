@@ -2,6 +2,7 @@ package mouse.univ.backendapp.controller;
 
 import lombok.RequiredArgsConstructor;
 import mouse.univ.backendapp.api.ApiResponse;
+import mouse.univ.backendapp.auth.controller.UD;
 import mouse.univ.backendapp.dto.sale.SaleCreateDTO;
 import mouse.univ.backendapp.dto.sale.SaleResponseDTO;
 import mouse.univ.backendapp.dto.user.UserDetails;
@@ -16,8 +17,9 @@ import org.springframework.web.bind.annotation.*;
 public class SaleController {
     private final SaleService saleService;
     @PostMapping
-    public ResponseEntity<ApiResponse<SaleResponseDTO>> createSale(@RequestBody SaleCreateDTO createDTO) {
-        UserDetails userDetails = UserDetails.asCashier();
+    public ResponseEntity<ApiResponse<SaleResponseDTO>> createSale(@RequestBody SaleCreateDTO createDTO,
+                                                                   @RequestAttribute("user") UserDetails userDetails) {
+        UD.validateCashier(userDetails);
         SaleResponseDTO sale = saleService.saleProducts(createDTO, userDetails);
         ApiResponse<SaleResponseDTO> apiResponse = ApiResponse.ok(sale);
         return ResponseEntity.status(HttpStatus.CREATED).body(apiResponse);

@@ -57,7 +57,6 @@ export function ReportsControl({initial, onUpdate, errors, onCreate}) {
                         <option value={"sale"}>Sales</option>
                         <option value={"supply"}>Supply</option>
                         <option value={"loss"}>Loss</option>
-                        <option value={"loss-rate"}>Loss Rate</option>
                         <option value={"revenue"}>Revenue</option>
                     </select>
                 </div>
