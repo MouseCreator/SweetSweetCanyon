@@ -29,6 +29,6 @@ public class Transaction {
     private List<UsedProduct> usedProductList;
 
     public boolean isEmpty() {
-        return price.equals(BigDecimal.ZERO);
+        return price.compareTo(BigDecimal.ZERO) == 0;
     }
 }
