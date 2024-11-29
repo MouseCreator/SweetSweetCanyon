@@ -13,4 +13,10 @@ public class SecretsProvider {
     public String getDomain() {
         return System.getenv("AUTH_DOMAIN");
     }
+    public String getCashierId() {
+        return System.getenv("AUTH_DOMAIN");
+    }
+    public String getAdminId() {
+        return System.getenv("AUTH_DOMAIN");
+    }
 }

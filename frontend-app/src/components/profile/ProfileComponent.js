@@ -48,7 +48,6 @@ export function ProfileComponent() {
         setOverlayActive(false)
         logout().then(()=>{
             onDeleteUser(token);
-            navigate("/")
         })
 
     }
