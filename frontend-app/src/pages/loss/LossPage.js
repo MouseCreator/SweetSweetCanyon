@@ -21,7 +21,8 @@ function LossPage() {
     const [comment, setComment] = useState('');
     const [commentError, setCommentError] = useState(false);
 
-    const { token } = useHighLevel()
+    const { token, shop } = useHighLevel()
+
     const validateData = () => {
         let success = true;
         if (reasonId < 0) {
@@ -72,7 +73,7 @@ function LossPage() {
     return (
         <MainLayout>
             <div className={"static-content"}>
-                <ProductSelector confirmAction={confirmAction} theme={"orange"} mode={"loss"} errors={errors} shopId={4}>
+                <ProductSelector confirmAction={confirmAction} theme={"orange"} mode={"loss"} errors={errors} shopId={shop}>
                     <LossReasonList onSelectReason={setReasonId} onTypeComment={setComment}
                                   reasonError={reasonError} commentError={commentError}/>
                 </ProductSelector>

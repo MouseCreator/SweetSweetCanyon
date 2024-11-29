@@ -35,7 +35,7 @@ export function ShopDesc({shopId, role, userShop}) {
     const onDelete = () => {
         deleteShopById(shopId, token).then((r) => {
             if (r.success) {
-                navigate('/products/');
+                navigate('/shops/');
                 invokePopup('Shop is deleted successfully', 'green')
             } else {
                 invokePopup('An error occurred while deleting the shop')

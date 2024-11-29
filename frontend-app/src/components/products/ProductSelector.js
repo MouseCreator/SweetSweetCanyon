@@ -10,7 +10,6 @@ import {calculatePrice} from "./Price";
 import {getStocksByShopId} from "../../connect/connectStocks";
 import {GlobalLoading} from "../common/loading/GlobalLoading";
 import {GlobalError} from "../common/errors/GlobalError";
-import {all} from "axios";
 
 
 function ProductSelector({confirmAction, theme, mode, errors, shopId, children, isDelivery}) {
@@ -152,7 +151,9 @@ function ProductSelector({confirmAction, theme, mode, errors, shopId, children, 
     if (localError) {
         return <GlobalError text={localError} />
     }
-
+    if (shopId == null) {
+        return <GlobalError text={"Select a shop first!"} />
+    }
 
     return (
         <div className={"product-selector-main"}>

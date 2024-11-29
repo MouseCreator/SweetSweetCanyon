@@ -21,7 +21,7 @@ function SupplyPage() {
     const [supplierError, setSupplierError] = useState(false);
     const [nameError, setNameError] = useState(false);
 
-    const { token } = useHighLevel()
+    const { token, shop } = useHighLevel()
     const validateData = () => {
         let success = true;
         if (supplierId < 0) {
@@ -73,7 +73,7 @@ function SupplyPage() {
         <MainLayout>
             <CashierOnly>
                 <div className={"static-content"}>
-                    <ProductSelector confirmAction={confirmAction} theme={"blue"} mode={"supply"} errors={errors} shopId={4} isDelivery={true}>
+                    <ProductSelector confirmAction={confirmAction} theme={"blue"} mode={"supply"} errors={errors} shopId={shop} isDelivery={true}>
                         <SupplierList onSelectSupplier={setSupplierId} onTypeName={setSupplierName}
                         supplierError={supplierError} nameError={nameError} />
                     </ProductSelector>
