@@ -1,6 +1,9 @@
 package mouse.univ.backendapp.auth.fetch;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import mouse.univ.backendapp.auth.fetch.data.ResponseHolder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -15,6 +18,7 @@ import java.util.Map;
 
 @Service
 @AllArgsConstructor
+@Log4j2
 public class UserRolesCommunicator {
 
     private FetchAccessToken fetchAccessToken;
@@ -28,15 +32,19 @@ public class UserRolesCommunicator {
         headers.setBearerAuth(holder.getAccessToken());
 
         HttpEntity<Void> entity = new HttpEntity<>(headers);
-
-        ResponseEntity<String> rolesResponse = restTemplate.exchange(
-                getRolesUrl,
-                HttpMethod.GET,
-                entity,
-                String.class,
-                userId
-        );
-        return rolesResponse.getBody();
+        try {
+            ResponseEntity<String> rolesResponse = restTemplate.exchange(
+                    getRolesUrl,
+                    HttpMethod.GET,
+                    entity,
+                    String.class,
+                    userId
+            );
+            return rolesResponse.getBody();
+        } catch (Exception e) {
+            log.debug(e.getMessage());
+            return null;
+        }
     }
 
     public String post(String userId, String roleId) {
@@ -89,5 +97,22 @@ public class UserRolesCommunicator {
                 String.class
         );
         return response.getBody();
+    }
+
+    public String decode(String jsonString) throws Exception {
+        if (jsonString == null) {
+            return null;
+        }
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode rootNode = objectMapper.readTree(jsonString);
+        if (rootNode.isArray() && !rootNode.isEmpty()) {
+            JsonNode firstElement = rootNode.get(0);
+            String roleId = firstElement.has("name") ? firstElement.get("name").asText() : null;
+            if (roleId == null) {
+                return null;
+            }
+            return roleId.toLowerCase();
+        }
+        return null;
     }
 }

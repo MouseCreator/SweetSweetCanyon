@@ -20,18 +20,13 @@ const PriceInput = ({myId, initial, onChange, error}) => {
             onChange(roundedPrice);
         }
     };
-    const showPrice = (p) => {
-        if (price !== '') {
-            return parseFloat(p).toFixed(2);
-        }
-    }
     return (
         <div>
             <input className={`form-input gen-input ${error && "gen-error"}`}
                 id={myId}
                 type="number"
                 step="0.01"
-                value={showPrice(price)}
+                value={price}
                 onChange={handleChange}
                 onBlur={handleBlur}
             />

@@ -8,6 +8,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.log4j.Log4j2;
+import mouse.univ.backendapp.auth.fetch.UserRolesCommunicator;
 import mouse.univ.backendapp.auth.service.UserBindService;
 import mouse.univ.backendapp.dto.user.UserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +25,11 @@ public class AuthFilter extends OncePerRequestFilter {
     private static final String AUTHORIZATION_HEADER = "Authorization";
     private static final String TOKEN_PREFIX = "Bearer ";
     private UserBindService userBindService;
+    private UserRolesCommunicator userRolesCommunicator;
     private JWTVerifier verifier;
 
-    public AuthFilter() {
+    public AuthFilter(UserRolesCommunicator userRolesCommunicator) {
+        this.userRolesCommunicator = userRolesCommunicator;
         String secret = System.getenv("HMAC_SECRET");
         if (secret != null) {
             Algorithm algorithm = Algorithm.HMAC256(secret);
@@ -51,7 +54,9 @@ public class AuthFilter extends OncePerRequestFilter {
             try {
                 DecodedJWT decodedJWT = verifier.verify(token);
                 String sub = decodedJWT.getSubject();
-                UserDetails userDetails = userBindService.provideUserDetails(sub, null);
+                String roleJson = userRolesCommunicator.fetch(sub);
+                String role = userRolesCommunicator.decode(roleJson);
+                UserDetails userDetails = userBindService.provideUserDetails(sub, role);
                 request.setAttribute("user", userDetails);
             } catch (Exception e) {
                 UserDetails userDetails = UserDetails.none();
