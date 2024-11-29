@@ -33,6 +33,7 @@ function TransactionsList() {
 
         getTransactionList(withParams).then((resp)=>{
             if (resp.success) {
+                console.log(resp.data)
                 setTransactions(resp.data)
             } else {
                 callback(resp.error, 'red')

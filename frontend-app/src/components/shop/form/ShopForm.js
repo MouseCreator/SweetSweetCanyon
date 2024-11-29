@@ -86,7 +86,7 @@ function ShopForm({mode, initialShop, onSubmit, onCancel}) {
             description: description,
             address: address,
             workingHours: hours,
-            picture : picture
+            pictureUrl : picture
         })
     }
 

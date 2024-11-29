@@ -8,7 +8,7 @@ function transformSale(sfs) {
         products: sfs.products,
         cashier: sfs.username,
         price: sfs.price,
-        shop: {
+        shop: sfs.shop == null ? null : {
             id: sfs.shop.id,
             name: sfs.shop.name
         }
@@ -28,7 +28,7 @@ function transformSupply(sfs) {
             id: sfs.supplier.id,
             title: sfs.supplier.name
         },
-        shop: {
+        shop: sfs.shop == null ? null : {
             id: sfs.shop.id,
             name: sfs.shop.name
         }
@@ -48,7 +48,7 @@ function transformLoss(sfs) {
             id: sfs.reason.id,
             title: sfs.reason.title
         },
-        shop: {
+        shop: sfs.shop == null ? null : {
             id: sfs.shop.id,
             name: sfs.shop.name
         }
@@ -62,11 +62,11 @@ function transformMove(sfs) {
         products: sfs.products,
         cashier: sfs.username,
         price: sfs.price,
-        toShop: {
+        toShop: sfs.toShop == null ? null : {
             id: sfs.toShop.id,
             name: sfs.toShop.name
         },
-        shop: {
+        shop: sfs.shop == null ? null : {
             id: sfs.shop.id,
             name: sfs.shop.name
         }

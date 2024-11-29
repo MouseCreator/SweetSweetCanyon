@@ -14,14 +14,18 @@ export function ViewLossComponent({itemId}) {
     const navigate = useNavigate();
     useEffect(()=> {
         getLossById(itemId).then((t)=>{
+            setLoading(false)
             if (t.success) {
                 setItem(t.data)
             } else {
                 setError(t.error)
             }
-            setLoading(false)
+
             }
-        ).catch(()=>setError('Connection error'))
+        ).catch((e)=>{
+            setError('Connection error')
+            console.log(e)
+        })
     }, [itemId])
     const toTransactions = () => {
         navigate("/transactions");

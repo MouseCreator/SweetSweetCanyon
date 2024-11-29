@@ -1,6 +1,7 @@
 import "./../transactions.css"
 import {formatDate, formatPrice} from "../../../utils/date";
 export function ViewCommons({item}) {
+    const shopName = item.shop === null ? "Closed shop" : item.shop.name
     return (
         <div>
             <p className={"trc-head"}>Products</p>
@@ -26,7 +27,7 @@ export function ViewCommons({item}) {
             <p> <span className={"trc-head"}>Price: </span>{formatPrice(item.price)}</p>
             <p> <span className={"trc-head"}>Date: </span>{formatDate(item.date)}</p>
             <p> <span className={"trc-head"}>Cashier: </span>{item.cashier}</p>
-            <p> <span className={"trc-head"}>Shop: </span>{item.shop.name}</p>
+            <p> <span className={"trc-head"}>Shop: </span>{shopName}</p>
         </div>
     )
 }

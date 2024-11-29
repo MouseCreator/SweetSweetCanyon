@@ -7,7 +7,7 @@ export function TransactionItem({itemData}) {
     const date = itemData.date
     const type = itemData.type
     const price = itemData.price
-    const shop = itemData.shop.name
+    const shop = itemData.shop === null ? "Closed shop" : itemData.shop.name
     const handleClick = () => {
         let navigateTo = "/transactions/unknown";
         switch(type) {
