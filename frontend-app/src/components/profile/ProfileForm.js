@@ -2,7 +2,7 @@ import {useState} from "react";
 import {isValidPhone} from "../../utils/forms";
 import "./../../static_controls/inputs.css"
 import "./form.css"
-export function ProfileForm({initialData, shopList, onSubmit, onCancel}) {
+export function ProfileForm({initialData, shopList, onSubmit, onDelete, onCancel}) {
     const id = initialData.id
     const [name, setName] = useState(initialData?.name || '')
     const [nameError, setNameError] = useState(false)
@@ -84,6 +84,7 @@ export function ProfileForm({initialData, shopList, onSubmit, onCancel}) {
                 <div className={"w-space"}></div>
                 <div className={"form-buttons-line"}>
                     <button className={"gen-button font-25"} onClick={onCancel}>Cancel</button>
+                    <button className={"gen-button red font-25"} onClick={onDelete}>Delete account</button>
                     <button className={"gen-button green  font-25"} onClick={submitAll}>Save changes</button>
                 </div>
 

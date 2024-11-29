@@ -1,22 +1,27 @@
 import {ProfileForm} from "./ProfileForm";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {getAllShops} from "../../connect/connectShops";
 import {assignUserRole} from "../auth/connect/authUtils";
 import {useHighLevel} from "../auth/context/HighLevelAuthContext";
-import {getUserInfo, updateUserInfo} from "../../connect/connectUser";
+import {getUserInfo, onDeleteUser, updateUserInfo} from "../../connect/connectUser";
 import {useNavigate} from "react-router-dom";
 import {GlobalLoading} from "../common/loading/GlobalLoading";
 import {usePopup} from "../common/popup/PopupContext";
 import {useAuth0} from "@auth0/auth0-react";
+import DeleteProductOverlay from "../products/desc/DeleteProductOverlay";
+import {OverlayBase} from "../overlay/OverlayBase";
+import ProfileOverlay from "./ProfileOverlay";
 
 export function ProfileComponent() {
     const [initialData, setInitialData] = useState(null)
     const navigate = useNavigate()
     const [shopList, setShopList] = useState([])
     const { token, subject, role, setShop, setRole } = useHighLevel()
+    const { logout } = useAuth0()
     const [loading, setLoading] = useState(true)
     const { invokePopup } = usePopup()
     const { loginWithRedirect } = useAuth0()
+    const [ overlayActive, setOverlayActive ] = useState(false)
     useEffect(()=> {
         getAllShops().then((s)=>setShopList(s.data))
         getUserInfo(token).then((i)=>{
@@ -39,9 +44,29 @@ export function ProfileComponent() {
     const onCancel = () => {
         navigate("/")
     }
+    const onDelete = () => {
+        setOverlayActive(false)
+        logout().then(()=>{
+            onDeleteUser(token);
+            navigate("/")
+        })
+
+    }
+    const onCloseOverlay = () => {
+        setOverlayActive(false);
+    }
+    const deleteButtonPressed = () => {
+        setOverlayActive(true)
+    }
     if (loading) {
         return <GlobalLoading />
     }
 
-    return (<ProfileForm onSubmit={onSubmit} initialData={initialData} shopList={shopList} onCancel={onCancel} />)
+    return (
+        <div>
+            <ProfileForm onSubmit={onSubmit} initialData={initialData} onDelete={deleteButtonPressed} shopList={shopList} onCancel={onCancel} />
+            <OverlayBase isActive={overlayActive} onClose={onCloseOverlay}>
+                <ProfileOverlay onDelete={onDelete} onCancel={onCloseOverlay}/>
+            </OverlayBase>
+        </div>)
 }

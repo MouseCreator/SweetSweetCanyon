@@ -49,7 +49,7 @@ public class TransactionSearchService {
         return requestDTO.getItemsPerPage();
     }
     private Optional<Long> getShopId(TransactionRequestDTO requestDTO) {
-        return Optional.ofNullable(requestDTO.getShopId());
+        return Optional.ofNullable(requestDTO.getShop());
     }
 
     private Sort getOrder(TransactionRequestDTO requestDTO) {

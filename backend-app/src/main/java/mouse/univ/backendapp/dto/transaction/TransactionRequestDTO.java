@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TransactionRequestDTO {
     private String type;
-    private Long shopId;
+    private Long shop;
     private String sort;
     private Integer itemsPerPage;
     private Integer currentPage;

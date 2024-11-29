@@ -21,7 +21,7 @@ public class TransactionsController {
     @GetMapping("/pages")
     public ResponseEntity<ApiResponse<PageResponseDTO>> getPages(
             @RequestParam("type") String type,
-            @RequestParam(value = "shopId", required = false) Long shopId,
+            @RequestParam(value = "shop", required = false) Long shopId,
             @RequestParam("sort") String sort,
             @RequestParam("itemsPerPage") Integer itemsPerPage,
             @RequestParam("currentPage") Integer currentPage
@@ -36,7 +36,7 @@ public class TransactionsController {
     @GetMapping("/search")
     public ResponseEntity<ApiResponse<List<TransactionShortResponseDTO>>> getPageData(
             @RequestParam("type") String type,
-            @RequestParam(value = "shopId", required = false) Long shopId,
+            @RequestParam(value = "shop", required = false) Long shopId,
             @RequestParam("sort") String sort,
             @RequestParam("itemsPerPage") Integer itemsPerPage,
             @RequestParam("currentPage") Integer currentPage
