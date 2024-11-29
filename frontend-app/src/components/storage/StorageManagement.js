@@ -83,7 +83,7 @@ export function StorageManagement({shopId}) {
             (s)=> {
                 if (s.success) {
                     invokePopup('Changes saved!', 'green')
-                    navigate('/shops/1');
+                    navigate(`/shops/${shopId}`);
                 } else {
                     invokePopup(s.error ?? 'Connection Error!', 'red')
                 }
