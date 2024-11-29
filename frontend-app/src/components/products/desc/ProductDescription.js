@@ -40,6 +40,7 @@ export function ProductDescription({productId, role}) {
         deleteProductById(productId, token).then(
             (p)=>{
                 if (p.success) {
+                    invokePopup('Product deleted successfully!', 'green')
                     navigate('/products/');
                 } else {
                     invokePopup('Cannot delete product!', 'red')
