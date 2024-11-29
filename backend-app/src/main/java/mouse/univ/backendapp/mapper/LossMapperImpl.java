@@ -28,7 +28,7 @@ public class LossMapperImpl implements LossMapper {
         Transaction transaction = loss.getTransaction();
         lossResponseDTO.setId(loss.getId());
         lossResponseDTO.setDate(transaction.getDate());
-        lossResponseDTO.setCashier(transaction.getUsername());
+        lossResponseDTO.setUsername(transaction.getUsername());
         lossResponseDTO.setPrice(transaction.getPrice());
         lossResponseDTO.setComment(loss.getComment());
 

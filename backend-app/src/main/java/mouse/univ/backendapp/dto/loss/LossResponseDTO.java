@@ -15,7 +15,7 @@ public class LossResponseDTO {
     private LocalDateTime date;
     private List<UsedProductResponseDTO> products;
     private BigDecimal price;
-    private String cashier;
+    private String username;
     private LossReasonResponseDTO reason;
     private String comment;
     private ShopResponseDTO shop;
